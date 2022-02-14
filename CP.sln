@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32203.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.React", "CP.React\CP.React.csproj", "{55F90A9F-4317-4F57-AFF5-EFA5177D8464}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.DAL", "CP.DAL\CP.DAL.csproj", "{A2A5BFE1-8AEC-4584-9027-4A9EC3BC0AFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.BLL", "..\CP.BLL\CP.BLL.csproj", "{289E99AE-50AC-4461-9C7A-EBEFE3EE82B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55F90A9F-4317-4F57-AFF5-EFA5177D8464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F90A9F-4317-4F57-AFF5-EFA5177D8464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F90A9F-4317-4F57-AFF5-EFA5177D8464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F90A9F-4317-4F57-AFF5-EFA5177D8464}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A5BFE1-8AEC-4584-9027-4A9EC3BC0AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A5BFE1-8AEC-4584-9027-4A9EC3BC0AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A5BFE1-8AEC-4584-9027-4A9EC3BC0AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A5BFE1-8AEC-4584-9027-4A9EC3BC0AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{289E99AE-50AC-4461-9C7A-EBEFE3EE82B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{289E99AE-50AC-4461-9C7A-EBEFE3EE82B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{289E99AE-50AC-4461-9C7A-EBEFE3EE82B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{289E99AE-50AC-4461-9C7A-EBEFE3EE82B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BC8E430-E6BA-44C9-8E14-9DD88263AA47}
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,4 @@
-namespace CP;
+namespace CP.React;
 
 public class WeatherForecast
 {
