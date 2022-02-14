@@ -1,4 +1,4 @@
-namespace Zorgplanning;
+namespace CP;
 
 public class WeatherForecast
 {

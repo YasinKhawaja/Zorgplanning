@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Zorgplanning.Controllers;
+namespace CP.Controllers;
 
 [ApiController]
 [Route("[controller]")]
