@@ -1,4 +1,5 @@
-﻿using CP.BLL.Services;
+﻿using AutoWrapper.Wrappers;
+using CP.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,66 +19,93 @@ namespace CP.React.Controllers
             _teamService = teamService;
         }
 
-        // GET: api/<TeamsController>
+        #region GET: api/<TeamsController>
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<ApiResponse> GetAsync()
         {
-            var teams = await _teamService.GetAllAsync();
-            _logger.LogInformation($"RETURNED {teams.Count} TEAMS");
-            return Ok(teams);
+            try
+            {
+                var teams = await _teamService.GetAllAsync();
+                return new ApiResponse(teams);
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
         }
+        #endregion
 
-        // GET api/<TeamsController>/5
+        #region GET api/<TeamsController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<ApiResponse> GetAsync(int id)
         {
-            var team = await _teamService.GetOneAsync(id);
-            return Ok(team);
+            try
+            {
+                var team = await _teamService.GetAsync(id);
+                return new ApiResponse(team);
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
         }
+        #endregion
 
-        // POST api/<TeamsController>
+        #region POST api/<TeamsController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] TeamDTO teamDTO)
+        public async Task<ApiResponse> PostAsync([FromBody] TeamDTO teamDTO)
         {
-            TeamDTO team = await _teamService.CreateAsync(teamDTO);
-            return Ok(team);
+            try
+            {
+                TeamDTO team = await _teamService.CreateAsync(teamDTO);
+                return new ApiResponse(team);
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
         }
+        #endregion
 
-        // PUT api/<TeamsController>/5
+        #region PUT api/<TeamsController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(int id, [FromBody] TeamDTO teamDTO)
+        public async Task<ApiResponse> PutAsync(int id, [FromBody] TeamDTO teamDTO)
         {
             if (!id.Equals(teamDTO.Id))
             {
-                return BadRequest();
+                return new ApiResponse(400, "IDS DO NOT MATCH");
             }
             try
             {
                 await _teamService.UpdateAsync(id, teamDTO);
+                return new ApiResponse();
             }
             catch (Exception exc)
             {
                 _logger.LogError(exc.Message);
-                return BadRequest(exc.Message);
+                throw new ApiException(exc);
             }
-            return NoContent();
         }
+        #endregion
 
-        // DELETE api/<TeamsController>/5
+        #region DELETE api/<TeamsController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<ApiResponse> DeleteAsync(int id)
         {
             try
             {
                 await _teamService.DeleteAsync(id);
-                _logger.LogInformation($"TEAM WITH ID {id} DELETED");
+                return new ApiResponse("TEAM DELETED");
             }
             catch (Exception exc)
             {
-                _logger.LogError(exc.Message);
-                return BadRequest(exc.Message);
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
             }
-            return NoContent();
         }
+        #endregion
     }
 }

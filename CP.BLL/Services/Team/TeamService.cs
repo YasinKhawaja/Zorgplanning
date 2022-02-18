@@ -1,5 +1,6 @@
-﻿using AutoMapper;
-using CP.BLL.Exceptions;
+﻿using Ardalis.GuardClauses;
+using AutoMapper;
+using CP.BLL.Extensions;
 using CP.DAL.Models;
 using CP.DAL.UnitOfWork;
 
@@ -25,10 +26,11 @@ namespace CP.BLL.Services
             return _mapper.Map<IList<TeamDTO>>(teams);
         }
 
-        public async Task<TeamDTO> GetOneAsync(int id)
+        public async Task<TeamDTO> GetAsync(int id)
         {
             var teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
             var team = teams.FirstOrDefault();
+            Guard.Against.IsTeamFound(team);
             return _mapper.Map<TeamDTO>(team);
         }
 
@@ -44,10 +46,7 @@ namespace CP.BLL.Services
         {
             IList<Team> teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
             Team teamFound = teams.FirstOrDefault();
-            if (teamFound is null)
-            {
-                throw new TeamNotFoundException($"TEAM WITH ID {dto.Id} NOT FOUND");
-            }
+            Guard.Against.IsTeamFound(teamFound);
             Team teamToUp = _mapper.Map<Team>(dto);
             _unitOfWork.Teams.Update(teamToUp);
             await _unitOfWork.SaveAsync();
@@ -57,10 +56,7 @@ namespace CP.BLL.Services
         {
             IList<Team> teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
             Team teamFound = teams.FirstOrDefault();
-            if (teamFound is null)
-            {
-                throw new TeamNotFoundException($"TEAM WITH ID {id} NOT FOUND");
-            }
+            Guard.Against.IsTeamFound(teamFound);
             _unitOfWork.Teams.Delete(teamFound);
             await _unitOfWork.SaveAsync();
         }

@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TDTO> GetOneAsync(int id);
+        Task<TDTO> GetAsync(int id);
 
         /// <summary>
         /// Creates an entity from DTO.

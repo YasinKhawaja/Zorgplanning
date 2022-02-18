@@ -1,8 +1,11 @@
-﻿using CP.BLL.Profiles;
+﻿using CP.BLL.FluentValidation.Validators;
+using CP.BLL.Profiles;
 using CP.BLL.Services;
 using CP.DAL;
 using CP.DAL.Repositories;
 using CP.DAL.UnitOfWork;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -54,6 +57,14 @@ namespace CP.React.Extensions
             {
                 o.SwaggerDoc("v1", new OpenApiInfo { Title = "CP API", Version = "v1" });
             });
+        }
+
+        public static void AddFluentValidation(this IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder.AddFluentValidation(
+                x => x.RegisterValidatorsFromAssemblyContaining<TeamDtoValidator>());
+
+            ValidatorOptions.Global.LanguageManager.Enabled = false;
         }
         #endregion
     }
