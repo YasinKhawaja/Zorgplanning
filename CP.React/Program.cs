@@ -6,8 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.ConfigureDbContext();
-builder.Services.ConfigureUnitOfWork();
+builder.Services.AddDbContext();
+builder.Services.AddRepositories();
+builder.Services.AddUnitOfWork();
+builder.Services.AddServices();
+
+builder.Services.AddAutoMapper();
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
@@ -22,6 +27,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseSwagger();
+app.UseSwaggerUI(o =>
+{
+    o.SwaggerEndpoint("/swagger/v1/swagger.json", "CP API V1");
+});
 
 app.MapControllerRoute(
     name: "default",

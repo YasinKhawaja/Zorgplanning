@@ -1,4 +1,4 @@
-﻿using CP.DAL.Repositories.Interfaces;
+﻿using CP.DAL.Repositories;
 
 namespace CP.DAL.UnitOfWork
 {
@@ -12,6 +12,6 @@ namespace CP.DAL.UnitOfWork
         /// <summary>
         /// Saves all changes made in this context to the database.
         /// </summary>
-        void Save();
+        Task SaveAsync();
     }
 }

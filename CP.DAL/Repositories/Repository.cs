@@ -1,30 +1,29 @@
-﻿using CP.DAL.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace CP.DAL.Repositories.Implementations
+namespace CP.DAL.Repositories
 {
     /// <summary>
-    /// Implements the <seealso cref="IRepositoryBase{T}"/> interface.
+    /// Implements the <seealso cref="IRepository{T}"/> interface.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
         protected CarePlannerContext CarePlannerContext { get; set; }
 
-        public RepositoryBase(CarePlannerContext context)
+        public Repository(CarePlannerContext context)
         {
             this.CarePlannerContext = context;
         }
 
-        public IQueryable<T> FindAll()
+        public async Task<IList<T>> FindAllAsync()
         {
-            return this.CarePlannerContext.Set<T>().AsNoTracking();
+            return await this.CarePlannerContext.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async Task<IList<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return this.CarePlannerContext.Set<T>().Where(expression).AsNoTracking();
+            return await this.CarePlannerContext.Set<T>().Where(expression).AsNoTracking().ToListAsync();
         }
 
         public async Task CreateAsync(T entity)

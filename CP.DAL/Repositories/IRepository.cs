@@ -1,29 +1,28 @@
-﻿using CP.DAL.Repositories.Implementations;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace CP.DAL.Repositories.Interfaces
+namespace CP.DAL.Repositories
 {
     /// <summary>
-    /// An interface for the <seealso cref="RepositoryBase{T}"/> class.
+    /// Manages generic entities.
     /// </summary>
-    /// <typeparam name="T">A model class.</typeparam>
-    public interface IRepositoryBase<T>
+    /// <typeparam name="T"></typeparam>
+    public interface IRepository<T> where T : class
     {
         /// <summary>
-        /// Finds all entities.
+        /// Asynchronously finds all entities.
         /// </summary>
         /// <returns></returns>
-        IQueryable<T> FindAll();
+        Task<IList<T>> FindAllAsync();
 
         /// <summary>
-        /// Finds all entities by condition.
+        /// Asynchronously finds all entities by condition.
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        Task<IList<T>> FindByConditionAsync(Expression<Func<T, bool>> expression);
 
         /// <summary>
-        /// Creates an entity asynchronously.
+        /// Asynchronously creates an entity.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
