@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CP.React.Controllers
 {
-    [Route("api/teams")]
     [ApiController]
+    [Route("api/teams")]
     public class TeamsController : ControllerBase
     {
         private readonly ILogger<TeamsController> _logger;

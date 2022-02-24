@@ -7,13 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services
-    .AddControllersWithViews()
+    .AddControllers()
     .AddFluentValidation();
 
-builder.Services.AddDbContext();
-builder.Services.AddRepositories();
-builder.Services.AddUnitOfWork();
 builder.Services.AddServices();
+builder.Services.AddUnitOfWork();
+builder.Services.AddRepositories();
+builder.Services.AddDbContext();
 
 builder.Services.AddAutoMapper();
 builder.Services.AddSwagger();

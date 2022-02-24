@@ -23,6 +23,7 @@ namespace CP.React.Extensions
             Configuration = builder.Build();
         }
 
+        #region FIRST PARTY
         public static void AddDbContext(this IServiceCollection services)
         {
             services.AddDbContext<CarePlannerContext>(
@@ -44,11 +45,12 @@ namespace CP.React.Extensions
         {
             services.AddScoped<ITeamService, TeamService>();
         }
+        #endregion
 
         #region THIRD PARTY
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(Profile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MapProfile)));
         }
 
         public static void AddSwagger(this IServiceCollection services)
