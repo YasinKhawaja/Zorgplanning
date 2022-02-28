@@ -19,14 +19,14 @@ namespace CP.DAL.Repositories
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<IList<T>> FindByConditionAsync(Expression<Func<T, bool>> expression);
+        Task<IList<T>> FindByAsync(Expression<Func<T, bool>> expression);
 
         /// <summary>
         /// Asynchronously creates an entity.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task CreateAsync(T entity);
+        Task AddAsync(T entity);
 
         /// <summary>
         /// Updates an entity.
@@ -38,6 +38,6 @@ namespace CP.DAL.Repositories
         /// Deletes an entity.
         /// </summary>
         /// <param name="entity"></param>
-        void Delete(T entity);
+        void Remove(T entity);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CP.BLL.Services
+﻿namespace CP.BLL.DTOs
 {
     /// <summary>
     /// Represents a team data transfer object.

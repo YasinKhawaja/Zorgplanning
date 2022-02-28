@@ -1,4 +1,6 @@
-﻿namespace CP.BLL.Services
+﻿using CP.BLL.DTOs;
+
+namespace CP.BLL.Services
 {
     /// <summary>
     /// Manages teams.

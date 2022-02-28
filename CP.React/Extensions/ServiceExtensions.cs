@@ -1,6 +1,6 @@
-﻿using CP.BLL.FluentValidation.Validators;
-using CP.BLL.Profiles;
+﻿using CP.BLL.Profiles;
 using CP.BLL.Services;
+using CP.BLL.Validators;
 using CP.DAL;
 using CP.DAL.Repositories;
 using CP.DAL.UnitOfWork;
@@ -34,6 +34,7 @@ namespace CP.React.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)
@@ -44,6 +45,7 @@ namespace CP.React.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
         #endregion
 

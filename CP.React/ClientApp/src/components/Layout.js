@@ -2,7 +2,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Home } from "./Home";
-import { Main as Main } from "./Main";
+import { Main } from "./Main";
 import { NavMenu } from "./NavMenu";
 import { Teams } from "./teams/Teams";
 
@@ -11,12 +11,12 @@ export class Layout extends Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <CssBaseline />
-        <NavMenu />
         <Main>
           <Switch>
             <Route exact path="/">
+              <NavMenu />
               <Home></Home>
             </Route>
             <Route exact path="/teams">
@@ -27,7 +27,7 @@ export class Layout extends Component {
             </Route> */}
           </Switch>
         </Main>
-      </div>
+      </React.Fragment>
     );
   }
 }

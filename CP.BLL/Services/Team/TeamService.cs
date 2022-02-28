@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
+using CP.BLL.DTOs;
 using CP.BLL.Extensions;
 using CP.DAL.Models;
 using CP.DAL.UnitOfWork;
@@ -28,7 +29,7 @@ namespace CP.BLL.Services
 
         public async Task<TeamDTO> GetAsync(int id)
         {
-            var teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
+            var teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
             var team = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(team);
             return _mapper.Map<TeamDTO>(team);
@@ -37,14 +38,14 @@ namespace CP.BLL.Services
         public async Task<TeamDTO> CreateAsync(TeamDTO dto)
         {
             Team team = _mapper.Map<Team>(dto);
-            await _unitOfWork.Teams.CreateAsync(team);
+            await _unitOfWork.Teams.AddAsync(team);
             await _unitOfWork.SaveAsync();
             return _mapper.Map<TeamDTO>(team);
         }
 
         public async Task UpdateAsync(int id, TeamDTO dto)
         {
-            IList<Team> teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
+            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
             Team teamFound = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(teamFound);
             Team teamToUp = _mapper.Map<Team>(dto);
@@ -54,10 +55,10 @@ namespace CP.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            IList<Team> teams = await _unitOfWork.Teams.FindByConditionAsync(x => x.Id.Equals(id));
+            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
             Team teamFound = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(teamFound);
-            _unitOfWork.Teams.Delete(teamFound);
+            _unitOfWork.Teams.Remove(teamFound);
             await _unitOfWork.SaveAsync();
         }
     }

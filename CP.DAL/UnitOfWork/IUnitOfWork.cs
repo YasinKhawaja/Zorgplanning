@@ -1,4 +1,5 @@
-﻿using CP.DAL.Repositories;
+﻿using CP.DAL.Models;
+using CP.DAL.Repositories;
 
 namespace CP.DAL.UnitOfWork
 {
@@ -7,7 +8,15 @@ namespace CP.DAL.UnitOfWork
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
+        /// <summary>
+        /// Manages entities of type <seealso cref="Team"/>.
+        /// </summary>
         ITeamRepository Teams { get; }
+
+        /// <summary>
+        /// Manages entities of type <seealso cref="Employee"/>.
+        /// </summary>
+        IEmployeeRepository Employees { get; }
 
         /// <summary>
         /// Saves all changes made in this context to the database.

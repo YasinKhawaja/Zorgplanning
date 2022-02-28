@@ -1,11 +1,13 @@
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import React, { Component } from "react";
+import { FixedSizeList } from "react-window";
 
 export class Teams extends Component {
   static displayName = Teams.name;
@@ -22,48 +24,48 @@ export class Teams extends Component {
   render() {
     const { teams, loading } = this.state;
 
-    let content = loading ? (
-      <p>
-        <em>Loading...</em>
-      </p>
-    ) : (
-      this.renderTeamsList(teams)
-    );
+    let content = loading ? <CircularProgress /> : this.renderTeamsList(teams);
 
     return (
-      <Container maxWidth="sm" sx={{ textAlign: "center" }}>
-        <h1>Teams</h1>
-        {content}
+      <Container>
+        <Box>
+          <Box>
+            <h1>Teams</h1>
+            <p>What team would you like to manage?</p>
+          </Box>
+          <Box>{content}</Box>
+        </Box>
       </Container>
     );
   }
 
-  renderTeamsList(teams) {
+  renderTeamsList() {
     return (
-      <nav aria-label="main mailbox folders">
-        {teams.map}
-        <List>{teams.map((team) => this.renderTeamItem(team))}</List>
-      </nav>
+      <FixedSizeList
+        height={400}
+        width={360}
+        itemSize={46}
+        itemCount={200}
+        overscanCount={5}
+      >
+        {/* {teams.map((team) => this.renderTeamItem(team))} */}
+      </FixedSizeList>
+      // <List sx={{ border: 1, borderColor: "primary.main" }}>
+      //   {teams.map((team) => this.renderTeamItem(team))}
+      // </List>
     );
   }
 
   renderTeamItem(team) {
     return (
-      <React.Fragment>
-        <ListItem disablePadding>
-          <ListItemButton
-            divider="true"
-            component="a"
-            href={`/teams/${team.id}`}
-          >
-            <ListItemIcon sx={{ minWidth: "40px" }}>
-              <PeopleAltIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary={team.name} />
-          </ListItemButton>
-        </ListItem>
-        {/* <Divider variant="inset" component="li" /> */}
-      </React.Fragment>
+      <ListItem key={team.id} disablePadding>
+        <ListItemButton component="a" href={`/teams/${team.id}`}>
+          <ListItemIcon sx={{ minWidth: "40px" }}>
+            <PeopleAltIcon color="primary" />
+          </ListItemIcon>
+          <ListItemText primary={team.name} />
+        </ListItemButton>
+      </ListItem>
     );
   }
 

@@ -1,7 +1,7 @@
-﻿using CP.BLL.Services;
+﻿using CP.BLL.DTOs;
 using FluentValidation;
 
-namespace CP.BLL.FluentValidation.Validators
+namespace CP.BLL.Validators
 {
     public class TeamDtoValidator : AbstractValidator<TeamDTO>
     {

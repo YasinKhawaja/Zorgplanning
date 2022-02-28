@@ -10,6 +10,8 @@ namespace CP.DAL
     public class CarePlannerContext : DbContext
     {
         public DbSet<Team> Teams { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Regime> Regimes { get; set; }
 
         public CarePlannerContext(DbContextOptions<CarePlannerContext> options)
             : base(options)
@@ -24,6 +26,7 @@ namespace CP.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new TeamConfig().Configure(modelBuilder.Entity<Team>());
+            new EmployeeConfig().Configure(modelBuilder.Entity<Employee>());
         }
     }
 }

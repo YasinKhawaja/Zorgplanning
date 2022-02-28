@@ -21,22 +21,22 @@ namespace CP.DAL.Repositories
             return await this.CarePlannerContext.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<IList<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
+        public async Task<IList<T>> FindByAsync(Expression<Func<T, bool>> condition)
         {
-            return await this.CarePlannerContext.Set<T>().Where(expression).AsNoTracking().ToListAsync();
+            return await this.CarePlannerContext.Set<T>().Where(condition).AsNoTracking().ToListAsync();
         }
 
-        public async Task CreateAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await this.CarePlannerContext.Set<T>().AddAsync(entity);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             this.CarePlannerContext.Set<T>().Update(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Remove(T entity)
         {
             this.CarePlannerContext.Set<T>().Remove(entity);
         }

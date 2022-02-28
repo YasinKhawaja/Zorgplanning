@@ -3,7 +3,7 @@
 namespace CP.DAL.Repositories
 {
     /// <summary>
-    /// Manages team entities.
+    /// Manages entities of type <seealso cref="Team"/>.
     /// </summary>
     public interface ITeamRepository : IRepository<Team>
     {
