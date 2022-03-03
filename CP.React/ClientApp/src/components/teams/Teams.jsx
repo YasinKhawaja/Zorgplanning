@@ -2,12 +2,12 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import React, { Component } from "react";
-import { FixedSizeList } from "react-window";
 
 export class Teams extends Component {
   static displayName = Teams.name;
@@ -39,20 +39,11 @@ export class Teams extends Component {
     );
   }
 
-  renderTeamsList() {
+  renderTeamsList(teams) {
     return (
-      <FixedSizeList
-        height={400}
-        width={360}
-        itemSize={46}
-        itemCount={200}
-        overscanCount={5}
-      >
-        {/* {teams.map((team) => this.renderTeamItem(team))} */}
-      </FixedSizeList>
-      // <List sx={{ border: 1, borderColor: "primary.main" }}>
-      //   {teams.map((team) => this.renderTeamItem(team))}
-      // </List>
+      <List sx={{ border: 1, borderColor: "primary.main" }}>
+        {teams.map((team) => this.renderTeamItem(team))}
+      </List>
     );
   }
 
