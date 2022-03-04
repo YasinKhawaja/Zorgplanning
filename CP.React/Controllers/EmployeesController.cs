@@ -22,11 +22,11 @@ namespace CP.React.Controllers
 
         #region GET: api/<EmployeesController>
         [HttpGet]
-        public async Task<ApiResponse> GetAllAsync([FromQuery] int teamKey)
+        public async Task<ApiResponse> GetAllAsync([FromQuery] int team)
         {
             try
             {
-                var employees = await _employeeService.GetAllInTeamAsync(teamKey);
+                var employees = await _employeeService.GetAllInTeamAsync(team);
                 return new ApiResponse(employees);
             }
             catch (Exception exc)

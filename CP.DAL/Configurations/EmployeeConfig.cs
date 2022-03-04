@@ -54,6 +54,10 @@ namespace CP.DAL.Configurations
             builder.Property(x => x.IsFixedNight)
                 .IsRequired();
 
+            builder.Property(x => x.IsActive)
+                .IsRequired()
+                .HasDefaultValue(true);
+
             builder
                 .HasOne(x => x.Team)
                 .WithMany(x => x.Employees)
