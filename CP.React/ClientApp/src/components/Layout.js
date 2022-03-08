@@ -5,7 +5,7 @@ import EmployeesCrud from "./employees/EmployeesCrud";
 import { Home } from "./Home";
 import { Main } from "./Main";
 import { NavMenu } from "./NavMenu";
-import { Teams } from "./teams/Teams";
+import TeamRoot from "./teams/TeamRoot";
 
 export class Layout extends Component {
   static displayName = Layout.name;
@@ -21,7 +21,7 @@ export class Layout extends Component {
               <Home></Home>
             </Route>
             <Route exact path="/teams">
-              <Teams></Teams>
+              <TeamRoot />
             </Route>
             <Route exact path="/teams/:teamId/employees">
               <EmployeesCrud />
