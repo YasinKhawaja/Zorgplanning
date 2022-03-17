@@ -1,3 +1,4 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -9,10 +10,9 @@ import {
   DialogTitle,
   MenuItem,
 } from "@mui/material";
-import axios from "axios";
 import * as React from "react";
 
-export default function TeamRemove({ team }) {
+export default function TeamDelete(props) {
   const [open, setOpen] = React.useState(false);
   const [isPending, setIsPending] = React.useState(false);
 
@@ -24,16 +24,17 @@ export default function TeamRemove({ team }) {
     setOpen(false);
   };
 
-  const handleDelete = async () => {
+  const handleSubmit = (id) => {
     setIsPending(true);
-    try {
-      await axios.delete(`api/teams/${team.id}`);
-    } catch {}
+    props.onDelete(id);
   };
 
   return (
     <>
-      <MenuItem onClick={handleClick}>Delete</MenuItem>
+      <MenuItem onClick={handleClick}>
+        <DeleteIcon color="error" fontSize="small" />
+        Delete
+      </MenuItem>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -41,7 +42,8 @@ export default function TeamRemove({ team }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete team <strong>{team.name}</strong>?
+          Are you sure you want to delete team{" "}
+          <strong>{props.team.name}</strong>?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -61,7 +63,7 @@ export default function TeamRemove({ team }) {
               DELETE
             </LoadingButton>
           ) : (
-            <Button onClick={handleDelete} color="error">
+            <Button onClick={() => handleSubmit(props.team.id)} color="error">
               DELETE
             </Button>
           )}

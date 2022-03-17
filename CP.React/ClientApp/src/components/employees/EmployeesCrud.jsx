@@ -1,39 +1,43 @@
-import { Box, CircularProgress, Container } from "@mui/material";
-import { useParams } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
+import React from "react";
+import EmployeeService from "../../services/EmployeeService";
 import EmployeesTable from "./EmployeesTable";
+import { useParams } from "react-router-dom";
 
 export default function EmployeesCrud() {
+  const [employees, setEmployees] = React.useState([]);
   const { teamId } = useParams();
 
-  const {
-    data: employees,
-    isPending,
-    error,
-  } = useFetch(`api/employees?team=${teamId}&`);
+  const employeesRef = React.useRef();
+  employeesRef.current = employees;
 
-  const content = () => {
-    if (isPending) {
-      return <CircularProgress />;
-    }
-    if (error !== null) {
-      return <p>{error}</p>;
-    }
-    if (employees === null) {
-      return (
-        <p>There are currently no nurses in this team, consider adding one.</p>
-      );
-    } else {
-      return <EmployeesTable employees={employees} />;
-    }
+  React.useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = () => {
+    EmployeeService.getAll(teamId)
+      .then((response) => {
+        setEmployees(response.data.result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  return (
-    <Container maxWidth="md">
-      <Box sx={{ textAlign: "center", m: 5 }}>
-        <h1>Nurses</h1>
-      </Box>
-      <Box sx={{ textAlign: "center" }}>{content()}</Box>
-    </Container>
-  );
+  const refreshEmployeesTable = () => {
+    fetchEmployees();
+  };
+
+  const handleEdit = () => {
+    // Logic
+    refreshEmployeesTable();
+  };
+
+  const handleDelete = (id) => {
+    // Logic
+    console.log(id);
+    refreshEmployeesTable();
+  };
+
+  return <EmployeesTable employees={employees} onDelete={handleDelete} />;
 }

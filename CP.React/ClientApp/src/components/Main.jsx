@@ -1,9 +1,12 @@
-import React, { Component } from "react";
-import "./Main.css";
+import { makeStyles } from "@mui/styles";
+import React from "react";
 
-export class Main extends Component {
-  render() {
-    const { children } = this.props;
-    return <main className="main">{children}</main>;
-  }
+const useStyles = makeStyles({
+  appMain: { paddingLeft: "320px", width: "100%" },
+});
+
+export default function Main(props) {
+  const classes = useStyles();
+  const { children } = props;
+  return <main>{children}</main>;
 }

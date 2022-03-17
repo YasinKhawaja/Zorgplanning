@@ -1,12 +1,14 @@
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { IconButton, Menu } from "@mui/material";
 import React from "react";
-import TeamAddEdit from "./TeamAddEdit";
-import TeamRemove from "./TeamRemove";
+import TeamDelete from "./TeamDelete";
+import TeamUpdate from "./TeamUpdate";
 
-export default function TeamMenu({ team }) {
+export default function TeamMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const { team, onUpdate, onDelete } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -14,6 +16,14 @@ export default function TeamMenu({ team }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleUpdate = (id, team) => {
+    onUpdate(id, team);
+  };
+
+  const handleDelete = (id) => {
+    onDelete(id);
   };
 
   return (
@@ -36,8 +46,8 @@ export default function TeamMenu({ team }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <TeamAddEdit team={team} edit="true" />
-        <TeamRemove team={team} />
+        <TeamUpdate team={team} onUpdate={handleUpdate} />
+        <TeamDelete team={team} onDelete={handleDelete} />
       </Menu>
     </>
   );
