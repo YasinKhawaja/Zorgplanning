@@ -15,12 +15,12 @@ namespace CP.BLL.Extensions
         /// <param name="guardClause">The interface to extend.</param>
         /// <param name="key">The primary key of the employee.</param>
         /// <param name="employee">The employee itself.</param>
-        /// <exception cref="EmployeeNotFoundException">The exception to throw.</exception>
+        /// <exception cref="GuardClauseException">The exception to throw.</exception>
         public static void EmployeeNotFound(this IGuardClause guardClause, int key, Employee employee)
         {
             if (employee is null)
             {
-                throw new EmployeeNotFoundException($"EMPLOYEE WITH ID {key} NOT FOUND");
+                throw new GuardClauseException($"EMPLOYEE WITH ID {key} NOT FOUND");
             }
         }
     }

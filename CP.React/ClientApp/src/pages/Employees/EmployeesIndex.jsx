@@ -1,27 +1,41 @@
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import { Paper } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import Header from "../../components/Header";
-import PageHeader from "../../components/PageHeader";
+import React from "react";
+import { useParams } from "react-router-dom";
+import Header from "../../components/presentations/Header";
+import Main from "../../components/presentations/Main";
+import PageHeader from "../../components/presentations/PageHeader";
+import TeamService from "../../services/TeamService";
 import Employees from "./Employees";
 
-const useStyles = makeStyles((theme) => ({
-  pageContent: { margin: theme.spacing(5), padding: theme.spacing(3) },
-}));
-
 export default function EmployeesIndex() {
-  const classes = useStyles();
+  const [team, setTeam] = React.useState(null);
+  const [isPending, setIsPending] = React.useState(true);
+
+  const { teamId } = useParams();
+  React.useEffect(() => {
+    TeamService.get(teamId)
+      .then((response) => {
+        setTeam(response.data.result);
+        setIsPending(false);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <>
       <Header />
-      <PageHeader
-        icon={<PeopleAltIcon fontSize="large" />}
-        title="Employees"
-        subtitle="All Employees in Team x"
-      />
-      <Paper className={classes.pageContent}>
-        <Employees />
-      </Paper>
+      {!isPending && (
+        <>
+          <PageHeader
+            icon={<PeopleAltIcon fontSize="large" />}
+            title="Nurses"
+            subtitle={`All nurses in team ${team.name}.`}
+          />
+          <Main>
+            <Employees team={team} />
+          </Main>
+        </>
+      )}
     </>
   );
 }

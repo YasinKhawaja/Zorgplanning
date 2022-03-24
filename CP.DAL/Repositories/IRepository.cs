@@ -12,14 +12,19 @@ namespace CP.DAL.Repositories
         /// Asynchronously finds all entities.
         /// </summary>
         /// <returns></returns>
-        Task<IList<T>> FindAllAsync();
+        Task<IList<T>> FindAllAsync(
+            string includeProperties = "",
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
         /// <summary>
         /// Asynchronously finds all entities by condition.
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<IList<T>> FindByAsync(Expression<Func<T, bool>> expression);
+        Task<IList<T>> FindByAsync(
+            Expression<Func<T, bool>> expression,
+            string includeProperties = "",
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
         /// <summary>
         /// Asynchronously creates an entity.

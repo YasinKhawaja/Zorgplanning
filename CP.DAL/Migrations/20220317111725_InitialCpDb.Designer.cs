@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CP.DAL.Migrations
 {
     [DbContext(typeof(CarePlannerContext))]
-    [Migration("20220228133038_InitialCreateCpDb")]
-    partial class InitialCreateCpDb
+    [Migration("20220317111725_InitialCpDb")]
+    partial class InitialCpDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,8 +56,10 @@ namespace CP.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("char(1)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<bool?>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("IsFixedNight")
                         .HasColumnType("bit");
@@ -97,10 +99,20 @@ namespace CP.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<decimal>("Hours")
+                        .HasColumnType("decimal(5,2)");
+
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Percentage")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Regimes");
                 });

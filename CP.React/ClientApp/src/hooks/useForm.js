@@ -3,7 +3,7 @@ import React from "react";
 
 export function useForm(initialValues, validateOnChange = false, validate) {
   const [values, setValues] = React.useState(initialValues);
-  const [errors, setErrors] = React.useState({});
+  const [errors, setErrors] = React.useState(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -15,17 +15,24 @@ export function useForm(initialValues, validateOnChange = false, validate) {
 
   const resetForm = () => {
     setValues(initialValues);
-    setErrors({});
+    setErrors(null);
   };
 
-  return { values, setValues, errors, setErrors, handleInputChange, resetForm };
+  return {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
-      margin: theme.spacing(1),
-      width: "80%",
+      margin: theme.spacing(0),
+      width: "100%",
     },
   },
 }));

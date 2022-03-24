@@ -11,6 +11,7 @@ namespace CP.DAL.UnitOfWork
 
         public ITeamRepository Teams { get; private set; }
         public IEmployeeRepository Employees { get; private set; }
+        public IRegimeRepository Regimes { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <seealso cref="UnitOfWork"/> class.
@@ -21,6 +22,7 @@ namespace CP.DAL.UnitOfWork
             _context = context;
             Teams = new TeamRepository(context);
             Employees = new EmployeeRepository(context);
+            Regimes = new RegimeRepository(context);
         }
 
         public async Task SaveAsync()

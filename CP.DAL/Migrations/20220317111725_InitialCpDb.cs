@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CP.DAL.Migrations
 {
-    public partial class InitialCreateCpDb : Migration
+    public partial class InitialCpDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,9 @@ namespace CP.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    Hours = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
+                    Percentage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,7 +53,7 @@ namespace CP.DAL.Migrations
                     Town = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(100)", nullable: false, defaultValue: "Belgium"),
                     IsFixedNight = table.Column<bool>(type: "bit", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
                     TeamId = table.Column<int>(type: "int", nullable: false),
                     RegimeId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -81,6 +83,12 @@ namespace CP.DAL.Migrations
                 name: "IX_Employees_TeamId",
                 table: "Employees",
                 column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regimes_Name",
+                table: "Regimes",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_Name",

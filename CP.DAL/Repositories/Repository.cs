@@ -16,14 +16,46 @@ namespace CP.DAL.Repositories
             this.CarePlannerContext = context;
         }
 
-        public async Task<IList<T>> FindAllAsync()
+        public async Task<IList<T>> FindAllAsync(
+            string includeProperties = "",
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            return await this.CarePlannerContext.Set<T>().AsNoTracking().ToListAsync();
+            IQueryable<T> query = this.CarePlannerContext.Set<T>().AsNoTracking();
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
         }
 
-        public async Task<IList<T>> FindByAsync(Expression<Func<T, bool>> condition)
+        public async Task<IList<T>> FindByAsync(
+            Expression<Func<T, bool>> expression,
+            string includeProperties = "",
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            return await this.CarePlannerContext.Set<T>().Where(condition).AsNoTracking().ToListAsync();
+            IQueryable<T> query = this.CarePlannerContext.Set<T>().AsNoTracking();
+            query = query.Where(expression);
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
         }
 
         public virtual async Task AddAsync(T entity)

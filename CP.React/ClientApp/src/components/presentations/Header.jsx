@@ -1,42 +1,20 @@
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  AppBar,
-  Badge,
-  Grid,
-  IconButton,
-  InputBase,
-  Toolbar,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { AppBar, Badge, Grid, IconButton, Toolbar } from "@mui/material";
 import React from "react";
 
-const useStyles = makeStyles((theme) => ({
-  root: { backgroundColor: "#FFFFFF" },
-  searchInput: {
-    fontSize: "0.8rem",
-    opacity: "0.6",
-    padding: `0px ${theme.spacing(1)}px`,
-    "&:hover": { backgroundColor: "#F2F2F2" },
-    "& .MuiSvgIcon-root": { marginRight: theme.spacing(1) },
-  },
-}));
+const useStyles = () => ({
+  header: { backgroundColor: "#E8F4F8", transform: "translateZ(0)" },
+});
 
 export default function Header() {
   const classes = useStyles();
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar sx={classes.header} position="static">
       <Toolbar>
         <Grid alignItems="center" container>
-          <Grid item>
-            <InputBase
-              className={classes.searchInput}
-              placeholder="Search Topics"
-              startAdornment={<SearchIcon fontSize="small" />}
-            />
-          </Grid>
+          <Grid item></Grid>
           <Grid item sm />
           <Grid item>
             <IconButton>

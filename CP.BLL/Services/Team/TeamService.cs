@@ -23,13 +23,15 @@ namespace CP.BLL.Services
 
         public async Task<IList<TeamDTO>> GetAllAsync()
         {
-            var teams = await _unitOfWork.Teams.FindAllAsync();
+            var teams = await _unitOfWork.Teams.FindAllAsync(
+                nameof(Team.Employees),
+                x => x.OrderBy(x => x.Name));
             return _mapper.Map<IList<TeamDTO>>(teams);
         }
 
         public async Task<TeamDTO> GetAsync(int id)
         {
-            var teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
+            var teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id), nameof(Team.Employees));
             var team = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(team);
             return _mapper.Map<TeamDTO>(team);

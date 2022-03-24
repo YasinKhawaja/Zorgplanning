@@ -1,14 +1,12 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { IconButton, Menu } from "@mui/material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
-import TeamDelete from "./TeamDelete";
-import TeamUpdate from "./TeamUpdate";
 
 export default function TeamMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
-  const { team, onUpdate, onDelete } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,14 +14,6 @@ export default function TeamMenu(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleUpdate = (id, team) => {
-    onUpdate(id, team);
-  };
-
-  const handleDelete = (id) => {
-    onDelete(id);
   };
 
   return (
@@ -46,8 +36,26 @@ export default function TeamMenu(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <TeamUpdate team={team} onUpdate={handleUpdate} />
-        <TeamDelete team={team} onDelete={handleDelete} />
+        <MenuItem
+          onClick={() => {
+            props.onOpenAddOrEditDialog(true);
+            props.onSetTeamToEdit(props.team);
+          }}
+        >
+          <EditIcon color="success" fontSize="small" />
+          Edit
+        </MenuItem>
+        {!props.team.hasChildren && (
+          <MenuItem
+            onClick={() => {
+              props.onOpenDeleteDialog(true);
+              props.onSetTeamToEdit(props.team);
+            }}
+          >
+            <DeleteIcon color="error" fontSize="small" />
+            Delete
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

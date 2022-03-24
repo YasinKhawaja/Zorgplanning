@@ -10,7 +10,7 @@ namespace CP.BLL.Extensions
         {
             if (team is null)
             {
-                throw new TeamNotFoundException("TEAM NOT FOUND");
+                throw new GuardClauseException("TEAM NOT FOUND");
             }
         }
     }

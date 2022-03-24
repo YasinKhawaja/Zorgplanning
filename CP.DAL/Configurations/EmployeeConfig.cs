@@ -55,7 +55,6 @@ namespace CP.DAL.Configurations
                 .IsRequired();
 
             builder.Property(x => x.IsActive)
-                .IsRequired()
                 .HasDefaultValue(true);
 
             builder

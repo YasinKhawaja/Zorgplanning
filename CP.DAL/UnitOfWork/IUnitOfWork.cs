@@ -19,6 +19,11 @@ namespace CP.DAL.UnitOfWork
         IEmployeeRepository Employees { get; }
 
         /// <summary>
+        /// Manages entities of type <seealso cref="Regime"/>.
+        /// </summary>
+        IRegimeRepository Regimes { get; }
+
+        /// <summary>
         /// Saves all changes made in this context to the database.
         /// </summary>
         Task SaveAsync();

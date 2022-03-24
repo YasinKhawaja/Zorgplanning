@@ -15,7 +15,7 @@ namespace CP.BLL.Services.Tests
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly IMapper _mapper;
-        private readonly TeamService _systemUnderTest;
+        private readonly RegimeService _systemUnderTest;
 
         public TeamServiceTests()
         {

@@ -27,6 +27,7 @@ namespace CP.DAL
         {
             new TeamConfig().Configure(modelBuilder.Entity<Team>());
             new EmployeeConfig().Configure(modelBuilder.Entity<Employee>());
+            new RegimeConfig().Configure(modelBuilder.Entity<Regime>());
         }
     }
 }

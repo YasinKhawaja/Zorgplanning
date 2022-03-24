@@ -1,4 +1,4 @@
-﻿using CP.BLL.Profiles;
+﻿using CP.BLL.Mappings;
 using CP.BLL.Services;
 using CP.BLL.Validators;
 using CP.DAL;
@@ -35,6 +35,7 @@ namespace CP.React.Extensions
         {
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IRegimeRepository, RegimeRepository>();
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)
@@ -46,6 +47,7 @@ namespace CP.React.Extensions
         {
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IRegimeService, RegimeService>();
         }
         #endregion
 
