@@ -5,10 +5,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CP.DAL.Migrations
 {
-    public partial class InitialCpDb : Migration
+    public partial class InitialCarePlannerDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Dates",
+                columns: table => new
+                {
+                    DateId = table.Column<DateTime>(type: "date", nullable: false),
+                    IsHoliday = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dates", x => x.DateId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Regimes",
                 columns: table => new
@@ -74,6 +86,36 @@ namespace CP.DAL.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Absences",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    DateId = table.Column<DateTime>(type: "date", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Absences", x => new { x.EmployeeId, x.DateId });
+                    table.ForeignKey(
+                        name: "FK_Absences_Dates_DateId",
+                        column: x => x.DateId,
+                        principalTable: "Dates",
+                        principalColumn: "DateId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Absences_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Absences_DateId",
+                table: "Absences",
+                column: "DateId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_RegimeId",
                 table: "Employees",
@@ -99,6 +141,12 @@ namespace CP.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Absences");
+
+            migrationBuilder.DropTable(
+                name: "Dates");
+
             migrationBuilder.DropTable(
                 name: "Employees");
 

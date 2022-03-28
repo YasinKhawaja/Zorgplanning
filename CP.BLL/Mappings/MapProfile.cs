@@ -16,13 +16,15 @@ namespace CP.BLL.Mappings
         public MapProfile()
         {
             base.CreateMap<Team, TeamDTO>()
-                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
-                .ForMember(x => x.Name, o => o.MapFrom(x => x.Name))
-                .ForMember(x => x.HasChildren, o => o.MapFrom<TeamHasChildrenResolver>());
-            
-            base.CreateMap<TeamDTO, Team>();
+                .ForMember(x => x.HasChildren, o => o.MapFrom<TeamHasChildrenResolver>())
+                .ReverseMap();
+
             base.CreateMap<Employee, EmployeeDTO>().ReverseMap();
             base.CreateMap<Regime, RegimeDTO>().ReverseMap();
+
+            base.CreateMap<Absence, AbsenceDTO>()
+                .ForMember(x => x.Day, o => o.MapFrom(x => x.DateId))
+                .ReverseMap();
         }
     }
 }

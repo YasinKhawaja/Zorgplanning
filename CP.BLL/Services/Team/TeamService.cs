@@ -48,9 +48,9 @@ namespace CP.BLL.Services
         public async Task UpdateAsync(int id, TeamDTO dto)
         {
             IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
-            Team teamFound = teams.FirstOrDefault();
-            Guard.Against.IsTeamFound(teamFound);
-            Team teamToUp = _mapper.Map<Team>(dto);
+            Team teamToUp = teams.FirstOrDefault();
+            Guard.Against.IsTeamFound(teamToUp);
+            teamToUp.Name = dto.Name;
             _unitOfWork.Teams.Update(teamToUp);
             await _unitOfWork.SaveAsync();
         }

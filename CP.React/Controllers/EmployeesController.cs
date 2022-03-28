@@ -38,13 +38,30 @@ namespace CP.React.Controllers
         #endregion
 
         #region GET api/<EmployeesController>/5
-        [HttpGet("{key}")]
-        public async Task<ApiResponse> GetAsync(int key)
+        [HttpGet("{id}")]
+        public async Task<ApiResponse> GetAsync(int id)
         {
             try
             {
-                var employee = await _employeeService.GetAsync(key);
+                var employee = await _employeeService.GetAsync(id);
                 return new ApiResponse(employee);
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
+        }
+        #endregion
+
+        #region GET: api/<EmployeesController>/5/absences
+        [HttpGet("{id}/absences")]
+        public async Task<ApiResponse> GetAllAbsencesAsync(int id)
+        {
+            try
+            {
+                var absences = await _employeeService.GetAllAbsencesAsync(id);
+                return new ApiResponse(absences);
             }
             catch (Exception exc)
             {
@@ -71,17 +88,38 @@ namespace CP.React.Controllers
         }
         #endregion
 
-        #region PUT api/<EmployeesController>/5
-        [HttpPut("{key}")]
-        public async Task<ApiResponse> PutAsync(int key, [FromBody] EmployeeDTO employeeDTO)
+        #region POST api/<EmployeesController>/5/absences
+        [HttpPost("{id}/absences")]
+        public async Task<ApiResponse> PostAbsenceAsync(int id, [FromBody] AbsenceDTO absenceDTO)
         {
-            if (!key.Equals(employeeDTO.Id))
+            if (!id.Equals(absenceDTO.EmployeeId))
             {
-                return new ApiResponse(400, "KEYS DO NOT MATCH");
+                return new ApiResponse("The IDs do not match", statusCode: 400);
             }
             try
             {
-                await _employeeService.UpdateAsync(key, employeeDTO);
+                await _employeeService.AddAbsenceAsync(id, absenceDTO);
+                return new ApiResponse();
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
+        }
+        #endregion
+
+        #region PUT api/<EmployeesController>/5
+        [HttpPut("{id}")]
+        public async Task<ApiResponse> PutAsync(int id, [FromBody] EmployeeDTO employeeDTO)
+        {
+            if (!id.Equals(employeeDTO.Id))
+            {
+                return new ApiResponse(400, "idS DO NOT MATCH");
+            }
+            try
+            {
+                await _employeeService.UpdateAsync(id, employeeDTO);
                 return new ApiResponse("EMPLOYEE UPDATED");
             }
             catch (Exception exc)
@@ -93,13 +131,30 @@ namespace CP.React.Controllers
         #endregion
 
         #region DELETE api/<EmployeesController>/5
-        [HttpDelete("{key}")]
-        public async Task<ApiResponse> DeleteAsync(int key)
+        [HttpDelete("{id}")]
+        public async Task<ApiResponse> DeleteAsync(int id)
         {
             try
             {
-                await _employeeService.DeleteAsync(key);
+                await _employeeService.DeleteAsync(id);
                 return new ApiResponse("EMPLOYEE DELETED");
+            }
+            catch (Exception exc)
+            {
+                _logger.LogError("{msg}", exc.Message);
+                throw new ApiException(exc);
+            }
+        }
+        #endregion
+
+        #region DELETE api/<EmployeesController>/5/absences
+        [HttpDelete("{id}/absences")]
+        public async Task<ApiResponse> DeleteAbsenceAsync(int id, [FromQuery] DateTime day)
+        {
+            try
+            {
+                await _employeeService.DeleteAbsenceAsync(id, day);
+                return new ApiResponse("ABSENCE DELETED");
             }
             catch (Exception exc)
             {

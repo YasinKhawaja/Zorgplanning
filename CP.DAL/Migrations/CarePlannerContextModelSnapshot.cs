@@ -22,6 +22,40 @@ namespace CP.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CP.DAL.Models.Absence", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateId")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("EmployeeId", "DateId");
+
+                    b.HasIndex("DateId");
+
+                    b.ToTable("Absences");
+                });
+
+            modelBuilder.Entity("CP.DAL.Models.Date", b =>
+                {
+                    b.Property<DateTime>("DateId")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsHoliday")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("DateId");
+
+                    b.ToTable("Dates");
+                });
+
             modelBuilder.Entity("CP.DAL.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -135,6 +169,25 @@ namespace CP.DAL.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("CP.DAL.Models.Absence", b =>
+                {
+                    b.HasOne("CP.DAL.Models.Date", "Date")
+                        .WithMany("Absences")
+                        .HasForeignKey("DateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CP.DAL.Models.Employee", "Employee")
+                        .WithMany("Absences")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Date");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("CP.DAL.Models.Employee", b =>
                 {
                     b.HasOne("CP.DAL.Models.Regime", "Regime")
@@ -152,6 +205,16 @@ namespace CP.DAL.Migrations
                     b.Navigation("Regime");
 
                     b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("CP.DAL.Models.Date", b =>
+                {
+                    b.Navigation("Absences");
+                });
+
+            modelBuilder.Entity("CP.DAL.Models.Employee", b =>
+                {
+                    b.Navigation("Absences");
                 });
 
             modelBuilder.Entity("CP.DAL.Models.Regime", b =>

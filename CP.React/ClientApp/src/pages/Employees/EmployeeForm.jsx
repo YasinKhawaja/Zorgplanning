@@ -20,7 +20,7 @@ const initialValues = {
   address2: "",
   zipCode: "",
   town: "",
-  country: 0,
+  country: "",
   isFixedNight: false,
   isActive: true,
   teamId: 0,
@@ -164,7 +164,7 @@ export default function EmployeeForm(props) {
                 label="Country"
                 name="country"
                 onChange={handleInputChange}
-                options={[{ id: 0, name: "Belgium" }]}
+                options={[{ id: "Belgium", name: "Belgium" }]}
                 value={values.country}
               />
             </Grid>

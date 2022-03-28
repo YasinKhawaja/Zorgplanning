@@ -61,7 +61,7 @@
         //public string Code { get; set; }
 
         /// <summary>
-        /// The indication of the employee can only work night shifts.
+        /// Indicates if the employee can only work night shifts.
         /// </summary>
         public bool IsFixedNight { get; set; }
 
@@ -89,5 +89,10 @@
         /// The reference navigation property of <seealso cref="CP.DAL.Models.Regime"/>.
         /// </summary>
         public Regime Regime { get; set; }
+
+        /// <summary>
+        /// The collection navigation property of <seealso cref="Absence"/>.
+        /// </summary>
+        public IEnumerable<Absence> Absences { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace CP.React.Extensions
 {
@@ -27,7 +28,7 @@ namespace CP.React.Extensions
         public static void AddDbContext(this IServiceCollection services)
         {
             services.AddDbContext<CarePlannerContext>(
-                o => o.UseSqlServer(Configuration.GetSection("Development").GetConnectionString("CarePlannerDb"),
+                o => o.UseSqlServer(Configuration.GetSection("Development").GetConnectionString("CarePlannerDbAzure"),
                 x => x.MigrationsAssembly("CP.DAL")));
         }
 
@@ -49,6 +50,12 @@ namespace CP.React.Extensions
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IRegimeService, RegimeService>();
         }
+
+        public static IMvcBuilder AddJsonOptions(this IMvcBuilder mvcBuilder)
+        {
+            return mvcBuilder.AddJsonOptions(
+                x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+        }
         #endregion
 
         #region THIRD PARTY
@@ -65,12 +72,11 @@ namespace CP.React.Extensions
             });
         }
 
-        public static void AddFluentValidation(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddFluentValidation(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.AddFluentValidation(
-                x => x.RegisterValidatorsFromAssemblyContaining<TeamDtoValidator>());
-
             ValidatorOptions.Global.LanguageManager.Enabled = false;
+            return mvcBuilder.AddFluentValidation(
+                x => x.RegisterValidatorsFromAssemblyContaining<TeamDtoValidator>());
         }
         #endregion
     }

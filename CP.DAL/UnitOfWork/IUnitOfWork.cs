@@ -24,6 +24,11 @@ namespace CP.DAL.UnitOfWork
         IRegimeRepository Regimes { get; }
 
         /// <summary>
+        /// Manages entities of type <seealso cref="Absence"/>.
+        /// </summary>
+        IAbsenceRepository Absences { get; }
+
+        /// <summary>
         /// Saves all changes made in this context to the database.
         /// </summary>
         Task SaveAsync();

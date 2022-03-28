@@ -41,7 +41,7 @@ namespace CP.DAL.Repositories
             string includeProperties = "",
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            IQueryable<T> query = this.CarePlannerContext.Set<T>().AsNoTracking();
+            IQueryable<T> query = this.CarePlannerContext.Set<T>();
             query = query.Where(expression);
             foreach (var includeProperty in includeProperties.Split
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

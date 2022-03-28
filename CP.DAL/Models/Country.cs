@@ -5,6 +5,6 @@
     /// </summary>
     public enum Country
     {
-        Belgium = 0
+        Belgium
     }
 }

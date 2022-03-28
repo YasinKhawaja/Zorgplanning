@@ -30,7 +30,7 @@ namespace CP.BLL.Services
         {
             var regimes = await _unitOfWork.Regimes.FindByAsync(x => x.Id.Equals(id));
             var regime = regimes.FirstOrDefault();
-            Guard.Against.IsRegimeFound(regime);
+            Guard.Against.RegimeNotFound(regime);
             return _mapper.Map<RegimeDTO>(regime);
         }
 

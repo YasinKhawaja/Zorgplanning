@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddControllers()
-    .AddFluentValidation();
+    .AddFluentValidation()
+    .AddJsonOptions();
 
 builder.Services.AddServices();
 builder.Services.AddUnitOfWork();

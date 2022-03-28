@@ -23,16 +23,16 @@ namespace CP.BLL.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IList<EmployeeDTO>> GetAllInTeamAsync(int teamKey)
+        public async Task<IList<EmployeeDTO>> GetAllInTeamAsync(int teamId)
         {
-            var employees = await _unitOfWork.Employees.GetAllInTeamAsync(teamKey);
+            var employees = await _unitOfWork.Employees.GetAllInTeamAsync(teamId);
             return _mapper.Map<IList<EmployeeDTO>>(employees);
         }
 
-        public async Task<EmployeeDTO> GetAsync(int key)
+        public async Task<EmployeeDTO> GetAsync(int id)
         {
-            var employeeFound = await this.FindByAsync(key);
-            Guard.Against.EmployeeNotFound(key, employeeFound);
+            var employeeFound = await this.FindByAsync(id);
+            Guard.Against.EmployeeNotFound(employeeFound);
             return _mapper.Map<EmployeeDTO>(employeeFound);
         }
 
@@ -44,27 +44,57 @@ namespace CP.BLL.Services
             return _mapper.Map<EmployeeDTO>(employeeToAdd);
         }
 
-        public async Task UpdateAsync(int key, EmployeeDTO dto)
+        public async Task UpdateAsync(int id, EmployeeDTO dto)
         {
-            var employeeFound = await this.FindByAsync(key);
-            Guard.Against.EmployeeNotFound(key, employeeFound);
+            var employeeFound = await this.FindByAsync(id);
+            Guard.Against.EmployeeNotFound(employeeFound);
             var employeeToUp = _mapper.Map<Employee>(dto);
             _unitOfWork.Employees.Update(employeeToUp);
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task DeleteAsync(int key)
+        public async Task DeleteAsync(int id)
         {
-            var employeeFound = await this.FindByAsync(key);
-            Guard.Against.EmployeeNotFound(key, employeeFound);
+            var employeeFound = await this.FindByAsync(id);
+            Guard.Against.EmployeeNotFound(employeeFound);
             _unitOfWork.Employees.Remove(employeeFound);
             await _unitOfWork.SaveAsync();
         }
 
-        #region PRIVATE METHODS
-        private async Task<Employee> FindByAsync(int key)
+        public async Task<IList<AbsenceDTO>> GetAllAbsencesAsync(int employeeId)
         {
-            var employeesFound = await _unitOfWork.Employees.FindByAsync(x => x.Id.Equals(key));
+            var employeeFound = await this.FindByAsync(employeeId, nameof(Employee.Absences));
+            Guard.Against.EmployeeNotFound(employeeFound);
+            var absences = employeeFound.Absences.ToList();
+            return _mapper.Map<IList<Absence>, IList<AbsenceDTO>>(absences);
+        }
+
+        public async Task AddAbsenceAsync(int employeeId, AbsenceDTO absenceDTO)
+        {
+            Employee employeeFound = await this.FindByAsync(employeeId, nameof(Employee.Absences));
+            Guard.Against.EmployeeNotFound(employeeFound);
+            Absence absenceToAdd = _mapper.Map<AbsenceDTO, Absence>(absenceDTO);
+            List<Absence> absences = employeeFound.Absences.ToList();
+            absences.Add(absenceToAdd);
+            employeeFound.Absences = absences;
+            _unitOfWork.Employees.Update(employeeFound);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task DeleteAbsenceAsync(int employeeId, DateTime day)
+        {
+            IList<Absence> absences = await _unitOfWork.Absences
+                .FindByAsync(x => x.EmployeeId.Equals(employeeId) && x.DateId.Equals(day));
+            Absence absence = absences.FirstOrDefault();
+            Guard.Against.AbsenceNotFound(absence);
+            _unitOfWork.Absences.Remove(absence);
+            await _unitOfWork.SaveAsync();
+        }
+
+        #region PRIVATE METHODS
+        private async Task<Employee> FindByAsync(int id, string include = "")
+        {
+            var employeesFound = await _unitOfWork.Employees.FindByAsync(x => x.Id.Equals(id), include);
             return employeesFound.FirstOrDefault();
         }
         #endregion

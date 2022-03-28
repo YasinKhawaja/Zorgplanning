@@ -15,9 +15,9 @@
         /// <summary>
         /// Gets an entity by ID to DTO.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        Task<TDTO> GetAsync(int key);
+        Task<TDTO> GetAsync(int id);
 
         /// <summary>
         /// Creates an entity from DTO.
@@ -29,16 +29,16 @@
         /// <summary>
         /// Updates an existing entity from DTO.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task UpdateAsync(int key, TDTO dto);
+        Task UpdateAsync(int id, TDTO dto);
 
         /// <summary>
         /// Deletes an entity by ID.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        Task DeleteAsync(int key);
+        Task DeleteAsync(int id);
     }
 }
