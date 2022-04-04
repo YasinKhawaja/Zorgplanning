@@ -31,7 +31,8 @@ namespace CP.BLL.Services
 
         public async Task<TeamDTO> GetAsync(int id)
         {
-            var teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id), nameof(Team.Employees));
+            var teams = await _unitOfWork.Teams
+                .FindByAsync(x => x.Id.Equals(id), include: nameof(Team.Employees));
             var team = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(team);
             return _mapper.Map<TeamDTO>(team);

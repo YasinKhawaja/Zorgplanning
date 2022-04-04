@@ -20,11 +20,18 @@ namespace CP.BLL.Mappings
                 .ReverseMap();
 
             base.CreateMap<Employee, EmployeeDTO>().ReverseMap();
+
             base.CreateMap<Regime, RegimeDTO>().ReverseMap();
 
             base.CreateMap<Absence, AbsenceDTO>()
-                .ForMember(x => x.Day, o => o.MapFrom(x => x.DateId))
-                .ReverseMap();
+                .ForMember(x => x.EmployeeId, x => x.MapFrom(x => x.EmployeeId))
+                .ForMember(x => x.Day, x => x.MapFrom(x => x.DateId))
+                .ForMember(x => x.Type, x => x.MapFrom(x => x.Type.ToString()));
+
+            base.CreateMap<AbsenceDTO, Absence>()
+                .ForMember(x => x.EmployeeId, x => x.MapFrom(x => x.EmployeeId))
+                .ForMember(x => x.DateId, x => x.MapFrom(x => x.Day))
+                .ForMember(x => x.Type, x => x.MapFrom<AbsenceTypeStringToEnumResolver>());
         }
     }
 }

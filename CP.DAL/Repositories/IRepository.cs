@@ -23,7 +23,8 @@ namespace CP.DAL.Repositories
         /// <returns></returns>
         Task<IList<T>> FindByAsync(
             Expression<Func<T, bool>> expression,
-            string includeProperties = "",
+            bool asTracking = false,
+            string include = "",
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
         /// <summary>

@@ -8,24 +8,28 @@ const useStyles = () => ({
   buttonsWrap: {
     display: "flex",
     justifyContent: "space-between",
+    marginTop: "16px",
   },
 });
 
+const types = [
+  { id: "Leave", name: "Leave" },
+  { id: "Sickness", name: "Sickness" },
+  { id: "WorkingTimeReduction", name: "Working Time Reduction" },
+];
+
 const initialValues = {
-  id: 0,
-  name: "",
-  hasChildren: false,
+  employeeId: 0,
+  day: new Date(),
+  type: "",
 };
 
-export default function TeamForm(props) {
+export default function AbsenceForm(props) {
   React.useEffect(() => {
-    if (props.teamToEdit != null) {
-      setValues({ ...props.teamToEdit });
-    }
     if (props.apiErrors != null) {
       setErrors({ ...props.apiErrors });
     }
-  }, [props.teamToEdit, props.apiErrors]);
+  }, [props.apiErrors]);
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialValues, false);
@@ -50,14 +54,15 @@ export default function TeamForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid sx={{ marginBottom: "16px" }} item xs={12}>
-          {/* NAME */}
-          <Controls.Input
-            error={getErrors("Name")}
-            label="Name"
-            name="name"
-            value={values.name}
+        <Grid item xs={12}>
+          {/* TYPE */}
+          <Controls.Select
+            error={getErrors("Type")}
+            label="Type"
+            name="type"
             onChange={handleInputChange}
+            options={types}
+            value={values.type}
           />
         </Grid>
       </Grid>

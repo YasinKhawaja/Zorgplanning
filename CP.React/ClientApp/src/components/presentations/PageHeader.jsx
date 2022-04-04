@@ -1,4 +1,5 @@
 import { Box, Card, Paper, Typography } from "@mui/material";
+import parse from "html-react-parser";
 import React from "react";
 
 const useStyles = () => ({
@@ -31,7 +32,7 @@ export default function PageHeader(props) {
             {title}
           </Typography>
           <Typography component="div" variant="subtitle2">
-            {subtitle}
+            {parse(subtitle)}
           </Typography>
         </Box>
       </Box>

@@ -39,6 +39,9 @@ namespace CP.BLL.Validators
                 .NotEmpty()
                 .MaximumLength(100);
 
+            base.RuleFor(x => x.Country)
+                .NotNull();
+
             base.RuleFor(x => x.IsActive)
                 .NotEmpty();
 

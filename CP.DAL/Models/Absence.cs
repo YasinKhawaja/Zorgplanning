@@ -11,7 +11,7 @@
         public int EmployeeId { get; set; }
 
         /// <summary>
-        /// The composite key with <see cref="DateId"/> and the foreign key with <seealso cref="Models.Date"/>.
+        /// The composite key with <see cref="EmployeeId"/> and the foreign key with <seealso cref="Models.Date"/>.
         /// </summary>
         public DateTime DateId { get; set; }
 

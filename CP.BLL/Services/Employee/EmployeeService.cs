@@ -63,7 +63,7 @@ namespace CP.BLL.Services
 
         public async Task<IList<AbsenceDTO>> GetAllAbsencesAsync(int employeeId)
         {
-            var employeeFound = await this.FindByAsync(employeeId, nameof(Employee.Absences));
+            var employeeFound = await this.FindByAsync(employeeId, include: nameof(Employee.Absences));
             Guard.Against.EmployeeNotFound(employeeFound);
             var absences = employeeFound.Absences.ToList();
             return _mapper.Map<IList<Absence>, IList<AbsenceDTO>>(absences);
@@ -71,13 +71,16 @@ namespace CP.BLL.Services
 
         public async Task AddAbsenceAsync(int employeeId, AbsenceDTO absenceDTO)
         {
-            Employee employeeFound = await this.FindByAsync(employeeId, nameof(Employee.Absences));
-            Guard.Against.EmployeeNotFound(employeeFound);
+            IList<Employee> employeesFound = await _unitOfWork.Employees
+                .FindByAsync(x => x.Id.Equals(employeeId), asTracking: true, include: nameof(Employee.Absences));
+            Employee employeeTracked = employeesFound.FirstOrDefault();
+            Guard.Against.EmployeeNotFound(employeeTracked);
+            // Add absence
             Absence absenceToAdd = _mapper.Map<AbsenceDTO, Absence>(absenceDTO);
-            List<Absence> absences = employeeFound.Absences.ToList();
+            List<Absence> absences = employeeTracked.Absences.ToList();
             absences.Add(absenceToAdd);
-            employeeFound.Absences = absences;
-            _unitOfWork.Employees.Update(employeeFound);
+            employeeTracked.Absences = absences;
+            //
             await _unitOfWork.SaveAsync();
         }
 
@@ -92,9 +95,10 @@ namespace CP.BLL.Services
         }
 
         #region PRIVATE METHODS
-        private async Task<Employee> FindByAsync(int id, string include = "")
+        private async Task<Employee> FindByAsync(int id, bool asTracking = false, string include = "")
         {
-            var employeesFound = await _unitOfWork.Employees.FindByAsync(x => x.Id.Equals(id), include);
+            var employeesFound = await _unitOfWork.Employees
+            .FindByAsync(x => x.Id.Equals(id), asTracking, include: include);
             return employeesFound.FirstOrDefault();
         }
         #endregion

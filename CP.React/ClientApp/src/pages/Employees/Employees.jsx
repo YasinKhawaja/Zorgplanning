@@ -1,7 +1,10 @@
 import AddIcon from "@mui/icons-material/Add";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { TableBody, TableCell, TableRow, Toolbar } from "@mui/material";
+import { Button, TableBody, TableCell, TableRow, Toolbar } from "@mui/material";
 import React from "react";
 import Controls from "../../components/controls/Controls";
 import ConfirmDialog from "../../components/presentations/ConfirmDialog";
@@ -10,7 +13,6 @@ import Notification from "../../components/presentations/Notification";
 import { useTable } from "../../hooks/useTable";
 import EmployeeService from "../../services/EmployeeService";
 import EmployeeForm from "./EmployeeForm";
-
 const useStyles = () => ({
   toolbar: {
     ["@media (min-width:600px)"]: { padding: "0px" },
@@ -46,14 +48,13 @@ export default function Employees(props) {
   const [notify, setNotify] = React.useState({
     open: false,
     message: "",
-    severity: "",
+    severity: "info",
   });
   //#endregion
 
   const fetchEmployees = () => {
     EmployeeService.getAll(team.id)
       .then((response) => {
-        setIsPending(true);
         setEmployees(response.data.result);
         setIsPending(false);
       })
@@ -70,10 +71,12 @@ export default function Employees(props) {
   React.useEffect(() => {
     fetchEmployees();
   }, [setEmployees]);
+
   const { TableContainer, TableHeader, TablePaginator } = useTable(
     headers,
     employees
   );
+
   const classes = useStyles();
   //#endregion
 
@@ -144,20 +147,6 @@ export default function Employees(props) {
       });
   };
 
-  const [filteredErrors, setFilteredErrors] = React.useState({ FirstName: "" });
-
-  const getErrors = (input) => {
-    if (apiErrors == null) {
-      return;
-    }
-
-    const temp = { ...filteredErrors };
-    if (input in apiErrors) {
-      temp[input] = apiErrors[input][0];
-    }
-    setFilteredErrors(temp);
-  };
-
   return (
     <>
       <Toolbar sx={classes.toolbar}>
@@ -183,8 +172,25 @@ export default function Employees(props) {
                 <TableCell>{employee.gender}</TableCell>
                 <TableCell>{employee.dateOfBirth}</TableCell>
                 <TableCell>{employee.town}</TableCell>
-                <TableCell>{employee.isFixedNight.toString()}</TableCell>
                 <TableCell>
+                  {Boolean(employee.isFixedNight) ? (
+                    <CheckBoxIcon color="success" />
+                  ) : (
+                    <CancelIcon color="error" />
+                  )}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    sx={{
+                      backgroundColor: "#90EE90",
+                      margin: "4px",
+                      minWidth: 0,
+                      "& .MuiSvgIcon-root": { color: "#008000" },
+                    }}
+                    href={`teams/${employee.teamId}/employees/${employee.id}/calendar`}
+                  >
+                    <CalendarMonthIcon fontSize="small" />
+                  </Button>
                   <Controls.ActionButton color="primary">
                     <EditIcon
                       fontSize="small"
@@ -197,7 +203,7 @@ export default function Employees(props) {
                       onClick={() =>
                         setConfirmDialog({
                           open: true,
-                          title: `Are you sure you want to delete employee <strong>${employee.firstName}</strong>?`,
+                          title: `Are you sure you want to delete nurse <strong>${employee.firstName}</strong>?`,
                           subtitle:
                             "This action <strong>cannot</strong> be undone.",
                           onConfirm: () => {
@@ -222,8 +228,7 @@ export default function Employees(props) {
         <EmployeeForm
           addOrEdit={addOrEdit}
           employeeToEdit={employeeToEdit}
-          filteredErrors={filteredErrors}
-          getErrors={getErrors}
+          apiErrors={apiErrors}
         />
       </Dialog>
       <Notification notify={notify} setNotify={setNotify} />

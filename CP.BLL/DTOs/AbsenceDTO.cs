@@ -1,6 +1,4 @@
-﻿using CP.DAL.Models;
-
-namespace CP.BLL.DTOs
+﻿namespace CP.BLL.DTOs
 {
     /// <summary>
     /// Represents an absence data transfer object.
@@ -9,6 +7,6 @@ namespace CP.BLL.DTOs
     {
         public int EmployeeId { get; set; }
         public DateTime Day { get; set; }
-        public AbsenceType Type { get; set; }
+        public string Type { get; set; }
     }
 }

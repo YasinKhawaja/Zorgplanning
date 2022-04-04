@@ -38,10 +38,19 @@ namespace CP.DAL.Repositories
 
         public async Task<IList<T>> FindByAsync(
             Expression<Func<T, bool>> expression,
+            bool asTracking = false,
             string includeProperties = "",
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            IQueryable<T> query = this.CarePlannerContext.Set<T>();
+            IQueryable<T> query;
+            if (asTracking)
+            {
+                query = this.CarePlannerContext.Set<T>();
+            }
+            else
+            {
+                query = this.CarePlannerContext.Set<T>().AsNoTracking();
+            }
             query = query.Where(expression);
             foreach (var includeProperty in includeProperties.Split
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

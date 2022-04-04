@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.BLL", "CP.BLL\CP.BLL.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.React", "CP.React\CP.React.csproj", "{B4A8FDCC-8B1F-43E9-9E2B-2E9D43051C8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.BLL.Tests", "CP.BLL.Tests\CP.BLL.Tests.csproj", "{734912EF-B799-42D4-BC2E-FE8153141BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.BLL.Tests", "CP.BLL.Tests\CP.BLL.Tests.csproj", "{734912EF-B799-42D4-BC2E-FE8153141BA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.DAL.Tests", "CP.DAL.Tests\CP.DAL.Tests.csproj", "{AEEDA839-E495-47EF-BCDE-345F11A1F833}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{734912EF-B799-42D4-BC2E-FE8153141BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{734912EF-B799-42D4-BC2E-FE8153141BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{734912EF-B799-42D4-BC2E-FE8153141BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

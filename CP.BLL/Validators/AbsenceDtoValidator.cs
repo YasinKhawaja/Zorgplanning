@@ -1,4 +1,5 @@
 ﻿using CP.BLL.DTOs;
+using CP.DAL.Models;
 using FluentValidation;
 
 namespace CP.BLL.Validators
@@ -7,12 +8,14 @@ namespace CP.BLL.Validators
     {
         public AbsenceDtoValidator()
         {
-            base.RuleFor(x => x.Day)
+            base.RuleFor(x => x.Type)
                 .NotEmpty();
 
-            base.RuleFor(x => x.Type)
-                //.NotEmpty()
-                .IsInEnum();
+            base.When(x => x.Type.Length > 0, () =>
+            {
+                base.RuleFor(x => x.Type)
+                    .IsEnumName(typeof(AbsenceType));
+            });
         }
     }
 }

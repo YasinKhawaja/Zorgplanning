@@ -86,6 +86,7 @@ export default function Teams(props) {
     TeamService.remove(id)
       .then(() => {
         setOpenDeleteDialog(false);
+        setTeamToEdit(null);
         props.onRefresh();
         setNotify(successNotification("Deleted Succesfully"));
       })

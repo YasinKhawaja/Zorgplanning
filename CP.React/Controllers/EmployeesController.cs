@@ -154,7 +154,7 @@ namespace CP.React.Controllers
             try
             {
                 await _employeeService.DeleteAbsenceAsync(id, day);
-                return new ApiResponse("ABSENCE DELETED");
+                return new ApiResponse("Deleted Succesfully");
             }
             catch (Exception exc)
             {

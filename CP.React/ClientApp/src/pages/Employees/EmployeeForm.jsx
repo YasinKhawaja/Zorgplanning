@@ -1,8 +1,16 @@
 import { Grid } from "@mui/material";
+import parse from "html-react-parser";
 import React from "react";
 import Controls from "../../components/controls/Controls";
 import { Form, useForm } from "../../hooks/useForm";
 import RegimeService from "../../services/RegimeService";
+
+const useStyles = () => ({
+  buttonsWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
 const genderItems = [
   { id: "M", title: "Male" },
@@ -28,7 +36,7 @@ const initialValues = {
 };
 
 export default function EmployeeForm(props) {
-  const { addOrEdit, employeeToEdit, filteredErrors, getErrors } = props;
+  const { addOrEdit, employeeToEdit } = props;
 
   const [regimes, setRegimes] = React.useState(null);
   const [isPending, setIsPending] = React.useState(true);
@@ -45,7 +53,11 @@ export default function EmployeeForm(props) {
     if (employeeToEdit != null) {
       setValues({ ...employeeToEdit });
     }
-  }, [employeeToEdit]);
+    if (props.apiErrors != null) {
+      setErrors({ ...props.apiErrors });
+    }
+    console.log(props.apiErrors);
+  }, [employeeToEdit, props.apiErrors]);
 
   const validate = (fieldValues = values) => {
     let tempErrors = { ...errors };
@@ -72,12 +84,21 @@ export default function EmployeeForm(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialValues, true, validate);
 
+  const classes = useStyles();
+
+  const getErrors = (input) => {
+    if (errors === null) return "";
+    if (errors[input] === undefined) return "";
+    let errorMsg = "";
+    errors[input].map((error) => {
+      errorMsg += `${error.toString()}<br />`;
+    });
+    return parse(errorMsg); // Parse to JSX
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // if (validate()) {
     addOrEdit(values, resetForm);
-    getErrors();
-    // }
   };
 
   return (
@@ -88,7 +109,7 @@ export default function EmployeeForm(props) {
             <Grid item xs={6}>
               {/* FIRST NAME */}
               <Controls.Input
-                error={filteredErrors.FirstName}
+                error={getErrors("FirstName")}
                 label="First Name"
                 name="firstName"
                 onChange={handleInputChange}
@@ -96,7 +117,7 @@ export default function EmployeeForm(props) {
               />
               {/* LAST NAME */}
               <Controls.Input
-                error=""
+                error={getErrors("LastName")}
                 label="Last Name"
                 name="lastName"
                 onChange={handleInputChange}
@@ -104,7 +125,7 @@ export default function EmployeeForm(props) {
               />
               {/* DATE OF BIRTH */}
               <Controls.DatePicker
-                // error={errorsTemp == null ? "" : errorsTemp.DateOfBirth[0]}
+                error={getErrors("DateOfBirth")}
                 label=""
                 name="dateOfBirth"
                 onChange={handleInputChange}
@@ -112,6 +133,7 @@ export default function EmployeeForm(props) {
               />
               {/* GENDER */}
               <Controls.RadioGroup
+                error={getErrors("Gender")}
                 items={genderItems}
                 label="Gender"
                 name="gender"
@@ -129,7 +151,7 @@ export default function EmployeeForm(props) {
             <Grid item xs={6}>
               {/* ADDRESS 1 */}
               <Controls.Input
-                error=""
+                error={getErrors("Address1")}
                 label="Address 1"
                 name="address1"
                 onChange={handleInputChange}
@@ -144,7 +166,7 @@ export default function EmployeeForm(props) {
               />
               {/* ZIP CODE */}
               <Controls.Input
-                error=""
+                error={getErrors("ZipCode")}
                 label="ZIP Code"
                 name="zipCode"
                 onChange={handleInputChange}
@@ -152,7 +174,7 @@ export default function EmployeeForm(props) {
               />
               {/* TOWN */}
               <Controls.Input
-                error=""
+                error={getErrors("Town")}
                 label="Town"
                 name="town"
                 onChange={handleInputChange}
@@ -160,7 +182,7 @@ export default function EmployeeForm(props) {
               />
               {/* COUNTRY */}
               <Controls.Select
-                // error={errorsTemp.Country[0]}
+                error={getErrors("Country")}
                 label="Country"
                 name="country"
                 onChange={handleInputChange}
@@ -171,7 +193,7 @@ export default function EmployeeForm(props) {
             <Grid item xs={12}>
               {/* REGIME */}
               <Controls.Select
-                error=""
+                error={getErrors("Regime")}
                 label="Regime"
                 name="regimeId"
                 onChange={handleInputChange}
@@ -179,7 +201,7 @@ export default function EmployeeForm(props) {
                 value={values.regimeId}
               />
             </Grid>
-            <div>
+            <div style={classes.buttonsWrap}>
               <Controls.Button text="SUBMIT" type="submit" />
               <Controls.Button color="grey" text="RESET" onClick={resetForm} />
             </div>
