@@ -3,8 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import CalendarIndex from "../pages/calendar/CalendarIndex";
 import EmployeesIndex from "../pages/employees/EmployeesIndex";
 import TeamsIndex from "../pages/teams/TeamsIndex";
-import { Home } from "./Home";
-import { NavMenu } from "./NavMenu";
+import Home from "./Home";
+import NavMenu from "./NavMenu";
 
 export default function Layout() {
   return (

@@ -1,67 +1,51 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import "./NavMenu.css";
+import React from "react";
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
-
-  constructor(props) {
-    super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true,
-    };
-  }
-
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  }
-
-  render() {
-    return (
-      <header>
-        <Navbar
-          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          light
+export default function NavMenu() {
+  return (
+    <div class="container fixed-top" style={{ backgroundColor: "#F4F5FD" }}>
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a
+          href="/"
+          class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"
         >
-          <Container>
-            <NavbarBrand tag={Link} to="/">
-              CARE PLANNER
-            </NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse
-              className="d-sm-inline-flex flex-sm-row-reverse"
-              isOpen={!this.state.collapsed}
-              navbar
-            >
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">
-                    Home
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/teams">
-                    Get Started
-                  </NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
+          CP
+        </a>
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li>
+            <a href="#" class="nav-link px-2 link-secondary">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-dark">
+              Features
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-dark">
+              Pricing
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-dark">
+              FAQs
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-2 link-dark">
+              About
+            </a>
+          </li>
+        </ul>
+        <div class="col-md-3 text-end">
+          <button type="button" class="btn btn-outline-primary me-2">
+            Login
+          </button>
+          <button type="button" class="btn btn-primary">
+            Sign-up
+          </button>
+        </div>
       </header>
-    );
-  }
+    </div>
+  );
 }
