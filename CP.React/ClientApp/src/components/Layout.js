@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import CalendarIndex from "../pages/calendar/CalendarIndex";
 import EmployeesIndex from "../pages/employees/EmployeesIndex";
+import HolidaysIndex from "../pages/holidays/HolidaysIndex";
 import TeamsIndex from "../pages/teams/TeamsIndex";
 import ProfileContent from "./authentication/msgraphapi/ProfileContent";
 import Home from "./Home";
@@ -19,6 +20,11 @@ export default function Layout() {
         <AuthenticatedTemplate>
           <ProfileContent />
         </AuthenticatedTemplate>
+      </Route>
+      <Route exact path="/holidays">
+        {/* <AuthenticatedTemplate> */}
+        <HolidaysIndex />
+        {/* </AuthenticatedTemplate> */}
       </Route>
       <Route exact path="/teams">
         {/* <AuthenticatedTemplate> */}
