@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import CalendarIndex from "../pages/calendar/CalendarIndex";
 import EmployeesIndex from "../pages/employees/EmployeesIndex";
 import TeamsIndex from "../pages/teams/TeamsIndex";
+import ProfileContent from "./authentication/msgraphapi/ProfileContent";
 import Home from "./Home";
 import NavMenu from "./NavMenu";
 
@@ -13,14 +14,25 @@ export default function Layout() {
         <NavMenu />
         <Home />
       </Route>
+      <Route exact path="/my">
+        <AuthenticatedTemplate>
+          <ProfileContent />
+        </AuthenticatedTemplate>
+      </Route>
       <Route exact path="/teams">
+        {/* <AuthenticatedTemplate> */}
         <TeamsIndex />
+        {/* </AuthenticatedTemplate> */}
       </Route>
       <Route exact path="/teams/:teamId/employees">
+        {/* <AuthenticatedTemplate> */}
         <EmployeesIndex />
+        {/* </AuthenticatedTemplate> */}
       </Route>
       <Route exact path="/teams/:teamId/employees/:employeeId/calendar">
+        {/* <AuthenticatedTemplate> */}
         <CalendarIndex />
+        {/* </AuthenticatedTemplate> */}
       </Route>
     </Switch>
   );
