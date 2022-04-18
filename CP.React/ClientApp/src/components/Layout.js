@@ -1,3 +1,4 @@
+import { AuthenticatedTemplate } from "@azure/msal-react";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import CalendarIndex from "../pages/calendar/CalendarIndex";
