@@ -47,12 +47,14 @@ export default function TeamsIndex() {
   return (
     <>
       <Header />
-      <PageHeader
-        icon={<GroupsIcon fontSize="large" />}
-        title="Teams"
-        subtitle="What team would you like to manage?"
-      />
-      <Main>{content}</Main>
+      <Main>
+        {/* <PageHeader
+          icon={<GroupsIcon fontSize="large" />}
+          title="Teams"
+          subtitle="What team would you like to manage?"
+        /> */}
+        {content}
+      </Main>
     </>
   );
 }

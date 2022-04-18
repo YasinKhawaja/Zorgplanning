@@ -1,38 +1,69 @@
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { AppBar, Badge, Grid, IconButton, Toolbar } from "@mui/material";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import React from "react";
-
-const useStyles = () => ({
-  header: { backgroundColor: "#E8F4F8", transform: "translateZ(0)" },
-});
+import { NavLink } from "react-router-dom";
+import { SignOutButton } from "../authentication/SignOutButton";
 
 export default function Header() {
-  const classes = useStyles();
   return (
-    <AppBar sx={classes.header} position="static">
-      <Toolbar>
-        <Grid alignItems="center" container>
-          <Grid item></Grid>
-          <Grid item sm />
-          <Grid item>
-            <IconButton>
-              <Badge badgeContent={1} color="secondary">
-                <NotificationsIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-            <IconButton>
-              <Badge badgeContent={1} color="primary">
-                <ChatBubbleIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-            <IconButton>
-              <PowerSettingsNewIcon fontSize="small" />
-            </IconButton>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+    <div className="container fixed-top" style={{ backgroundColor: "#F4F5FD" }}>
+      <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <NavLink
+          to="/"
+          className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"
+        >
+          <CalendarMonthOutlinedIcon color="primary" fontSize="large" />
+          CP
+        </NavLink>
+        <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li>
+            <NavLink to="/" className="nav-link px-2 link-secondary">
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/holidays"
+              className={(isActive) =>
+                "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
+              }
+              style={(isActive) => ({
+                color: isActive ? "blue" : "",
+              })}
+            >
+              Holidays
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/teams"
+              className={(isActive) =>
+                "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
+              }
+              style={(isActive) => ({
+                color: isActive ? "blue" : "",
+              })}
+            >
+              Teams
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/planning"
+              className={(isActive) =>
+                "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
+              }
+              style={(isActive) => ({
+                color: isActive ? "blue" : "",
+              })}
+            >
+              Planning
+            </NavLink>
+          </li>
+        </ul>
+        <div className="col-md-3 text-end">
+          <SignOutButton />
+        </div>
+      </header>
+    </div>
   );
 }

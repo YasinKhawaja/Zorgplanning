@@ -1,4 +1,5 @@
 import { useMsal } from "@azure/msal-react";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Button } from "@mui/material";
 import React from "react";
 
@@ -16,8 +17,7 @@ export const SignOutButton = () => {
 
   return (
     <Button
-      variant="secondary"
-      className="ml-auto"
+      startIcon={<PowerSettingsNewIcon />}
       onClick={() => handleLogout(instance)}
     >
       Sign Out
