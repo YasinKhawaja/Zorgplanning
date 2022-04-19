@@ -29,5 +29,10 @@
         /// The collection navigation property with <seealso cref="Employee"/>.
         /// </summary>
         public IEnumerable<Employee> Employees { get; set; }
+
+        /// <summary>
+        /// The collection navigation property with <seealso cref="Shift"/>.
+        /// </summary>
+        public IEnumerable<Shift> Shifts { get; set; }
     }
 }

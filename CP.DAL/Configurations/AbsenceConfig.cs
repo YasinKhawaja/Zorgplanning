@@ -20,6 +20,20 @@ namespace CP.DAL.Configurations
             builder.Property(x => x.Type)
                 .HasColumnType("nvarchar(100)")
                 .IsRequired();
+
+            builder
+                .HasOne(x => x.Employee)
+                .WithMany(x => x.Absences)
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            builder
+                .HasOne(x => x.Date)
+                .WithMany(x => x.Absences)
+                .HasForeignKey(x => x.DateId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

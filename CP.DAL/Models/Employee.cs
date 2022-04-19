@@ -21,46 +21,6 @@
         public string LastName { get; set; }
 
         /// <summary>
-        /// The date of birth of the employee.
-        /// </summary>
-        public DateTime DateOfBirth { get; set; }
-
-        /// <summary>
-        /// The gender of the employee.
-        /// </summary>
-        public char Gender { get; set; }
-
-        /// <summary>
-        /// The primary address information of the employee.
-        /// </summary>
-        public string Address1 { get; set; }
-
-        /// <summary>
-        /// The secondary address information of the employee.
-        /// </summary>
-        public string Address2 { get; set; }
-
-        /// <summary>
-        /// The postal code of the town.
-        /// </summary>
-        public string ZipCode { get; set; }
-
-        /// <summary>
-        /// The name of the town.
-        /// </summary>
-        public string Town { get; set; }
-
-        /// <summary>
-        /// The name of the country.
-        /// </summary>
-        public Country Country { get; set; }
-
-        ///// <summary>
-        ///// The employee code of the employee.
-        ///// </summary>
-        //public string Code { get; set; }
-
-        /// <summary>
         /// Indicates if the employee can only work night shifts.
         /// </summary>
         public bool IsFixedNight { get; set; }
@@ -94,5 +54,10 @@
         /// The collection navigation property of <seealso cref="Absence"/>.
         /// </summary>
         public IEnumerable<Absence> Absences { get; set; }
+
+        /// <summary>
+        /// The collection navigation property of <seealso cref="Schedule"/>.
+        /// </summary>
+        public IEnumerable<Schedule> Schedules { get; set; }
     }
 }

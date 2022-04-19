@@ -16,46 +16,20 @@ namespace CP.DAL.Configurations
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.Property(x => x.FirstName)
-                .HasColumnType("nvarchar(100)")
+                .HasColumnType("nvarchar(50)")
                 .IsRequired();
 
             builder.Property(x => x.LastName)
-                .HasColumnType("nvarchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.DateOfBirth)
-                .HasColumnType("date")
-                .IsRequired();
-
-            builder.Property(x => x.Gender)
-                .HasColumnType("char(1)")
-                .IsRequired();
-
-            builder.Property(x => x.Address1)
-                .HasColumnType("nvarchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Address2)
-                .HasColumnType("nvarchar(100)");
-
-            builder.Property(x => x.ZipCode)
-                .HasColumnType("nvarchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Town)
-                .HasColumnType("nvarchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Country)
-                .HasColumnType("nvarchar(100)")
-                .HasDefaultValue(Country.Belgium)
+                .HasColumnType("nvarchar(50)")
                 .IsRequired();
 
             builder.Property(x => x.IsFixedNight)
+                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(x => x.IsActive)
-                .HasDefaultValue(true);
+                .HasDefaultValue(true)
+                .IsRequired();
 
             builder
                 .HasOne(x => x.Team)

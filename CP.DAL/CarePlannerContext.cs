@@ -14,6 +14,8 @@ namespace CP.DAL
         public DbSet<Regime> Regimes { get; set; }
         public DbSet<Absence> Absences { get; set; }
         public DbSet<Date> Dates { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
 
         public CarePlannerContext(DbContextOptions<CarePlannerContext> options)
             : base(options)
@@ -32,6 +34,9 @@ namespace CP.DAL
             new RegimeConfig().Configure(modelBuilder.Entity<Regime>());
             new AbsenceConfig().Configure(modelBuilder.Entity<Absence>());
             new DateConfig().Configure(modelBuilder.Entity<Date>());
+            new ShiftConfig().Configure(modelBuilder.Entity<Shift>());
+            new ScheduleConfig().Configure(modelBuilder.Entity<Schedule>());
+            modelBuilder.Seed();
         }
     }
 }

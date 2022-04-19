@@ -1,5 +1,6 @@
 ﻿using CP.BLL.Mappings;
 using CP.BLL.Services;
+using CP.BLL.Services.Planning;
 using CP.BLL.Validators;
 using CP.DAL;
 using CP.DAL.Repositories;
@@ -49,12 +50,17 @@ namespace CP.React.Extensions
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IRegimeService, RegimeService>();
+            services.AddScoped<PlanningService>();
         }
 
         public static IMvcBuilder AddJsonOptions(this IMvcBuilder mvcBuilder)
         {
-            return mvcBuilder.AddJsonOptions(
-                x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            return mvcBuilder.AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                x.JsonSerializerOptions.WriteIndented = true;
+            });
         }
         #endregion
 

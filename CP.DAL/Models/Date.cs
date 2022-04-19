@@ -19,5 +19,10 @@
         /// The collection navigation property of <seealso cref="Absence"/>.
         /// </summary>
         public IEnumerable<Absence> Absences { get; set; }
+
+        /// <summary>
+        /// The collection navigation property of <seealso cref="Schedule"/>.
+        /// </summary>
+        public IEnumerable<Schedule> Schedules { get; set; }
     }
 }

@@ -29,6 +29,21 @@ namespace CP.DAL.UnitOfWork
         IAbsenceRepository Absences { get; }
 
         /// <summary>
+        /// Manages entities of type <seealso cref="Date"/>.
+        /// </summary>
+        IDateRepository Dates { get; }
+
+        /// <summary>
+        /// Manages entities of type <seealso cref="Shift"/>.
+        /// </summary>
+        IShiftRepository Shifts { get; }
+
+        /// <summary>
+        /// Manages entities of type <seealso cref="Schedule"/>.
+        /// </summary>
+        IScheduleRepository Schedules { get; }
+
+        /// <summary>
         /// Saves all changes made in this context to the database.
         /// </summary>
         Task SaveAsync();

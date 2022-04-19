@@ -39,6 +39,7 @@ namespace CP.BLL.Services
         public async Task<EmployeeDTO> CreateAsync(EmployeeDTO dto)
         {
             var employeeToAdd = _mapper.Map<Employee>(dto);
+            employeeToAdd.IsActive = true;
             await _unitOfWork.Employees.AddAsync(employeeToAdd);
             await _unitOfWork.SaveAsync();
             return _mapper.Map<EmployeeDTO>(employeeToAdd);
