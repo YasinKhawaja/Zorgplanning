@@ -7,10 +7,26 @@ import {
 } from "@mui/material";
 import React from "react";
 
-export default function Select(props) {
-  const { error = null, label, name, onChange, options, value } = props;
+function Select(props) {
+  const {
+    fullWidth = false,
+    error = null,
+    label,
+    name,
+    onChange,
+    options,
+    required = false,
+    value,
+    variant = "outlined",
+  } = props;
+
   return (
-    <FormControl variant="outlined" {...(error && { error: true })}>
+    <FormControl
+      fullWidth={fullWidth}
+      required={required}
+      variant={variant}
+      {...(error && { error: true })}
+    >
       <InputLabel>{label}</InputLabel>
       <MuiSelect label={label} name={name} onChange={onChange} value={value}>
         <MenuItem value="">None</MenuItem>
@@ -24,3 +40,5 @@ export default function Select(props) {
     </FormControl>
   );
 }
+
+export default Select;
