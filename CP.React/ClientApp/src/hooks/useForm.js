@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import React from "react";
 
-export function useForm(initialValues, validateOnChange = false, validate) {
+function useForm(initialValues, validateOnChange = false, validate) {
   const [values, setValues] = React.useState(initialValues);
   const [errors, setErrors] = React.useState(null);
 
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Form(props) {
+function Form(props) {
   const { children, ...other } = props;
   const classes = useStyles();
   return (
@@ -46,3 +46,5 @@ export function Form(props) {
     </form>
   );
 }
+
+export { useForm, Form };

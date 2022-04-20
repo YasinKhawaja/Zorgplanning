@@ -13,7 +13,7 @@ import MonthForm from "./MonthForm";
 import TeamForm from "./TeamForm";
 import YearForm from "./YearForm";
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps = ["Team", "Jaar", "Maand"];
 
 function getStepContent(step) {
   switch (step) {
@@ -47,7 +47,7 @@ export default function PlanningWizard() {
       <Container component="div" maxWidth="sm">
         <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
-            Checkout
+            Planning Wizard
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (

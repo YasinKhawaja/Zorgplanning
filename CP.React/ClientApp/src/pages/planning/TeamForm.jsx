@@ -2,8 +2,11 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Controls from "../../components/controls/Controls";
+import { useForm } from "../../hooks/useForm";
 import TeamService from "../../services/TeamService";
 import { mapTeamsForSelectInput } from "./planning-utils";
+
+const initialValues = { teamId: 0 };
 
 function TeamForm() {
   const [options, setOptions] = React.useState(null);
@@ -24,10 +27,17 @@ function TeamForm() {
       });
   };
 
+  const form = useForm(initialValues);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(form.values);
+  };
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Choose Team
+        Kies Team
       </Typography>
       {options && (
         <Grid container spacing={3}>
@@ -36,8 +46,11 @@ function TeamForm() {
               fullWidth
               label="Team"
               name="teamId"
-              required
+              none={0}
+              onChange={form.handleInputChange}
               options={options}
+              required
+              value={form.values.teamId}
               variant="standard"
             />
           </Grid>
