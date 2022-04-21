@@ -1,6 +1,7 @@
 import { useMsal } from "@azure/msal-react";
 import { Button } from "@mui/material";
 import React, { useState } from "react";
+import Header from "../../presentations/Header";
 import { loginRequest } from "../authConfig";
 import { callMsGraph } from "./graph";
 import { ProfileData } from "./ProfileData";
@@ -36,6 +37,7 @@ export default function ProfileContent() {
 
   return (
     <>
+      <Header />
       <h5 className="card-title">Welcome {name}</h5>
       {graphData ? (
         <ProfileData graphData={graphData} />

@@ -16,8 +16,8 @@ export default function Header() {
         </NavLink>
         <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <NavLink to="/" className="nav-link px-2 link-secondary">
-              Home
+            <NavLink to="/dashboard" className="nav-link px-2 link-secondary">
+              Dashboard
             </NavLink>
           </li>
           <li>

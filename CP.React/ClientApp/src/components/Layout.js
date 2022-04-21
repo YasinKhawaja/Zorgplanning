@@ -9,40 +9,75 @@ import TeamsIndex from "../pages/teams/TeamsIndex";
 import ProfileContent from "./authentication/msgraphapi/ProfileContent";
 import Home from "./Home";
 import NavMenu from "./NavMenu";
-import Header from "../components/presentations/Header";
 
 export default function Layout() {
   return (
     <Switch>
-      <Route exact path="/">
-        <NavMenu />
-        <Home />
-      </Route>
-      <Route exact path="/my">
-        <AuthenticatedTemplate>
-          <ProfileContent />
-        </AuthenticatedTemplate>
-      </Route>
-      <Route exact path="/holidays">
-        <AuthenticatedTemplate>
-          <HolidaysIndex />
-        </AuthenticatedTemplate>
-      </Route>
-      <Route exact path="/teams">
-        <AuthenticatedTemplate>
-          <TeamsIndex />
-        </AuthenticatedTemplate>
-      </Route>
-      <Route exact path="/teams/:teamId/employees">
-        <AuthenticatedTemplate>
-          <EmployeesIndex />
-        </AuthenticatedTemplate>
-      </Route>
-      <Route exact path="/teams/:teamId/employees/:employeeId/calendar">
-        <AuthenticatedTemplate>
-          <CalendarIndex />
-        </AuthenticatedTemplate>
-      </Route>
+      <Route
+        exact
+        path="/"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <NavMenu />
+            <Home />
+          </React.Fragment>
+        )}
+      />
+      <Route
+        exact
+        path="/dashboard"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <AuthenticatedTemplate>
+              <ProfileContent />
+            </AuthenticatedTemplate>
+          </React.Fragment>
+        )}
+      />
+      <Route
+        exact
+        path="/holidays"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <AuthenticatedTemplate>
+              <HolidaysIndex />
+            </AuthenticatedTemplate>
+          </React.Fragment>
+        )}
+      />
+      <Route
+        exact
+        path="/teams"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <AuthenticatedTemplate>
+              <TeamsIndex />
+            </AuthenticatedTemplate>
+          </React.Fragment>
+        )}
+      />
+      <Route
+        exact
+        path="/teams/:teamId/employees"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <AuthenticatedTemplate>
+              <EmployeesIndex />
+            </AuthenticatedTemplate>
+          </React.Fragment>
+        )}
+      />
+      <Route
+        exact
+        path="/teams/:teamId/employees/:employeeId/calendar"
+        render={(props) => (
+          <React.Fragment key={props.location.key} {...props}>
+            <AuthenticatedTemplate>
+              <CalendarIndex />
+            </AuthenticatedTemplate>
+          </React.Fragment>
+        )}
+      />
       <Route
         exact
         path="/planning"
