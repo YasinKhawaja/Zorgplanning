@@ -2,37 +2,9 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Controls from "../../components/controls/Controls";
-import { useForm } from "../../hooks/useForm";
-import TeamService from "../../services/TeamService";
-import { mapTeamsForSelectInput } from "./planning-utils";
 
-const initialValues = { teamId: 0 };
-
-function TeamForm() {
-  const [options, setOptions] = React.useState(null);
-
-  React.useEffect(() => {
-    fetchTeams();
-  }, []);
-
-  const fetchTeams = () => {
-    TeamService.getAll()
-      .then((response) => {
-        const teams = response.data.result;
-        const filteredResult = mapTeamsForSelectInput(teams);
-        setOptions(filteredResult);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const form = useForm(initialValues);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(form.values);
-  };
+function TeamForm(props) {
+  const { options, form } = props;
 
   return (
     <React.Fragment>
@@ -46,7 +18,6 @@ function TeamForm() {
               fullWidth
               label="Team"
               name="teamId"
-              none={0}
               onChange={form.handleInputChange}
               options={options}
               required

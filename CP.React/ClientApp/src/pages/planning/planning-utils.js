@@ -1,12 +1,12 @@
 import moment from "moment";
 
-function mapTeamsForSelectInput(teams) {
+export function mapTeamsForSelectInput(teams) {
   return teams.map((team) => {
     return { id: team.id, name: team.name };
   });
 }
 
-function getYearsForSelectInput(year) {
+export function getYearsForSelectInput(year) {
   const years = [];
   years.push({ id: year, name: String(year) });
   for (let i = 1; i <= 5; i++) {
@@ -19,7 +19,7 @@ function getYearsForSelectInput(year) {
   return years;
 }
 
-function getMonthsForSelectInput() {
+export function getMonthsForSelectInput() {
   const months = [];
   for (let i = 1; i <= 12; i++) {
     months.push({
@@ -32,8 +32,8 @@ function getMonthsForSelectInput() {
   return months;
 }
 
-export {
-  mapTeamsForSelectInput,
-  getYearsForSelectInput,
-  getMonthsForSelectInput,
-};
+export function areAllKeysPopulated(obj) {
+  return Object.keys(obj).every((key) => {
+    return obj[key] !== "";
+  });
+}

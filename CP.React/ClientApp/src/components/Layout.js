@@ -9,6 +9,7 @@ import TeamsIndex from "../pages/teams/TeamsIndex";
 import ProfileContent from "./authentication/msgraphapi/ProfileContent";
 import Home from "./Home";
 import NavMenu from "./NavMenu";
+import Header from "../components/presentations/Header";
 
 export default function Layout() {
   return (
@@ -42,11 +43,13 @@ export default function Layout() {
           <CalendarIndex />
         </AuthenticatedTemplate>
       </Route>
-      <Route exact path="/planning">
-        <AuthenticatedTemplate>
-          <PlanningIndex />
-        </AuthenticatedTemplate>
-      </Route>
+      <Route
+        exact
+        path="/planning"
+        render={(props) => (
+          <PlanningIndex key={props.location.key} {...props} />
+        )}
+      />
     </Switch>
   );
 }
