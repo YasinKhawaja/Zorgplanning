@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
+import ExportExcel from "./ExportExcel";
 import { areAllKeysPopulated } from "./planning-utils";
 import PlanningWizard from "./PlanningWizard";
 
@@ -26,232 +27,235 @@ function PlanningIndex() {
       <Header />
       <Main>
         {showTable ? (
-          <table className="tg">
-            <thead>
-              <tr>
-                <th className="tg-0lax">{planningValues.teamId}</th>
-                <th className="tg-0lax">{planningValues.year}</th>
-                <th className="tg-0lax">{planningValues.month}</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-                <th className="tg-0lax">a</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-              <tr>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-                <td className="tg-0lax">a</td>
-              </tr>
-            </tbody>
-          </table>
+          <>
+            <table className="tg">
+              <thead>
+                <tr>
+                  <th className="tg-0lax">{planningValues.teamId}</th>
+                  <th className="tg-0lax">{planningValues.year}</th>
+                  <th className="tg-0lax">{planningValues.month}</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                  <th className="tg-0lax">a</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+                <tr>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                  <td className="tg-0lax">a</td>
+                </tr>
+              </tbody>
+            </table>
+            <ExportExcel />
+          </>
         ) : (
           <PlanningWizard onChangePlanningValues={setPlanningValues} />
         )}
