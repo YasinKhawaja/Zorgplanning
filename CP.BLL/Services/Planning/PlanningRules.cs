@@ -1,5 +1,4 @@
 ﻿using CP.DAL.Models;
-using Microsoft.Extensions.Logging;
 
 namespace CP.BLL.Services.Planning
 {
@@ -9,11 +8,21 @@ namespace CP.BLL.Services.Planning
         const int MIN_REST_PER_WEEK = 35;
         const int MIN_REST_BETWEEN_TWO_SHIFTS = 11;
 
-        readonly ILogger<PlanningRules> _logger;
-
-        public PlanningRules(ILogger<PlanningRules> logger)
+        public static bool CheckGuaranteedOccupation(List<Schedule> schedules)
         {
-            _logger = logger;
+            bool guaranteedOccupation = false;
+
+            // for (int i = 0; i < schedules.Count - 1; i++)
+            // {
+            //     List<Schedule> shifts = schedules.Skip(i).Take(2).ToList();
+
+            //     if (shifts[0].Shift.Start.DayOfWeek == DayOfWeek.Saturday && shifts[1].Shift.Start.DayOfWeek == DayOfWeek.Sunday)
+            //     {
+            //         guaranteedOccupation = true;
+            //     }
+            // }
+
+            return guaranteedOccupation;
         }
 
         public static bool CheckMinimumRestInWeek(List<Schedule> schedules)
@@ -57,7 +66,26 @@ namespace CP.BLL.Services.Planning
             return hasEnoughRest;
         }
 
-        public static bool CheckIfEmployeeWorksTwoWeekendsInARow()
+        public static bool CheckIfEmployeeWorksTwoWeekendsInARow(List<Schedule> schedules)
+        {
+            bool worksTwoWeekendsInARow = false;
+
+            // for (int i = 0; i < schedules.Count - 1; i += 2)
+            // {
+            //     List<Schedule> shifts1 = schedules.Skip(i).Take(2).ToList(); // First weekend
+            //     List<Schedule> shifts2 = schedules.Skip(i += 2).Take(2).ToList(); // Second weekend
+
+            //     if (shifts1[0].Shift.Start.DayOfWeek == DayOfWeek.Saturday && shifts1[1].Shift.Start.DayOfWeek == DayOfWeek.Sunday &&
+            //         shifts2[0].Shift.Start.DayOfWeek == DayOfWeek.Sunday && shifts2[1].Shift.Start.DayOfWeek == DayOfWeek.Monday)
+            //     {
+            //         worksTwoWeekendsInARow = true;
+            //     }
+            // }
+
+            return worksTwoWeekendsInARow;
+        }
+
+        public static bool CheckDistributionOfLateShifts()
         {
             return false;
         }
