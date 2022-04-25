@@ -37,6 +37,17 @@ namespace CP.React.Controllers
         }
         #endregion
 
+        [HttpGet]
+        [Route("export/excel")]
+        public FileContentResult DownloadToExcelAsync(int teamId, int year, int month)
+        {
+            string fileName = $"{year}{FormatMonth(month)}-Planning-{teamId}.xlsx";
+            var workbook = _planningService.BuildExcelFile(teamId, year, month);
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return File(stream.ToArray(), "application/octet-stream", fileName);
+        }
+
         #region POST: api/<PlanningController>
         [HttpPost]
         public async Task<ApiResponse> PostAsync([FromBody] PlanningCreateDTO planningCreateDTO)
@@ -53,5 +64,10 @@ namespace CP.React.Controllers
             }
         }
         #endregion
+
+        private static string FormatMonth(int month)
+        {
+            return month < 10 ? $"0{month}" : month.ToString();
+        }
     }
 }

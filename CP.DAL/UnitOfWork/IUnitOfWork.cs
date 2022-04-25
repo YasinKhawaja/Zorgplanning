@@ -29,7 +29,7 @@ namespace CP.DAL.UnitOfWork
         IAbsenceRepository Absences { get; }
 
         /// <summary>
-        /// Manages entities of type <seealso cref="Date"/>.
+        /// Manages entities of type <seealso cref="CalendarDate"/>.
         /// </summary>
         IDateRepository Dates { get; }
 

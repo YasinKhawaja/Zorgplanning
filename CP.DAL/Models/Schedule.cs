@@ -6,7 +6,7 @@
         public Employee Employee { get; set; }
         public int ShiftId { get; set; }
         public Shift Shift { get; set; }
-        public DateTime DateId { get; set; }
-        public Date Date { get; set; }
+        public int DateId { get; set; }
+        public CalendarDate CalendarDate { get; set; }
     }
 }

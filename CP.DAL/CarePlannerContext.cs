@@ -13,7 +13,7 @@ namespace CP.DAL
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Regime> Regimes { get; set; }
         public DbSet<Absence> Absences { get; set; }
-        public DbSet<Date> Dates { get; set; }
+        public DbSet<CalendarDate> Dates { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
 
@@ -33,7 +33,7 @@ namespace CP.DAL
             new EmployeeConfig().Configure(modelBuilder.Entity<Employee>());
             new RegimeConfig().Configure(modelBuilder.Entity<Regime>());
             new AbsenceConfig().Configure(modelBuilder.Entity<Absence>());
-            new DateConfig().Configure(modelBuilder.Entity<Date>());
+            new DateConfig().Configure(modelBuilder.Entity<CalendarDate>());
             new ShiftConfig().Configure(modelBuilder.Entity<Shift>());
             new ScheduleConfig().Configure(modelBuilder.Entity<Schedule>());
             modelBuilder.Seed();

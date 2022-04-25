@@ -252,12 +252,13 @@ namespace CP.DAL
             #endregion
 
             #region Dates
-            List<Date> dates = new();
+            int dateId = 1;
+            List<CalendarDate> dates = new();
             for (DateTime date = new(2022, 1, 1); date <= new DateTime(2022, 12, 31); date = date.AddDays(1))
             {
-                dates.Add(new Date() { DateId = date });
+                dates.Add(new CalendarDate() { DateId = dateId, Date = date });
             }
-            builder.Entity<Date>().HasData(dates);
+            builder.Entity<CalendarDate>().HasData(dates);
             #endregion
         }
     }

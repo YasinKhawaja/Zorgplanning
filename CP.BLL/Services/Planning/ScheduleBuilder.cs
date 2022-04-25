@@ -25,7 +25,7 @@ namespace CP.BLL.Services.Planning
 
         public ScheduleBuilder OnDay(DateTime day)
         {
-            this._schedule.DateId = day;
+            this._schedule.CalendarDate.Date = day;
             return this;
         }
 

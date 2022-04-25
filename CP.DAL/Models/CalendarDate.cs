@@ -3,12 +3,14 @@
     /// <summary>
     /// Represents a date.
     /// </summary>
-    public class Date
+    public class CalendarDate
     {
         /// <summary>
         /// The primary key.
         /// </summary>
-        public DateTime DateId { get; set; }
+        public int DateId { get; set; }
+
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Indicates if the date is a holiday.

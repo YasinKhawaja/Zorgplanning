@@ -30,7 +30,7 @@ namespace CP.DAL.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(x => x.Date)
+                .HasOne(x => x.CalendarDate)
                 .WithMany(x => x.Schedules)
                 .HasForeignKey(x => x.DateId)
                 .OnDelete(DeleteBehavior.Restrict);

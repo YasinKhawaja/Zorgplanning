@@ -3,10 +3,10 @@
 namespace CP.DAL.Repositories
 {
     /// <summary>
-    /// Manages entities of type <seealso cref="Date"/>.
+    /// Manages entities of type <seealso cref="CalendarDate"/>.
     /// </summary>
-    public interface IDateRepository : IRepository<Date>
+    public interface IDateRepository : IRepository<CalendarDate>
     {
-        Task<IList<Date>> GetAllInMonthAsync(int year, int month);
+        Task<IList<CalendarDate>> GetAllInMonthAsync(int year, int month);
     }
 }

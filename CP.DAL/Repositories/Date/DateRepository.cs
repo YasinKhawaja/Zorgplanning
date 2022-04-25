@@ -6,7 +6,7 @@ namespace CP.DAL.Repositories
     /// <summary>
     /// Implements <seealso cref="IDateRepository"/>.
     /// </summary>
-    public class DateRepository : Repository<Date>, IDateRepository
+    public class DateRepository : Repository<CalendarDate>, IDateRepository
     {
         /// <summary>
         /// Initializes a new instance of the <seealso cref="DateRepository"/> class.
@@ -18,10 +18,10 @@ namespace CP.DAL.Repositories
 
         }
 
-        public async Task<IList<Date>> GetAllInMonthAsync(int year, int month)
+        public async Task<IList<CalendarDate>> GetAllInMonthAsync(int year, int month)
         {
             return await base.CarePlannerContext.Dates
-                .Where(x => x.DateId.Year.Equals(year) && x.DateId.Month.Equals(month))
+                .Where(x => x.Date.Year.Equals(year) && x.Date.Month.Equals(month))
                 .AsNoTracking()
                 .ToListAsync();
         }
