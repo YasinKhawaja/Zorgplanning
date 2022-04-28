@@ -17,7 +17,7 @@ export default function Layout() {
         exact
         path="/"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <NavMenu />
             <Home />
           </React.Fragment>
@@ -27,7 +27,7 @@ export default function Layout() {
         exact
         path="/dashboard"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <AuthenticatedTemplate>
               <ProfileContent />
             </AuthenticatedTemplate>
@@ -38,7 +38,7 @@ export default function Layout() {
         exact
         path="/holidays"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <AuthenticatedTemplate>
               <HolidaysIndex />
             </AuthenticatedTemplate>
@@ -49,7 +49,7 @@ export default function Layout() {
         exact
         path="/teams"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <AuthenticatedTemplate>
               <TeamsIndex />
             </AuthenticatedTemplate>
@@ -60,7 +60,7 @@ export default function Layout() {
         exact
         path="/teams/:teamId/employees"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <AuthenticatedTemplate>
               <EmployeesIndex />
             </AuthenticatedTemplate>
@@ -71,7 +71,7 @@ export default function Layout() {
         exact
         path="/teams/:teamId/employees/:employeeId/calendar"
         render={(props) => (
-          <React.Fragment key={props.location.key} {...props}>
+          <React.Fragment key={props.location.key}>
             <AuthenticatedTemplate>
               <CalendarIndex />
             </AuthenticatedTemplate>
@@ -81,9 +81,7 @@ export default function Layout() {
       <Route
         exact
         path="/planning"
-        render={(props) => (
-          <PlanningIndex key={props.location.key} {...props} />
-        )}
+        render={(props) => <PlanningIndex key={props.location.key} />}
       />
     </Switch>
   );

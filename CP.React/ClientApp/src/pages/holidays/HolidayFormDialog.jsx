@@ -4,29 +4,20 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
 import * as React from "react";
+import HolidayForm from "./HolidayForm";
 
-function HolidayFormDialog(props) {
+export default function HolidayFormDialog(props) {
   const { open, onClose } = props;
 
   return (
-    <Dialog open={open} onClose={() => onClose(false)}>
-      <DialogTitle>Subscribe</DialogTitle>
+    <Dialog open={open} onClose={() => onClose(false)} fullWidth maxWidth="sm">
+      <DialogTitle>Add Holiday</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
+          Set the selected day as a holiday.
         </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-        />
+        <HolidayForm />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose(false)}>Cancel</Button>
@@ -35,5 +26,3 @@ function HolidayFormDialog(props) {
     </Dialog>
   );
 }
-
-export default HolidayFormDialog;

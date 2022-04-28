@@ -9,9 +9,6 @@ function handleLogout(instance) {
   });
 }
 
-/**
- * Renders a button which, when selected, will open a popup for logout
- */
 export const SignOutButton = () => {
   const { instance } = useMsal();
 

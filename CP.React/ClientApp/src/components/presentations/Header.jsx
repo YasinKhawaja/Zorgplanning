@@ -1,7 +1,25 @@
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import CelebrationIcon from "@mui/icons-material/Celebration";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import GroupsIcon from "@mui/icons-material/Groups";
+import TableViewIcon from "@mui/icons-material/TableView";
+import { Button } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { SignOutButton } from "../authentication/SignOutButton";
+
+function NavLinkButton(props) {
+  return (
+    <Button
+      color="inherit"
+      component="div"
+      disableRipple
+      startIcon={props.startIcon}
+    >
+      {props.text}
+    </Button>
+  );
+}
 
 export default function Header() {
   return (
@@ -17,7 +35,7 @@ export default function Header() {
         <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
             <NavLink to="/dashboard" className="nav-link px-2 link-secondary">
-              Dashboard
+              <NavLinkButton text="Dashboard" startIcon={<DashboardIcon />} />
             </NavLink>
           </li>
           <li>
@@ -30,7 +48,7 @@ export default function Header() {
                 color: isActive ? "blue" : "",
               })}
             >
-              Holidays
+              <NavLinkButton text="Holidays" startIcon={<CelebrationIcon />} />
             </NavLink>
           </li>
           <li>
@@ -43,7 +61,7 @@ export default function Header() {
                 color: isActive ? "blue" : "",
               })}
             >
-              Teams
+              <NavLinkButton text="Teams" startIcon={<GroupsIcon />} />
             </NavLink>
           </li>
           <li>
@@ -56,7 +74,7 @@ export default function Header() {
                 color: isActive ? "blue" : "",
               })}
             >
-              Planning
+              <NavLinkButton text="Planning" startIcon={<TableViewIcon />} />
             </NavLink>
           </li>
         </ul>

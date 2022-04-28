@@ -29,7 +29,7 @@ namespace CP.DAL.Configurations
                 .IsRequired();
 
             builder
-                .HasOne(x => x.Date)
+                .HasOne(x => x.CalendarDate)
                 .WithMany(x => x.Absences)
                 .HasForeignKey(x => x.DateId)
                 .OnDelete(DeleteBehavior.Restrict)

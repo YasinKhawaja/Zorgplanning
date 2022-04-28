@@ -1,4 +1,4 @@
-function getRandomColor() {
+export function getRandomColor() {
   var letters = "0123456789ABCDEF";
   var color = "#";
   for (var i = 0; i < 6; i++) {
@@ -7,4 +7,16 @@ function getRandomColor() {
   return color;
 }
 
-export { getRandomColor };
+export function mapHolidaysToEvents(holidays) {
+  var id = 0;
+  return holidays.map((holiday) => {
+    id += 1;
+    return {
+      id: id,
+      title: holiday.name,
+      start: holiday.date,
+      allDay: true,
+      color: getRandomColor(),
+    };
+  });
+}

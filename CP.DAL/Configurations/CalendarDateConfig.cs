@@ -7,7 +7,7 @@ namespace CP.DAL.Configurations
     /// <summary>
     /// Configures the <seealso cref="CalendarDate"/> model.
     /// </summary>
-    public class DateConfig : IEntityTypeConfiguration<CalendarDate>
+    public class CalendarDateConfig : IEntityTypeConfiguration<CalendarDate>
     {
         /// <summary>
         /// Configures the <seealso cref="CalendarDate"/> model.
@@ -15,8 +15,13 @@ namespace CP.DAL.Configurations
         /// <param name="builder">The configuration builder.</param>
         public void Configure(EntityTypeBuilder<CalendarDate> builder)
         {
-            builder.Property(x => x.DateId).HasColumnType("date");
-            builder.Property(x => x.IsHoliday).HasDefaultValue(false);
+            builder.HasKey(x => x.DateId);
+
+            builder.Property(x => x.Date)
+                .HasColumnType("date");
+
+            builder.Property(x => x.HolidayName)
+                .HasMaxLength(25);
         }
     }
 }

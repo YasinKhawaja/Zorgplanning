@@ -35,9 +35,13 @@ namespace CP.React.Extensions
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IAbsenceRepository, AbsenceRepository>();
+            services.AddScoped<ICalendarDateRepository, CalendarDateRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IRegimeRepository, RegimeRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IShiftRepository, ShiftRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)
@@ -47,6 +51,7 @@ namespace CP.React.Extensions
 
         public static void AddServices(this IServiceCollection services)
         {
+            services.AddScoped<ICalendarDateService, CalendarDateService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IRegimeService, RegimeService>();

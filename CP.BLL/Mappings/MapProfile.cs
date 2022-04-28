@@ -32,6 +32,10 @@ namespace CP.BLL.Mappings
                 .ForMember(x => x.EmployeeId, x => x.MapFrom(x => x.EmployeeId))
                 .ForMember(x => x.DateId, x => x.MapFrom(x => x.Day))
                 .ForMember(x => x.Type, x => x.MapFrom<AbsenceTypeStringToEnumResolver>());
+
+            base.CreateMap<CalendarDate, HolidayDTO>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.Date))
+                .ForMember(x => x.Name, x => x.MapFrom(x => x.HolidayName));
         }
     }
 }

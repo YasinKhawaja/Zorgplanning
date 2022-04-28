@@ -22,6 +22,7 @@ namespace CP.DAL.Repositories
         {
             return await base.CarePlannerContext.Employees
                 .Where(x => x.TeamId.Equals(teamKey) && x.IsActive.Value)
+                .Include($"{nameof(Employee.Regime)}.{nameof(Regime.Shifts)}")
                 .OrderBy(x => x.FirstName)
                 .AsNoTracking()
                 .ToListAsync();

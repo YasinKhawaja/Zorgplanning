@@ -156,7 +156,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 1,
-                    Name = "Vroege",
+                    Name = "Vroeg",
                     Start = new TimeSpan(7, 0, 0),
                     End = new TimeSpan(15, 0, 0),
                     RegimeId = 1
@@ -164,7 +164,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 2,
-                    Name = "Vroege",
+                    Name = "Vroeg",
                     Start = new TimeSpan(7, 0, 0),
                     End = new TimeSpan(13, 30, 0),
                     RegimeId = 2
@@ -172,7 +172,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 3,
-                    Name = "Vroege",
+                    Name = "Vroeg",
                     Start = new TimeSpan(7, 0, 0),
                     End = new TimeSpan(13, 30, 0),
                     RegimeId = 3
@@ -180,7 +180,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 4,
-                    Name = "Vroege",
+                    Name = "Vroeg",
                     Start = new TimeSpan(7, 0, 0),
                     End = new TimeSpan(11, 0, 0),
                     RegimeId = 4
@@ -188,7 +188,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 5,
-                    Name = "Late",
+                    Name = "Laat",
                     Start = new TimeSpan(12, 30, 0),
                     End = new TimeSpan(20, 30, 0),
                     RegimeId = 1
@@ -196,7 +196,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 6,
-                    Name = "Late",
+                    Name = "Laat",
                     Start = new TimeSpan(14, 0, 0),
                     End = new TimeSpan(20, 30, 0),
                     RegimeId = 2
@@ -204,7 +204,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 7,
-                    Name = "Late",
+                    Name = "Laat",
                     Start = new TimeSpan(14, 0, 0),
                     End = new TimeSpan(20, 30, 0),
                     RegimeId = 3
@@ -212,7 +212,7 @@ namespace CP.DAL
                 new Shift
                 {
                     Id = 8,
-                    Name = "Late",
+                    Name = "Laat",
                     Start = new TimeSpan(16, 0, 0),
                     End = new TimeSpan(20, 0, 0),
                     RegimeId = 4
@@ -248,15 +248,48 @@ namespace CP.DAL
                     Start = new TimeSpan(20, 15, 0),
                     End = new TimeSpan(07, 15, 0),
                     RegimeId = 4
+                },
+                new Shift
+                {
+                    Id = 13,
+                    Name = "Geen",
+                    Start = new TimeSpan(0, 0, 0),
+                    End = new TimeSpan(0, 0, 0),
+                    RegimeId = 1
+                },
+                new Shift
+                {
+                    Id = 14,
+                    Name = "Geen",
+                    Start = new TimeSpan(0, 0, 0),
+                    End = new TimeSpan(0, 0, 0),
+                    RegimeId = 2
+                },
+                new Shift
+                {
+                    Id = 15,
+                    Name = "Geen",
+                    Start = new TimeSpan(0, 0, 0),
+                    End = new TimeSpan(0, 0, 0),
+                    RegimeId = 3
+                },
+                new Shift
+                {
+                    Id = 16,
+                    Name = "Geen",
+                    Start = new TimeSpan(0, 0, 0),
+                    End = new TimeSpan(0, 0, 0),
+                    RegimeId = 4
                 });
             #endregion
 
-            #region Dates
+            #region CalendarDates
             int dateId = 1;
             List<CalendarDate> dates = new();
             for (DateTime date = new(2022, 1, 1); date <= new DateTime(2022, 12, 31); date = date.AddDays(1))
             {
                 dates.Add(new CalendarDate() { DateId = dateId, Date = date });
+                dateId++;
             }
             builder.Entity<CalendarDate>().HasData(dates);
             #endregion

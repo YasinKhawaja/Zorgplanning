@@ -107,9 +107,7 @@ export default function Calendar(props) {
         fetchEvents();
       })
       .catch((error) => {
-        setApiErrors(
-          error.response.data.responseException.exceptionMessage.errors
-        );
+        setApiErrors(error.response.data.errors);
       });
   };
 

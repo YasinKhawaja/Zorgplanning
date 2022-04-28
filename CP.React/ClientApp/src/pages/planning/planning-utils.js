@@ -1,3 +1,5 @@
+import axios from "axios";
+import { saveAs } from "file-saver";
 import moment from "moment";
 
 export function mapTeamsForSelectInput(teams) {
@@ -36,4 +38,8 @@ export function areAllKeysPopulated(obj) {
   return Object.keys(obj).every((key) => {
     return obj[key] !== "";
   });
+}
+
+export function getCountDaysInMonth(year, month) {
+  return moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
 }

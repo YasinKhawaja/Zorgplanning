@@ -31,7 +31,7 @@ namespace CP.DAL.UnitOfWork
         /// <summary>
         /// Manages entities of type <seealso cref="CalendarDate"/>.
         /// </summary>
-        IDateRepository Dates { get; }
+        ICalendarDateRepository CalendarDates { get; }
 
         /// <summary>
         /// Manages entities of type <seealso cref="Shift"/>.

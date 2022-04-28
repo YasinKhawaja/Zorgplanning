@@ -62,9 +62,7 @@ export default function Teams(props) {
           setNotify(successNotification("Added Succesfully"));
         })
         .catch((error) => {
-          setApiErrors(
-            error.response.data.responseException.exceptionMessage.errors
-          );
+          setApiErrors(error.response.data.errors);
         });
     } else {
       TeamService.update(team.id, data)
@@ -75,9 +73,7 @@ export default function Teams(props) {
           setNotify(successNotification("Edited Succesfully"));
         })
         .catch((error) => {
-          setApiErrors(
-            error.response.data.responseException.exceptionMessage.errors
-          );
+          setApiErrors(error.response.data.errors);
         });
     }
   };

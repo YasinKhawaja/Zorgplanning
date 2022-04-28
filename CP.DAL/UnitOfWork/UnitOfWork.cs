@@ -13,7 +13,7 @@ namespace CP.DAL.UnitOfWork
         public IEmployeeRepository Employees { get; private set; }
         public IRegimeRepository Regimes { get; private set; }
         public IAbsenceRepository Absences { get; private set; }
-        public IDateRepository Dates { get; private set; }
+        public ICalendarDateRepository CalendarDates { get; private set; }
         public IShiftRepository Shifts { get; private set; }
         public IScheduleRepository Schedules { get; private set; }
 
@@ -28,7 +28,7 @@ namespace CP.DAL.UnitOfWork
             Employees = new EmployeeRepository(context);
             Regimes = new RegimeRepository(context);
             Absences = new AbsenceRepository(context);
-            Dates = new DateRepository(context);
+            CalendarDates = new CalendarDateRepository(context);
             Shifts = new ShiftRepository(context);
             Schedules = new ScheduleRepository(context);
         }

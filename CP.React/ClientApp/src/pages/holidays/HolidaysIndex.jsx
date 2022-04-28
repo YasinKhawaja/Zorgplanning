@@ -3,7 +3,7 @@ import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import HolidaysCalendar from "./HolidaysCalendar";
 
-function HolidaysIndex() {
+export default function HolidaysIndex() {
   return (
     <>
       <Header />
@@ -13,5 +13,3 @@ function HolidaysIndex() {
     </>
   );
 }
-
-export default HolidaysIndex;

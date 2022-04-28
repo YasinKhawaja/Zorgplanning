@@ -17,7 +17,7 @@ const initialValues = {
   hasChildren: false,
 };
 
-function TeamForm(props) {
+export default function HolidayForm(props) {
   React.useEffect(() => {
     if (props.teamToEdit != null) {
       setValues({ ...props.teamToEdit });
@@ -50,7 +50,7 @@ function TeamForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid sx={{ marginBottom: "16px" }} item xs={12}>
+        <Grid sx={{ marginTop: "16px", marginBottom: "16px" }} item xs={12}>
           {/* NAME */}
           <Controls.Input
             error={getErrors("Name")}
@@ -68,5 +68,3 @@ function TeamForm(props) {
     </Form>
   );
 }
-
-export default TeamForm;

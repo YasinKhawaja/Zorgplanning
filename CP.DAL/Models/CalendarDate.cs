@@ -15,7 +15,7 @@
         /// <summary>
         /// Indicates if the date is a holiday.
         /// </summary>
-        public bool IsHoliday { get; set; }
+        public string HolidayName { get; set; }
 
         /// <summary>
         /// The collection navigation property of <seealso cref="Absence"/>.
