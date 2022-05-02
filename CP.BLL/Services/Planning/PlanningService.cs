@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ClosedXML.Excel;
 using CP.BLL.DTOs;
 using CP.DAL.Models;
 using CP.DAL.UnitOfWork;
@@ -25,16 +24,24 @@ namespace CP.BLL.Services.Planning
             _dates = new List<CalendarDate>();
         }
 
-        public async Task<PlanningDTO> GetMonthlyPlanningAsync(int teamID, int year, int month)
+        public async Task<PlanningGetDto> GetMonthlyPlanningAsync(int teamId, int year, int month)
         {
-            PlanningDTO planningDTO = new();
-            planningDTO.TeamId = teamID;
-            planningDTO.Year = year;
-            planningDTO.Month = month;
-            return planningDTO;
+            Team planning = await _unitOfWork.Teams.GetPlanningForTeamForMonthAsync(teamId, year, month);
+
+            List<CalendarDate> dates = await _unitOfWork.CalendarDates.GetAllHolidaysInMonthAsync(year, month);
+
+            PlanningGetDto planningGetDto = new()
+            {
+                Year = year,
+                Month = month,
+                Team = _mapper.Map<PlanningTeamGetDto>(planning),
+                Holidays = dates.Select(x => x.Date)
+            };
+
+            return planningGetDto;
         }
 
-        public async Task<object> GenerateMonthlyPlanning(PlanningCreateDTO dto)
+        public async Task<object> GenerateMonthlyPlanning(PlanningPostDto dto)
         {
             await SetupAsync(dto);
 
@@ -68,7 +75,7 @@ namespace CP.BLL.Services.Planning
             return date.HolidayName is not null;
         }
 
-        private async Task SetupAsync(PlanningCreateDTO dto)
+        private async Task SetupAsync(PlanningPostDto dto)
         {
             this._nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
             this._dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);

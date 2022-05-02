@@ -9,5 +9,6 @@ namespace CP.DAL.Repositories
     {
         Task<List<CalendarDate>> GetAllInMonthAsync(int year, int month);
         Task<List<CalendarDate>> GetAllHolidaysAsync();
+        Task<List<CalendarDate>> GetAllHolidaysInMonthAsync(int year, int month);
     }
 }

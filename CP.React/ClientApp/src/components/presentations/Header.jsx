@@ -45,7 +45,7 @@ export default function Header() {
                 "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
               }
               style={(isActive) => ({
-                color: isActive ? "blue" : "",
+                color: isActive ? "#0288D1" : "",
               })}
             >
               <NavLinkButton text="Holidays" startIcon={<CelebrationIcon />} />
@@ -58,7 +58,7 @@ export default function Header() {
                 "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
               }
               style={(isActive) => ({
-                color: isActive ? "blue" : "",
+                color: isActive ? "#0288D1" : "",
               })}
             >
               <NavLinkButton text="Teams" startIcon={<GroupsIcon />} />
@@ -71,7 +71,7 @@ export default function Header() {
                 "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
               }
               style={(isActive) => ({
-                color: isActive ? "blue" : "",
+                color: isActive ? "#0288D1" : "",
               })}
             >
               <NavLinkButton text="Planning" startIcon={<TableViewIcon />} />

@@ -23,14 +23,18 @@ export function getYearsForSelectInput(year) {
 
 export function getMonthsForSelectInput() {
   const months = [];
-  for (let i = 1; i <= 12; i++) {
-    months.push({
-      id: i,
-      name: moment()
-        .month(i - 1)
-        .format("MMMM"),
-    });
-  }
+  months.push({ id: 1, name: "Januari" });
+  months.push({ id: 2, name: "Februari" });
+  months.push({ id: 3, name: "Maart" });
+  months.push({ id: 4, name: "April" });
+  months.push({ id: 5, name: "Mei" });
+  months.push({ id: 6, name: "Juni" });
+  months.push({ id: 7, name: "Juli" });
+  months.push({ id: 8, name: "Augustus" });
+  months.push({ id: 9, name: "September" });
+  months.push({ id: 10, name: "Oktober" });
+  months.push({ id: 11, name: "November" });
+  months.push({ id: 12, name: "December" });
   return months;
 }
 
@@ -42,4 +46,13 @@ export function areAllKeysPopulated(obj) {
 
 export function getCountDaysInMonth(year, month) {
   return moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
+}
+
+export function getOptionById(options, id) {
+  return options.find((option) => option.id === id);
+}
+
+export function isDayNumberAWeekendDay(year, month, day) {
+  const date = new Date(year, month, day);
+  return date.getDay() === 0 || date.getDay() === 6;
 }

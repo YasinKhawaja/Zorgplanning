@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -11,256 +12,94 @@ import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import ExportExcel from "./ExportExcel";
-import { areAllKeysPopulated, getCountDaysInMonth } from "./planning-utils";
 import PlanningWizard from "./PlanningWizard";
 
-const dayNums = [];
-
-function PlanningIndex() {
+export default function PlanningIndex() {
   const [isMounted, setIsMounted] = React.useState(false);
-  const [planningValues, setPlanningValues] = React.useState({});
   const [showTable, setShowTable] = React.useState(false);
+  const [planning, setPlanning] = React.useState(null);
 
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  React.useEffect(() => {
-    if (isMounted) {
-      if (areAllKeysPopulated(planningValues)) {
-        for (
-          let i = 1;
-          i <= getCountDaysInMonth(planningValues.year, planningValues.month);
-          i++
-        ) {
-          dayNums.push(i);
-        }
-        setShowTable(true);
-      }
-    }
-  }, [planningValues]);
+  const handleGeneratePlanning = (values) => {
+    fetch("https://localhost:44428/api/planning", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        fetch(
+          `https://localhost:44428/api/planning?teamId=${values.teamId}&year=${values.year}&month=${values.month}`,
+          { method: "GET" }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const planning = data.result;
+            setPlanning(planning);
+            setShowTable(true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <React.Fragment>
       <Header />
       <Main>
-        {showTable ? (
+        {showTable && planning ? (
           <>
+            <Box sx={{ marginBottom: "24px" }}>
+              <ExportExcel planning={planning} />
+            </Box>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">Nurse</TableCell>
-                    <TableCell align="right">Regime</TableCell>
-                    {dayNums.map((day) => (
-                      <TableCell align="right">{day}</TableCell>
+                    <TableCell align="left">Nurse</TableCell>
+                    <TableCell align="center">Regime</TableCell>
+                    {planning.employees[0].schedules.map((s, i) => (
+                      <TableCell key={i} align="center">
+                        {i + 1}
+                      </TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((x) => (
+                  {planning.employees.map((emp) => (
                     <TableRow
-                      key={x.employee.name}
+                      key={emp.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {x.employee.name}
+                        {emp.firstName}&nbsp;
+                        {emp.lastName}
                       </TableCell>
-                      <TableCell align="right">{x.employee.regime}</TableCell>
-                      {x.schedules.map((s) => (
-                        <TableCell align="right">{`${s.start} - ${s.end}`}</TableCell>
+                      <TableCell align="center">{emp.regime.hours}</TableCell>
+                      {emp.schedules.map((s) => (
+                        <TableCell align="center">{`${s.shift.start.substring(
+                          0,
+                          5
+                        )}-${s.shift.end.substring(0, 5)}`}</TableCell>
                       ))}
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            <ExportExcel data={data} />
           </>
         ) : (
-          <PlanningWizard onChangePlanningValues={setPlanningValues} />
+          <PlanningWizard onGeneratePlanning={handleGeneratePlanning} />
         )}
       </Main>
     </React.Fragment>
   );
 }
-
-const data = [
-  {
-    employee: { name: "Yasin1", regime: "38" },
-    schedules: [
-      { date: "1", start: "08:00", end: "12:00" },
-      { date: "2", start: "08:00", end: "12:00" },
-      { date: "3", start: "08:00", end: "12:00" },
-      { date: "4", start: "08:00", end: "12:00" },
-      { date: "5", start: "08:00", end: "12:00" },
-      { date: "6", start: "08:00", end: "12:00" },
-      { date: "7", start: "08:00", end: "12:00" },
-      { date: "8", start: "08:00", end: "12:00" },
-      { date: "9", start: "08:00", end: "12:00" },
-      { date: "10", start: "08:00", end: "12:00" },
-      { date: "11", start: "08:00", end: "12:00" },
-      { date: "12", start: "08:00", end: "12:00" },
-      { date: "13", start: "08:00", end: "12:00" },
-      { date: "14", start: "08:00", end: "12:00" },
-      { date: "15", start: "08:00", end: "12:00" },
-      { date: "16", start: "08:00", end: "12:00" },
-      { date: "17", start: "08:00", end: "12:00" },
-      { date: "18", start: "08:00", end: "12:00" },
-      { date: "19", start: "08:00", end: "12:00" },
-      { date: "20", start: "08:00", end: "12:00" },
-      { date: "21", start: "08:00", end: "12:00" },
-      { date: "22", start: "08:00", end: "12:00" },
-      { date: "23", start: "08:00", end: "12:00" },
-      { date: "24", start: "08:00", end: "12:00" },
-      { date: "25", start: "08:00", end: "12:00" },
-      { date: "26", start: "08:00", end: "12:00" },
-      { date: "27", start: "08:00", end: "12:00" },
-      { date: "28", start: "08:00", end: "12:00" },
-      { date: "29", start: "08:00", end: "12:00" },
-      { date: "30", start: "08:00", end: "12:00" },
-    ],
-  },
-  {
-    employee: { name: "Yasin2", regime: "38" },
-    schedules: [
-      { date: "1", start: "08:00", end: "12:00" },
-      { date: "2", start: "08:00", end: "12:00" },
-      { date: "3", start: "08:00", end: "12:00" },
-      { date: "4", start: "08:00", end: "12:00" },
-      { date: "5", start: "08:00", end: "12:00" },
-      { date: "6", start: "08:00", end: "12:00" },
-      { date: "7", start: "08:00", end: "12:00" },
-      { date: "8", start: "08:00", end: "12:00" },
-      { date: "9", start: "08:00", end: "12:00" },
-      { date: "10", start: "08:00", end: "12:00" },
-      { date: "11", start: "08:00", end: "12:00" },
-      { date: "12", start: "08:00", end: "12:00" },
-      { date: "13", start: "08:00", end: "12:00" },
-      { date: "14", start: "08:00", end: "12:00" },
-      { date: "15", start: "08:00", end: "12:00" },
-      { date: "16", start: "08:00", end: "12:00" },
-      { date: "17", start: "08:00", end: "12:00" },
-      { date: "18", start: "08:00", end: "12:00" },
-      { date: "19", start: "08:00", end: "12:00" },
-      { date: "20", start: "08:00", end: "12:00" },
-      { date: "21", start: "08:00", end: "12:00" },
-      { date: "22", start: "08:00", end: "12:00" },
-      { date: "23", start: "08:00", end: "12:00" },
-      { date: "24", start: "08:00", end: "12:00" },
-      { date: "25", start: "08:00", end: "12:00" },
-      { date: "26", start: "08:00", end: "12:00" },
-      { date: "27", start: "08:00", end: "12:00" },
-      { date: "28", start: "08:00", end: "12:00" },
-      { date: "29", start: "08:00", end: "12:00" },
-      { date: "30", start: "08:00", end: "12:00" },
-    ],
-  },
-  {
-    employee: { name: "Yasin3", regime: "38" },
-    schedules: [
-      { date: "1", start: "08:00", end: "12:00" },
-      { date: "2", start: "08:00", end: "12:00" },
-      { date: "3", start: "08:00", end: "12:00" },
-      { date: "4", start: "08:00", end: "12:00" },
-      { date: "5", start: "08:00", end: "12:00" },
-      { date: "6", start: "08:00", end: "12:00" },
-      { date: "7", start: "08:00", end: "12:00" },
-      { date: "8", start: "08:00", end: "12:00" },
-      { date: "9", start: "08:00", end: "12:00" },
-      { date: "10", start: "08:00", end: "12:00" },
-      { date: "11", start: "08:00", end: "12:00" },
-      { date: "12", start: "08:00", end: "12:00" },
-      { date: "13", start: "08:00", end: "12:00" },
-      { date: "14", start: "08:00", end: "12:00" },
-      { date: "15", start: "08:00", end: "12:00" },
-      { date: "16", start: "08:00", end: "12:00" },
-      { date: "17", start: "08:00", end: "12:00" },
-      { date: "18", start: "08:00", end: "12:00" },
-      { date: "19", start: "08:00", end: "12:00" },
-      { date: "20", start: "08:00", end: "12:00" },
-      { date: "21", start: "08:00", end: "12:00" },
-      { date: "22", start: "08:00", end: "12:00" },
-      { date: "23", start: "08:00", end: "12:00" },
-      { date: "24", start: "08:00", end: "12:00" },
-      { date: "25", start: "08:00", end: "12:00" },
-      { date: "26", start: "08:00", end: "12:00" },
-      { date: "27", start: "08:00", end: "12:00" },
-      { date: "28", start: "08:00", end: "12:00" },
-      { date: "29", start: "08:00", end: "12:00" },
-      { date: "30", start: "08:00", end: "12:00" },
-    ],
-  },
-  {
-    employee: { name: "Yasin4", regime: "38" },
-    schedules: [
-      { date: "1", start: "08:00", end: "12:00" },
-      { date: "2", start: "08:00", end: "12:00" },
-      { date: "3", start: "08:00", end: "12:00" },
-      { date: "4", start: "08:00", end: "12:00" },
-      { date: "5", start: "08:00", end: "12:00" },
-      { date: "6", start: "08:00", end: "12:00" },
-      { date: "7", start: "08:00", end: "12:00" },
-      { date: "8", start: "08:00", end: "12:00" },
-      { date: "9", start: "08:00", end: "12:00" },
-      { date: "10", start: "08:00", end: "12:00" },
-      { date: "11", start: "08:00", end: "12:00" },
-      { date: "12", start: "08:00", end: "12:00" },
-      { date: "13", start: "08:00", end: "12:00" },
-      { date: "14", start: "08:00", end: "12:00" },
-      { date: "15", start: "08:00", end: "12:00" },
-      { date: "16", start: "08:00", end: "12:00" },
-      { date: "17", start: "08:00", end: "12:00" },
-      { date: "18", start: "08:00", end: "12:00" },
-      { date: "19", start: "08:00", end: "12:00" },
-      { date: "20", start: "08:00", end: "12:00" },
-      { date: "21", start: "08:00", end: "12:00" },
-      { date: "22", start: "08:00", end: "12:00" },
-      { date: "23", start: "08:00", end: "12:00" },
-      { date: "24", start: "08:00", end: "12:00" },
-      { date: "25", start: "08:00", end: "12:00" },
-      { date: "26", start: "08:00", end: "12:00" },
-      { date: "27", start: "08:00", end: "12:00" },
-      { date: "28", start: "08:00", end: "12:00" },
-      { date: "29", start: "08:00", end: "12:00" },
-      { date: "30", start: "08:00", end: "12:00" },
-    ],
-  },
-  {
-    employee: { name: "Yasin5", regime: "38" },
-    schedules: [
-      { date: "1", start: "08:00", end: "12:00" },
-      { date: "2", start: "08:00", end: "12:00" },
-      { date: "3", start: "08:00", end: "12:00" },
-      { date: "4", start: "08:00", end: "12:00" },
-      { date: "5", start: "08:00", end: "12:00" },
-      { date: "6", start: "08:00", end: "12:00" },
-      { date: "7", start: "08:00", end: "12:00" },
-      { date: "8", start: "08:00", end: "12:00" },
-      { date: "9", start: "08:00", end: "12:00" },
-      { date: "10", start: "08:00", end: "12:00" },
-      { date: "11", start: "08:00", end: "12:00" },
-      { date: "12", start: "08:00", end: "12:00" },
-      { date: "13", start: "08:00", end: "12:00" },
-      { date: "14", start: "08:00", end: "12:00" },
-      { date: "15", start: "08:00", end: "12:00" },
-      { date: "16", start: "08:00", end: "12:00" },
-      { date: "17", start: "08:00", end: "12:00" },
-      { date: "18", start: "08:00", end: "12:00" },
-      { date: "19", start: "08:00", end: "12:00" },
-      { date: "20", start: "08:00", end: "12:00" },
-      { date: "21", start: "08:00", end: "12:00" },
-      { date: "22", start: "08:00", end: "12:00" },
-      { date: "23", start: "08:00", end: "12:00" },
-      { date: "24", start: "08:00", end: "12:00" },
-      { date: "25", start: "08:00", end: "12:00" },
-      { date: "26", start: "08:00", end: "12:00" },
-      { date: "27", start: "08:00", end: "12:00" },
-      { date: "28", start: "08:00", end: "12:00" },
-      { date: "29", start: "08:00", end: "12:00" },
-      { date: "30", start: "08:00", end: "12:00" },
-    ],
-  },
-];
-
-export default PlanningIndex;

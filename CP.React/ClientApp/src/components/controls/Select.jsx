@@ -29,7 +29,7 @@ function Select(props) {
     >
       <InputLabel>{label}</InputLabel>
       <MuiSelect label={label} name={name} onChange={onChange} value={value}>
-        <MenuItem value="">None</MenuItem>
+        <MenuItem value="">Geen</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.id} value={option.id}>
             {option.name}

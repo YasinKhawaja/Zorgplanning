@@ -7,6 +7,6 @@ namespace CP.DAL.Repositories
     /// </summary>
     public interface ITeamRepository : IRepository<Team>
     {
-
+        Task<Team> GetPlanningForTeamForMonthAsync(int teamId, int year, int month);
     }
 }

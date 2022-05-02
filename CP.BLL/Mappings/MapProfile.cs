@@ -36,6 +36,19 @@ namespace CP.BLL.Mappings
             base.CreateMap<CalendarDate, HolidayDTO>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => x.Date))
                 .ForMember(x => x.Name, x => x.MapFrom(x => x.HolidayName));
+
+            // PLANNING
+            base.CreateMap<Team, PlanningTeamGetDto>();
+            base.CreateMap<Employee, PlanningEmployeeGetDto>();
+            base.CreateMap<Regime, PlanningRegimeGetDto>();
+            base.CreateMap<Shift, PlanningShiftGetDto>();
+
+            base.CreateMap<Absence, PlanningAbsenceGetDto>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CalendarDate.Date))
+                .ForMember(x => x.Type, x => x.MapFrom(x => x.Type.ToString()));
+
+            base.CreateMap<Schedule, PlanningScheduleGetDto>()
+                .ForMember(x => x.Date, x => x.MapFrom(x => x.CalendarDate.Date));
         }
     }
 }

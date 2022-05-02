@@ -7,11 +7,14 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import TeamService from "../../services/TeamService";
 import MonthForm from "./MonthForm";
 import {
+  areAllKeysPopulated,
   getMonthsForSelectInput,
+  getOptionById,
   getYearsForSelectInput,
   mapTeamsForSelectInput,
 } from "./planning-utils";
@@ -22,9 +25,7 @@ const initialValues = { teamId: "", year: "", month: "" };
 
 const steps = ["Team", "Jaar", "Maand"];
 
-function PlanningWizard(props) {
-  const { onChangePlanningValues } = props;
-
+export default function PlanningWizard(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [teamOptions, setTeamOptions] = React.useState([]);
   const [yearOptions, setYearOptions] = React.useState([]);
@@ -68,10 +69,6 @@ function PlanningWizard(props) {
     }
   };
 
-  const getOptionById = (options, id) => {
-    return options.find((option) => option.id === id);
-  };
-
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -82,9 +79,15 @@ function PlanningWizard(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const changedPlanningValues = { ...form.values };
-    onChangePlanningValues(changedPlanningValues);
+    form.handleInputChange(event);
     handleNext();
+  };
+
+  const handleGenerate = (event) => {
+    event.preventDefault();
+    if (areAllKeysPopulated(form.values)) {
+      props.onGeneratePlanning(form.values);
+    }
   };
 
   return (
@@ -104,15 +107,34 @@ function PlanningWizard(props) {
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
-                Thank you for your inputs.
+                Bedankt voor je input.
               </Typography>
               <Typography variant="subtitle1">
-                A monthly planning for{" "}
-                <b>{getOptionById(teamOptions, form.values.teamId).name}</b> for{" "}
-                <b>{getOptionById(monthOptions, form.values.month).name}</b>{" "}
-                <b>{getOptionById(yearOptions, form.values.year).name}</b> will
-                be generated shortly.
+                Er wordt een maandplanning voor{" "}
+                <b>{getOptionById(teamOptions, form.values.teamId).name}</b>{" "}
+                gegenereerd voor{" "}
+                <b>
+                  {getOptionById(
+                    monthOptions,
+                    form.values.month
+                  ).name.toLowerCase()}
+                </b>{" "}
+                <b>{getOptionById(yearOptions, form.values.year).name}</b>.
               </Typography>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Link to="/planning">
+                  <Button component="div" sx={{ mt: 3, ml: 1 }}>
+                    Opnieuw
+                  </Button>
+                </Link>
+                <Button
+                  onClick={handleGenerate}
+                  sx={{ mt: 3, ml: 1 }}
+                  variant="contained"
+                >
+                  Genereer
+                </Button>
+              </Box>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -121,7 +143,7 @@ function PlanningWizard(props) {
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      Back
+                      Terug
                     </Button>
                   )}
                   <Button
@@ -129,7 +151,7 @@ function PlanningWizard(props) {
                     type="submit"
                     variant="contained"
                   >
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    {activeStep === steps.length - 1 ? "Voltooi" : "Volgende"}
                   </Button>
                 </Box>
               </form>
@@ -140,5 +162,3 @@ function PlanningWizard(props) {
     </Container>
   );
 }
-
-export default PlanningWizard;

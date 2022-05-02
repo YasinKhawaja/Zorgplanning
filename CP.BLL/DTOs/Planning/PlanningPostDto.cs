@@ -1,6 +1,6 @@
 ﻿namespace CP.BLL.DTOs
 {
-    public class PlanningCreateDTO
+    public class PlanningPostDto
     {
         public int TeamId { get; set; }
         public int Year { get; set; }

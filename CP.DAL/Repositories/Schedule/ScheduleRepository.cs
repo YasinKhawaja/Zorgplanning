@@ -1,6 +1,4 @@
 ﻿using CP.DAL.Models;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace CP.DAL.Repositories
 {

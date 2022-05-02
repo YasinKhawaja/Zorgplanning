@@ -1,36 +1,52 @@
+import { Button } from "@mui/material";
 import React from "react";
 import ReactExport from "react-export-excel";
-import { downloadFile } from "./export";
+import { getCountDaysInMonth } from "./planning-utils";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-export default function ExportExcel(props) {
-  const { data } = props;
+const nums = [];
 
-  const handleClick = async () => {
-    const a = await downloadFile(
-      "https://localhost:7224/api/planning/export/excel?teamId=1&year=1&month=1",
-      { method: "GET", headers: { "Content-Type": "application/json" } }
+export default function ExportExcel(props) {
+  React.useEffect(() => {
+    const daysCount = getCountDaysInMonth(
+      props.planning.year,
+      props.planning.month
     );
-    console.log(a);
-  };
+    for (let i = 1; i <= daysCount; i++) {
+      nums.push(i);
+    }
+  }, []);
 
   return (
-    <button onClick={handleClick}>Download Table</button>
-    // <ExcelFile element={<button>Download Table</button>}>
-    //   <ExcelSheet data={data} name="Planning">
-    //     <ExcelColumn label="Nurse" value={(col) => col.employee.name} />
-    //     <ExcelColumn label="Regime" value={(col) => col.employee.regime} />
-    //     {Array.from(data[0].schedules).map((s) => (
-    //       <ExcelColumn
-    //         key={s.date}
-    //         label={s.date}
-    //         value={() => `${s.start} - ${s.end}`}
-    //       />
-    //     ))}
-    //   </ExcelSheet>
-    // </ExcelFile>
+    props.planning && (
+      <ExcelFile
+        element={
+          <Button color="success" size="large" variant="contained">
+            Export to Excel
+          </Button>
+        }
+      >
+        <ExcelSheet data={props.planning.employees} name="Planning">
+          <ExcelColumn
+            label="Nurse"
+            value={(col) => `${col.firstName} ${col.lastName}`}
+          />
+          <ExcelColumn label="Regime" value={(col) => col.regime.hours} />
+          {nums &&
+            nums.map((day, i) => (
+              <ExcelColumn
+                key={day}
+                label={day}
+                value={(col) =>
+                  `${col.schedules[i].shift.start} - ${col.schedules[i].shift.end}`
+                }
+              />
+            ))}
+        </ExcelSheet>
+      </ExcelFile>
+    )
   );
 }

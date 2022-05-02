@@ -10,8 +10,9 @@ namespace CP.DAL.Repositories
         /// <summary>
         /// Gets all active employees in a team.
         /// </summary>
-        /// <param name="teamKey">The team key to get the employees from.</param>
+        /// <param name="teamId">The team key to get the employees from.</param>
         /// <returns></returns>
-        Task<IList<Employee>> GetAllInTeamAsync(int teamKey);
+        Task<IList<Employee>> GetAllInTeamAsync(int teamId);
+        Task<List<Employee>> GetAllInTeamWithSchedulesOfMonthAsync(int teamId, int year, int month);
     }
 }

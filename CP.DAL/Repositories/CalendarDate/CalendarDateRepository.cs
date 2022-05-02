@@ -18,6 +18,14 @@ namespace CP.DAL.Repositories
 
         }
 
+        public async Task<List<CalendarDate>> GetAllHolidaysInMonthAsync(int year, int month)
+        {
+            return await base.CarePlannerContext.CalendarDates
+                .AsNoTracking()
+                .Where(x => x.Date.Year == year && x.Date.Month == month && !string.IsNullOrEmpty(x.HolidayName))
+                .ToListAsync();
+        }
+
         public async Task<List<CalendarDate>> GetAllHolidaysAsync()
         {
             return await base.CarePlannerContext.CalendarDates

@@ -12,7 +12,7 @@ namespace CP.React.Controllers
     public class PlanningController : ControllerBase
     {
         private readonly ILogger<PlanningController> _logger;
-        private readonly PlanningService _planningService;
+        private readonly PlanningService _planningService; // TODO: interface
 
         public PlanningController(ILogger<PlanningController> logger, PlanningService planningService)
         {
@@ -22,24 +22,25 @@ namespace CP.React.Controllers
 
         #region GET: api/<PlanningController>
         [HttpGet]
-        public async Task<ApiResponse> GetAsync([FromQuery] int teamID, int year, int month)
+        public async Task<ApiResponse> GetAsync([FromQuery] int teamId, int year, int month)
         {
+            PlanningGetDto planningGetDto;
             try
             {
-                var planning = await _planningService.GetMonthlyPlanningAsync(teamID, year, month);
-                return new ApiResponse(planning);
+                planningGetDto = await _planningService.GetMonthlyPlanningAsync(teamId, year, month);
             }
             catch (Exception exc)
             {
                 _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
+            return new ApiResponse(planningGetDto);
         }
         #endregion
 
         #region POST: api/<PlanningController>
         [HttpPost]
-        public async Task<ApiResponse> PostAsync([FromBody] PlanningCreateDTO planningCreateDTO)
+        public async Task<ApiResponse> PostAsync([FromBody] PlanningPostDto planningCreateDTO)
         {
             try
             {
