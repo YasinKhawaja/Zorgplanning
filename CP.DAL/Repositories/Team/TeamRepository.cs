@@ -17,6 +17,7 @@ namespace CP.DAL.Repositories
         public async Task<Team> GetPlanningForTeamForMonthAsync(int teamId, int year, int month)
         {
             return await base.CarePlannerContext.Teams
+                .AsNoTracking()
                 .Where(t => t.Id == teamId)
                 .Include(t => t.Employees)
                     .ThenInclude(e => e.Regime)
@@ -29,9 +30,9 @@ namespace CP.DAL.Repositories
                             .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month))
                         .ThenInclude(s => s.Shift)
                 .Include(t => t.Employees)
-                    .ThenInclude(e => e.Absences)
+                    .ThenInclude(e => e.Absences
+                            .Where(a => a.CalendarDate.Date.Year == year && a.CalendarDate.Date.Month == month))
                         .ThenInclude(a => a.CalendarDate)
-                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
     }
