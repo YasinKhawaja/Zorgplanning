@@ -40,18 +40,18 @@ namespace CP.React.Controllers
 
         #region POST: api/<PlanningController>
         [HttpPost]
-        public async Task<ApiResponse> PostAsync([FromBody] PlanningPostDto planningCreateDTO)
+        public async Task<ApiResponse> PostAsync([FromBody] PlanningPostDto planningPostDto)
         {
             try
             {
-                object v = await _planningService.GenerateMonthlyPlanning(planningCreateDTO);
-                return new ApiResponse(v);
+                await _planningService.GenerateMonthlyPlanning(planningPostDto);
             }
             catch (Exception exc)
             {
                 _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc.Message);
             }
+            return new ApiResponse();
         }
         #endregion
     }

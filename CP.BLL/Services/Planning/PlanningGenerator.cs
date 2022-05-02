@@ -4,25 +4,27 @@ namespace CP.BLL.Services.Planning
 {
     public class PlanningGenerator
     {
-        public static List<Employee> GenerateBasicPlanning(List<Employee> nurses, List<CalendarDate> dates)
+        public static Employee GenerateBasicPlanning(Employee nurse, List<CalendarDate> dates)
         {
-            foreach (var nurse in nurses)
+            Shift noneShift = nurse.Regime.Shifts.ToList().First(s => s.Name.ToLower().Trim() == "geen");
+
+            List<Schedule> noneSchedules = new();
+
+            foreach (var date in dates)
             {
-                Shift morningShift = nurse.Regime.Shifts.ToList().First(s => s.Name.ToLower().Trim() == "vroeg");
-                List<Schedule> schedulesNew = new();
-                foreach (var date in dates)
+                Schedule schedule = new()
                 {
-                    Schedule schedule = new()
-                    {
-                        EmployeeId = nurse.Id,
-                        DateId = date.DateId,
-                        ShiftId = morningShift.Id
-                    };
-                    schedulesNew.Add(schedule);
-                }
-                nurse.Schedules = schedulesNew;
+                    EmployeeId = nurse.Id,
+                    DateId = date.DateId,
+                    ShiftId = noneShift.Id
+                };
+
+                noneSchedules.Add(schedule);
             }
-            return nurses;
+
+            nurse.Schedules = noneSchedules;
+
+            return nurse;
         }
     }
 }

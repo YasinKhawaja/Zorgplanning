@@ -12,16 +12,11 @@ namespace CP.BLL.Services.Planning
         private readonly IMapper _mapper;
         private readonly ILogger<PlanningService> _logger;
 
-        private IList<Employee> _nurses;
-        private IList<CalendarDate> _dates;
-
         public PlanningService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<PlanningService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _nurses = new List<Employee>();
-            _dates = new List<CalendarDate>();
         }
 
         public async Task<PlanningGetDto> GetMonthlyPlanningAsync(int teamId, int year, int month)
@@ -41,45 +36,34 @@ namespace CP.BLL.Services.Planning
             return planningGetDto;
         }
 
-        public async Task<object> GenerateMonthlyPlanning(PlanningPostDto dto)
+        public async Task GenerateMonthlyPlanning(PlanningPostDto dto)
         {
-            await SetupAsync(dto);
+            List<Employee> nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
+            List<CalendarDate> dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);
 
-            List<Employee> sameNursesWithEarlySchedules =
-                PlanningGenerator.GenerateBasicPlanning(this._nurses.ToList(), this._dates.ToList());
+            List<Employee> nursesWithNoneSchedules = new();
 
-            foreach (var nurse in sameNursesWithEarlySchedules)
+            foreach (var nurse in nurses)
             {
-                IList<Employee> nurseToUp = await _unitOfWork.Employees.FindByAsync(
-                    x => x.Id == nurse.Id, asTracking: true, include: "Schedules.CalendarDate");
-
-                List<Schedule> schedules = nurseToUp.First().Schedules.ToList();
-                schedules.RemoveAll(x => x.CalendarDate.Date.Year == dto.Year && x.CalendarDate.Date.Month == dto.Month);
-                schedules.AddRange(nurse.Schedules);
-
-                nurseToUp.First().Schedules = schedules;
+                Employee nurseWithNoneSchedules = PlanningGenerator.GenerateBasicPlanning(nurse, dates);
+                nursesWithNoneSchedules.Add(nurseWithNoneSchedules);
             }
 
+            foreach (var nurse in nursesWithNoneSchedules)
+            {
+                await SaveNurseSchedulesForMonthAsync(nurse, dto.Year, dto.Month);
+            }
+        }
+
+        private async Task SaveNurseSchedulesForMonthAsync(Employee nurse, int year, int month)
+        {
+            Employee nurseToUp = await _unitOfWork.Employees
+                .FindEmployeeWithSchedulesInMonth(nurse.Id, year, month, asTracking: true);
+
+            nurseToUp.Schedules.ToList().Clear();
+            nurseToUp.Schedules = nurse.Schedules;
+
             await _unitOfWork.SaveAsync();
-            return "success";
         }
-
-        #region Private Methods
-        private static bool IsDateAnAbsence(CalendarDate date, Employee nurse)
-        {
-            return nurse.Absences.Any(x => x.DateId.Equals(date.DateId));
-        }
-
-        private static bool IsDateAnHoliday(CalendarDate date)
-        {
-            return date.HolidayName is not null;
-        }
-
-        private async Task SetupAsync(PlanningPostDto dto)
-        {
-            this._nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
-            this._dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);
-        }
-        #endregion
     }
 }

@@ -18,28 +18,34 @@ namespace CP.DAL.Repositories
 
         }
 
-        public async Task<IList<Employee>> GetAllInTeamAsync(int teamKey)
+        public async Task<Employee> FindEmployeeWithSchedulesInMonth(
+            int employeeId, int year, int month, bool asTracking = false)
         {
-            return await base.CarePlannerContext.Employees
-                .Where(x => x.TeamId.Equals(teamKey) && x.IsActive.Value)
-                .Include(x => x.Regime)
-                    .ThenInclude(x => x.Shifts)
-                .OrderBy(x => x.FirstName)
-                .AsNoTracking()
-                .ToListAsync();
+            IQueryable<Employee> query;
+            if (asTracking)
+            {
+                query = base.CarePlannerContext.Employees;
+            }
+            else
+            {
+                query = base.CarePlannerContext.Employees.AsNoTracking();
+            }
+            query = query
+                .Where(e => e.Id == employeeId)
+                .Include(e => e.Schedules
+                        .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month))
+                    .ThenInclude(s => s.CalendarDate);
+            return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<Employee>> GetAllInTeamWithSchedulesOfMonthAsync(int teamId, int year, int month)
+        public async Task<List<Employee>> GetAllInTeamAsync(int teamId)
         {
             return await base.CarePlannerContext.Employees
-                .Where(x => x.TeamId == teamId && x.IsActive.Value)
-                .Include(x => x.Regime)
-                .Include(x => x.Schedules.Where(y => y.CalendarDate.Date.Year == year && y.CalendarDate.Date.Month == month))
-                    .ThenInclude(x => x.CalendarDate)
-                .Include(x => x.Schedules)
-                    .ThenInclude(x => x.Shift)
-                .OrderBy(x => x.FirstName)
                 .AsNoTracking()
+                .Where(e => e.TeamId.Equals(teamId) && e.IsActive.Value)
+                .Include(e => e.Regime)
+                    .ThenInclude(r => r.Shifts)
+                .OrderBy(e => e.FirstName)
                 .ToListAsync();
         }
 

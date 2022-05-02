@@ -12,7 +12,7 @@ namespace CP.DAL.Repositories
         /// </summary>
         /// <param name="teamId">The team key to get the employees from.</param>
         /// <returns></returns>
-        Task<IList<Employee>> GetAllInTeamAsync(int teamId);
-        Task<List<Employee>> GetAllInTeamWithSchedulesOfMonthAsync(int teamId, int year, int month);
+        Task<List<Employee>> GetAllInTeamAsync(int teamId);
+        Task<Employee> FindEmployeeWithSchedulesInMonth(int employeeId, int year, int month, bool asTracking = false);
     }
 }
