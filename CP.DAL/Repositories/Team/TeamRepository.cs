@@ -19,15 +19,16 @@ namespace CP.DAL.Repositories
             return await base.CarePlannerContext.Teams
                 .AsNoTracking()
                 .Where(t => t.Id == teamId)
-                .Include(t => t.Employees)
+                .Include(t => t.Employees
+                        .OrderBy(e => e.FirstName))
                     .ThenInclude(e => e.Regime)
                 .Include(t => t.Employees)
                     .ThenInclude(e => e.Schedules
-                            .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month))
+                            .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month)
+                            .OrderBy(s => s.CalendarDate.Date))
                         .ThenInclude(s => s.CalendarDate)
                  .Include(t => t.Employees)
-                    .ThenInclude(e => e.Schedules
-                            .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month))
+                    .ThenInclude(e => e.Schedules)
                         .ThenInclude(s => s.Shift)
                 .Include(t => t.Employees)
                     .ThenInclude(e => e.Absences

@@ -4,25 +4,28 @@ namespace CP.BLL.Services.Planning
 {
     public class PlanningRules
     {
+        const int HOURS_IN_DAY = 24;
         const int HOURS_IN_WEEK = 168;
         const int MIN_REST_PER_WEEK = 35;
         const int MIN_REST_BETWEEN_TWO_SHIFTS = 11;
 
-        public static bool CheckGuaranteedOccupation(List<Schedule> schedules)
+        public static bool CheckGuaranteedOccupation(CalendarDate day)
         {
-            bool guaranteedOccupation = false;
+            //for (int i = 0; i < HOURS_IN_DAY; i++)
+            //{
+            //    DateTime startHour = new(day.Date.Year, day.Date.Month, day.Date.Day, i, 0, 0);
+            //    DateTime startNextHour = startHour.AddHours(1);
 
-            // for (int i = 0; i < schedules.Count - 1; i++)
-            // {
-            //     List<Schedule> shifts = schedules.Skip(i).Take(2).ToList();
+            //    if (day.Shifts[i] != null)
+            //    {
+            //        if (!day.Shifts[i].Guaranteed)
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
 
-            //     if (shifts[0].Shift.Start.DayOfWeek == DayOfWeek.Saturday && shifts[1].Shift.Start.DayOfWeek == DayOfWeek.Sunday)
-            //     {
-            //         guaranteedOccupation = true;
-            //     }
-            // }
-
-            return guaranteedOccupation;
+            return true;
         }
 
         public static bool CheckMinimumRestInWeek(List<Schedule> schedules)

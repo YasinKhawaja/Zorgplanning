@@ -4,6 +4,10 @@ namespace CP.BLL.Services.Planning
 {
     public class PlanningGenerator
     {
+        const string NONE = "geen";
+        const string EARLY = "vroeg";
+        const string LATE = "laat";
+        const string NIGHT = "nacht";
 
         public static List<Employee> GenerateMonthlyPlanning(List<Employee> nurses, List<CalendarDate> month)
         {
@@ -20,11 +24,20 @@ namespace CP.BLL.Services.Planning
 
                 Shuffle(ref nurses);
 
-                // Plan early schedules.
-                foreach (var nurse in nurses)
+                day.Schedules = new List<Schedule>();
+                List<Schedule> schedulesOnDay = day.Schedules.ToList();
+
+                List<Employee> remainingNursesForEarly = nurses.ToList();
+
+                List<Employee> nursesLate = remainingNursesForEarly.ToList();
+
+                foreach (var nurse in remainingNursesForEarly)
                 {
                     if (IsAbsent(nurse, day))
                     {
+                        Schedule noneSchedule = MakeSchedule(nurse, day, GetShift(nurse, NONE));
+                        schedulesOnDay.Add(noneSchedule);
+                        nursesLate.Remove(nurse);
                         continue;
                     }
 
@@ -33,71 +46,98 @@ namespace CP.BLL.Services.Planning
                         continue;
                     }
 
-                    nurse.Schedules
-                        .ToList()
-                        .Find(s => s.DateId == day.DateId)
-                        .ShiftId = GetShiftId(nurse, "vroeg");
+                    Schedule schedule = new();
+
+                    if (schedulesOnDay.FindAll(s => s.Shift.Name.ToLower() == EARLY).Count < 2)
+                    {
+                        schedule = MakeSchedule(nurse, day, GetShift(nurse, EARLY));
+                    }
+                    //else if (schedulesOnDay.FindAll(s => s.Shift.Name == "Laat").Count < 2)
+                    //{
+                    //    schedule = MakeSchedule(nurse, day, GetShift(nurse, "laat"));
+                    //}
+                    //else if (schedulesOnDay.FindAll(s => s.Shift.Name == "Nacht").Count < 1)
+                    //{
+                    //    schedule = MakeSchedule(nurse, day, GetShift(nurse, "nacht"));
+                    //}
+                    else { continue; }
+
+                    nurse.Schedules.ToList().Find(s => s.DateId == schedule.DateId).ShiftId = schedule.ShiftId;
+                    schedulesOnDay.Add(schedule);
+                    nursesLate.Remove(nurse);
                 }
 
-                // Plan late schedules.
-                foreach (var nurse in nurses)
-                {
-                    if (IsAbsent(nurse, day))
-                    {
-                        continue;
-                    }
+                List<Employee> remainingNursesForLate = nursesLate.ToList();
 
-                    if (nurse.IsFixedNight)
-                    {
-                        continue;
-                    }
+                //while (remainingNursesForEarly.Count > 0)
+                //{
 
-                    nurse.Schedules
-                        .ToList()
-                        .Find(s => s.DateId == day.DateId)
-                        .ShiftId = GetShiftId(nurse, "laat");
-                }
-
-                // Plan night schedule.
-                foreach (var nurse in nurses)
-                {
-                    if (IsAbsent(nurse, day))
-                    {
-                        continue;
-                    }
-
-                    if (nurse.IsFixedNight)
-                    {
-                        continue;
-                    }
-
-                    nurse.Schedules
-                        .ToList()
-                        .Find(s => s.DateId == day.DateId)
-                        .ShiftId = GetShiftId(nurse, "nacht");
-                }
+                //}
             }
 
             return nurses;
         }
 
-        private static int GetShiftId(Employee nurse, string shiftName)
+        private static bool CheckMinimumOccupancy(CalendarDate day)
+        {
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name == "vroeg").Count() < 2;
+        }
+
+        private static Schedule MakeSchedule(Employee nurse, CalendarDate day, Shift shift)
+        {
+            return new Schedule()
+            {
+                EmployeeId = nurse.Id,
+                Employee = nurse,
+                DateId = day.DateId,
+                CalendarDate = day,
+                ShiftId = shift.Id,
+                Shift = shift
+            };
+        }
+
+        private static bool CanBeScheduled(Employee nurse, CalendarDate day, bool includeNightCheck = true)
+        {
+            if (IsAbsent(nurse, day))
+            {
+                return false;
+            }
+
+            if (includeNightCheck)
+            {
+                if (nurse.IsFixedNight)
+                {
+                    return false;
+                }
+            }
+
+            if (HasShift(nurse, day))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool HasShift(Employee nurse, CalendarDate day, string shiftName = NONE)
+        {
+            Shift noneShift = GetShift(nurse, shiftName.ToLower().Trim());
+            return nurse.Schedules.ToList().Find(s => s.DateId == day.DateId).ShiftId != noneShift.Id;
+        }
+
+        private static Shift GetShift(Employee nurse, string shiftName)
         {
             List<Shift> shifts = nurse.Regime.Shifts.ToList();
 
             shiftName = shiftName.ToLower().Trim();
 
-            switch (shiftName)
+            return shiftName switch
             {
-                case "vroeg":
-                    return shifts.First(s => s.Name.ToLower().Trim() == shiftName).Id;
-                case "laat":
-                    return shifts.First(s => s.Name.ToLower().Trim() == shiftName).Id;
-                case "nacht":
-                    return shifts.First(s => s.Name.ToLower().Trim() == shiftName).Id;
-                default:
-                    return shifts.First(s => s.Name.ToLower().Trim() == shiftName).Id;
-            }
+                EARLY => shifts.First(s => s.Name.ToLower().Trim() == shiftName),
+                LATE => shifts.First(s => s.Name.ToLower().Trim() == shiftName),
+                NIGHT => shifts.First(s => s.Name.ToLower().Trim() == shiftName),
+                _ => shifts.First(s => s.Name.ToLower().Trim() == NONE),
+            };
         }
 
         private static bool IsAbsent(Employee nurse, CalendarDate day)
@@ -132,7 +172,7 @@ namespace CP.BLL.Services.Planning
                     {
                         EmployeeId = nurse.Id,
                         DateId = date.DateId,
-                        ShiftId = nurse.Regime.Shifts.ToList().First(s => s.Name.ToLower().Trim() == "geen").Id
+                        ShiftId = nurse.Regime.Shifts.ToList().First(s => s.Name.ToLower().Trim() == NONE).Id
                     };
 
                     noneSchedules.Add(schedule);
