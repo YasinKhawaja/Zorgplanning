@@ -45,6 +45,8 @@ namespace CP.DAL.Repositories
                 .Where(e => e.TeamId.Equals(teamId) && e.IsActive.Value)
                 .Include(e => e.Regime)
                     .ThenInclude(r => r.Shifts)
+                .Include(e => e.Absences)
+                    .ThenInclude(a => a.CalendarDate)
                 .OrderBy(e => e.FirstName)
                 .ToListAsync();
         }

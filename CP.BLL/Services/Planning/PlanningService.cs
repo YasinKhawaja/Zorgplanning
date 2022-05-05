@@ -41,15 +41,9 @@ namespace CP.BLL.Services.Planning
             List<Employee> nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
             List<CalendarDate> dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);
 
-            List<Employee> nursesWithNoneSchedules = new();
+            List<Employee> nursesWithNewSchedules = PlanningGenerator.GenerateMonthlyPlanning(nurses, dates);
 
-            foreach (var nurse in nurses)
-            {
-                Employee nurseWithNoneSchedules = PlanningGenerator.GenerateBasicPlanning(nurse, dates);
-                nursesWithNoneSchedules.Add(nurseWithNoneSchedules);
-            }
-
-            foreach (var nurse in nursesWithNoneSchedules)
+            foreach (var nurse in nursesWithNewSchedules)
             {
                 await SaveNurseSchedulesForMonthAsync(nurse, dto.Year, dto.Month);
             }
