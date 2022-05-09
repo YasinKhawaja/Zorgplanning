@@ -15,8 +15,6 @@ namespace CP.DAL.Configurations
         /// <param name="builder">The configuration builder.</param>
         public void Configure(EntityTypeBuilder<CalendarDate> builder)
         {
-            builder.HasKey(x => x.DateId);
-
             builder.Property(x => x.Date)
                 .HasColumnType("date");
 

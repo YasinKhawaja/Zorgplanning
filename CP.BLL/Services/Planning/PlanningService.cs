@@ -2,7 +2,6 @@
 using CP.BLL.DTOs;
 using CP.DAL.Models;
 using CP.DAL.UnitOfWork;
-using Microsoft.Extensions.Logging;
 
 namespace CP.BLL.Services.Planning
 {
@@ -10,13 +9,11 @@ namespace CP.BLL.Services.Planning
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<PlanningService> _logger;
 
-        public PlanningService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<PlanningService> logger)
+        public PlanningService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public async Task<PlanningGetDto> GetMonthlyPlanningAsync(int teamId, int year, int month)
@@ -51,11 +48,21 @@ namespace CP.BLL.Services.Planning
 
         private async Task SaveNurseSchedulesForMonthAsync(Employee nurse, int year, int month)
         {
-            Employee nurseToUp = await _unitOfWork.Employees
-                .FindEmployeeWithSchedulesInMonth(nurse.Id, year, month, asTracking: true);
+            //Employee nurseToUp = await _unitOfWork.Employees
+            //    .FindEmployeeWithSchedulesInMonth(nurse.Id, year, month, asTracking: false);
 
-            nurseToUp.Schedules.ToList().Clear();
-            nurseToUp.Schedules = nurse.Schedules;
+            //nurseToUp.Schedules.ToList().Clear();
+            //nurseToUp.Schedules = nurse.Schedules;
+
+            foreach (var schedule in nurse.Schedules)
+            {
+                await _unitOfWork.Schedules.AddAsync(new Schedule()
+                {
+                    EmployeeId = schedule.EmployeeId,
+                    DateId = schedule.DateId,
+                    ShiftId = schedule.ShiftId
+                });
+            }
 
             await _unitOfWork.SaveAsync();
         }

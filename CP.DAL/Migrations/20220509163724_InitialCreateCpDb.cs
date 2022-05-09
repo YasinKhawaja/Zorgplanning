@@ -13,14 +13,14 @@ namespace CP.DAL.Migrations
                 name: "CalendarDates",
                 columns: table => new
                 {
-                    DateId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     HolidayName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CalendarDates", x => x.DateId);
+                    table.PrimaryKey("PK_CalendarDates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,7 +118,7 @@ namespace CP.DAL.Migrations
                         name: "FK_Absences_CalendarDates_DateId",
                         column: x => x.DateId,
                         principalTable: "CalendarDates",
-                        principalColumn: "DateId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Absences_Employees_EmployeeId",
@@ -143,7 +143,7 @@ namespace CP.DAL.Migrations
                         name: "FK_Schedules_CalendarDates_DateId",
                         column: x => x.DateId,
                         principalTable: "CalendarDates",
-                        principalColumn: "DateId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Schedules_Employees_EmployeeId",
@@ -161,7 +161,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -210,7 +210,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 43, new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -259,7 +259,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 85, new DateTime(2022, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -308,7 +308,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 127, new DateTime(2022, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -357,7 +357,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 169, new DateTime(2022, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -406,7 +406,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 211, new DateTime(2022, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -455,7 +455,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 253, new DateTime(2022, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -504,7 +504,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 295, new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
@@ -553,7 +553,7 @@ namespace CP.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "CalendarDates",
-                columns: new[] { "DateId", "Date", "HolidayName" },
+                columns: new[] { "Id", "Date", "HolidayName" },
                 values: new object[,]
                 {
                     { 337, new DateTime(2022, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), null },

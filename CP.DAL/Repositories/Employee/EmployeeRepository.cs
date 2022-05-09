@@ -41,13 +41,14 @@ namespace CP.DAL.Repositories
         public async Task<List<Employee>> GetAllInTeamAsync(int teamId)
         {
             return await base.CarePlannerContext.Employees
-                .AsNoTracking()
                 .Where(e => e.TeamId.Equals(teamId) && e.IsActive.Value)
                 .Include(e => e.Regime)
                     .ThenInclude(r => r.Shifts)
                 .Include(e => e.Absences)
                     .ThenInclude(a => a.CalendarDate)
+                .Include(e => e.Schedules)
                 .OrderBy(e => e.FirstName)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

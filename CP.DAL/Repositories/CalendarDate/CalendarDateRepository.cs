@@ -37,10 +37,10 @@ namespace CP.DAL.Repositories
         public async Task<List<CalendarDate>> GetAllInMonthAsync(int year, int month)
         {
             return await base.CarePlannerContext.CalendarDates
-                .AsNoTracking()
                 .Where(x => x.Date.Year == year && x.Date.Month == month)
                 .Include(x => x.Schedules)
                     .ThenInclude(x => x.Shift)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }

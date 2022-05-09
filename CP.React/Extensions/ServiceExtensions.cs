@@ -29,8 +29,11 @@ namespace CP.React.Extensions
         public static void AddDbContext(this IServiceCollection services)
         {
             services.AddDbContext<CarePlannerContext>(
-                o => o.UseSqlServer(Configuration.GetSection("Development").GetConnectionString("CarePlannerDbAzure"),
-                x => x.MigrationsAssembly("CP.DAL")));
+                o =>
+                {
+                    o.UseSqlServer(Configuration.GetSection("Development").GetConnectionString("CarePlannerDbAzure"),
+                        x => x.MigrationsAssembly("CP.DAL"));
+                });
         }
 
         public static void AddRepositories(this IServiceCollection services)
