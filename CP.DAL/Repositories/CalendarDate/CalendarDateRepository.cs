@@ -39,6 +39,8 @@ namespace CP.DAL.Repositories
             return await base.CarePlannerContext.CalendarDates
                 .AsNoTracking()
                 .Where(x => x.Date.Year == year && x.Date.Month == month)
+                .Include(x => x.Schedules)
+                    .ThenInclude(x => x.Shift)
                 .ToListAsync();
         }
     }

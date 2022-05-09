@@ -9,22 +9,12 @@ namespace CP.BLL.Services.Planning
         const int MIN_REST_PER_WEEK = 35;
         const int MIN_REST_BETWEEN_TWO_SHIFTS = 11;
 
-        public static bool CheckGuaranteedOccupation(CalendarDate day)
+        internal static bool HasGuaranteedOccupation(CalendarDate day)
         {
-            //for (int i = 0; i < HOURS_IN_DAY; i++)
-            //{
-            //    DateTime startHour = new(day.Date.Year, day.Date.Month, day.Date.Day, i, 0, 0);
-            //    DateTime startNextHour = startHour.AddHours(1);
-
-            //    if (day.Shifts[i] != null)
-            //    {
-            //        if (!day.Shifts[i].Guaranteed)
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //}
-
+            if (!string.IsNullOrEmpty(day.HolidayName))
+            {
+                return false;
+            }
             return true;
         }
 
