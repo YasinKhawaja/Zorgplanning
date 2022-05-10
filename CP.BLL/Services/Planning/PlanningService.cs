@@ -38,7 +38,8 @@ namespace CP.BLL.Services.Planning
             List<Employee> nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
             List<CalendarDate> dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);
 
-            List<Employee> nursesWithNewSchedules = PlanningGenerator.GenerateMonthlyPlanning(nurses, dates);
+            PlanningGenerator generator = new(nurses, dates);
+            List<Employee> nursesWithNewSchedules = generator.GenerateMonthlyPlanning(nurses, dates);
 
             foreach (var nurse in nursesWithNewSchedules)
             {
@@ -48,11 +49,14 @@ namespace CP.BLL.Services.Planning
 
         private async Task SaveNurseSchedulesForMonthAsync(Employee nurse, int year, int month)
         {
-            //Employee nurseToUp = await _unitOfWork.Employees
-            //    .FindEmployeeWithSchedulesInMonth(nurse.Id, year, month, asTracking: false);
+            IList<Schedule> oldSchedules = await _unitOfWork.Schedules.FindByAsync(
+                x => x.EmployeeId == nurse.Id && x.CalendarDate.Date.Year == year && x.CalendarDate.Date.Month == month);
 
-            //nurseToUp.Schedules.ToList().Clear();
-            //nurseToUp.Schedules = nurse.Schedules;
+            foreach (var schedule in oldSchedules)
+            {
+                _unitOfWork.Schedules.Remove(schedule);
+                await _unitOfWork.SaveAsync();
+            }
 
             foreach (var schedule in nurse.Schedules)
             {

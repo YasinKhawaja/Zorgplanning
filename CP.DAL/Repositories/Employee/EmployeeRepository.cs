@@ -33,8 +33,8 @@ namespace CP.DAL.Repositories
             query = query
                 .Where(e => e.Id == employeeId)
                 .Include(e => e.Schedules
-                        .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month))
-                    .ThenInclude(s => s.CalendarDate);
+                        .Where(s => s.CalendarDate.Date.Year == year && s.CalendarDate.Date.Month == month));
+            //.ThenInclude(s => s.CalendarDate);
             return await query.FirstOrDefaultAsync();
         }
 

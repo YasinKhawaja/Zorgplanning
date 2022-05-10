@@ -10,14 +10,23 @@ namespace CP.BLL.Services.Planning
         const string NIGHT = "nacht";
         const int MAX_ATTEMPTS = 50;
 
-        public static List<Employee> GenerateMonthlyPlanning(List<Employee> nurses, List<CalendarDate> month)
+        readonly List<Employee> _nurses;
+        readonly List<CalendarDate> _month;
+
+        public PlanningGenerator(List<Employee> nurses, List<CalendarDate> month)
         {
-            if (!nurses.Any() || !month.Any())
+            _nurses = nurses;
+            _month = month;
+        }
+
+        public List<Employee> GenerateMonthlyPlanning(List<Employee> nurses, List<CalendarDate> month)
+        {
+            if (nurses.Count < 5 || !month.Any())
             {
                 throw new Exception("NO DATA");
-            } // works
+            }
 
-            ClearAllSchedules(ref nurses, ref month); // works
+            ClearAllSchedules(ref nurses, ref month);
 
             foreach (var day in month)
             {
@@ -30,61 +39,139 @@ namespace CP.BLL.Services.Planning
                         day.Schedules = UpdateDaySchedules(day, noneSchedule);
                     });
                     continue;
-                } // works
+                }
 
-                // BACKTRACKING ALGORITHM?
+                while (!HasMinimumOccupancyEarly(day))
+                {
+                    Employee nurseForEarly = FindAvailableNurse(nurses, day, EARLY);
+                    Schedule earlySchedule = BuildSchedule(nurseForEarly, day, GetShift(nurseForEarly, EARLY));
+                    nurses.Find(n => n.Id == nurseForEarly.Id).Schedules =
+                        UpdateNurseSchedules(nurseForEarly, earlySchedule);
+                    day.Schedules = UpdateDaySchedules(day, earlySchedule);
+                }
 
-                //while (!HasMinimumOccupancy(day))
-                //{
-                //    Employee nurse = FindAvailableNurse(nurses, day, EARLY);
-
-                //    Schedule newSchedule = BuildSchedule(nurse, day, GetShift(nurse, EARLY));
-                //}
+                while (!HasMinimumOccupancyLate(day))
+                {
+                    Employee nurseForLate = FindAvailableNurse(nurses, day, LATE);
+                    Schedule lateSchedule = BuildSchedule(nurseForLate, day, GetShift(nurseForLate, LATE));
+                    nurses.Find(n => n.Id == nurseForLate.Id).Schedules =
+                        UpdateNurseSchedules(nurseForLate, lateSchedule);
+                    day.Schedules = UpdateDaySchedules(day, lateSchedule);
+                }
 
                 while (!HasMinimumOccupancyNight(day))
                 {
                     Employee nurseForNight = FindAvailableNurse(nurses, day, NIGHT);
                     Schedule nightSchedule = BuildSchedule(nurseForNight, day, GetShift(nurseForNight, NIGHT));
-                    nurses.Find(n => n.Id == nurseForNight.Id).Schedules = UpdateNurseSchedules(nurseForNight, nightSchedule);
+                    nurses.Find(n => n.Id == nurseForNight.Id).Schedules =
+                        UpdateNurseSchedules(nurseForNight, nightSchedule);
                     day.Schedules = UpdateDaySchedules(day, nightSchedule);
-                } // works
+                }
             }
 
-            var newNurses = nurses;
-            return newNurses;
+            return nurses;
         }
 
-        private static Employee FindAvailableNurseNight(List<Employee> nurses, CalendarDate day)
+        private static Employee FindAvailableNurseEarly(List<Employee> nurses, CalendarDate day)
         {
-            List<Employee> nightNurses = new();
+            throw new NotImplementedException();
+        }
 
-            if (nurses.FindAll(n => n.IsFixedNight).Any())
+        private static Employee FindAvailableNurseLate(List<Employee> nurses, CalendarDate day)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Employee FindAvailableNurseNight(List<Employee> nurses, CalendarDate day)
+        {
+            List<Employee> nursesNight = nurses.OrderByDescending(n => n.IsFixedNight).ToList();
+
+            List<DateTime> week = GetWeek(day.Date);
+            List<CalendarDate> weekCDs = _month.FindAll(d => week.Contains(d.Date));
+
+            List<Employee> availableNursesNight = new();
+
+            foreach (var nurse in nursesNight)
             {
-                nightNurses.AddRange(nurses.FindAll(n => n.IsFixedNight));
+                if (HasShift(nurse, day))
+                {
+                    continue;
+                }
+
+                double hoursToBeWorked = nurse.Regime.Hours;
+                double hoursWorked = 0;
+
+                List<Schedule> schedulesInWeek = GetSchedulesInWeek(nurse, weekCDs);
+
+                foreach (var schedule in schedulesInWeek)
+                {
+                    DateTime startTime = schedule.CalendarDate.Date;
+                    startTime = startTime.AddHours(schedule.Shift.Start.Hours);
+                    startTime = startTime.AddMinutes(schedule.Shift.Start.Minutes);
+
+                    DateTime endTime = schedule.CalendarDate.Date.AddDays(1);
+                    endTime = endTime.AddHours(schedule.Shift.End.Hours);
+                    endTime = endTime.AddMinutes(schedule.Shift.End.Minutes);
+
+                    double duration = endTime.Subtract(startTime).TotalHours;
+
+                    if (duration == 24) { hoursWorked += 0; } else { hoursWorked += duration; }
+                }
+
+                if (hoursWorked >= hoursToBeWorked)
+                {
+                    continue;
+                }
+
+                availableNursesNight.Add(nurse);
             }
-            else
+
+            if (!availableNursesNight.Any())
             {
-                nightNurses.AddRange(nurses.Where(nurse => !nurse.Schedules.Any(s => s.DateId == day.Id)));
+                throw new Exception("No available nurses");
             }
 
-            return GetRandomNurse(nightNurses);
+            if (availableNursesNight.Any(n => n.IsFixedNight))
+            {
+                availableNursesNight = availableNursesNight.Where(n => n.IsFixedNight).ToList();
+            }
+
+            return GetRandomNurse(availableNursesNight);
         }
 
-        private static IEnumerable<Schedule> UpdateDaySchedules(CalendarDate day, Schedule schedule)
+        private static List<Schedule> GetSchedulesInWeek(Employee nurse, List<CalendarDate> week)
         {
-            List<Schedule> schedulesDay = day.Schedules.ToList();
-            schedulesDay.Add(schedule);
-            return schedulesDay;
+            List<Schedule> schedulesInWeek = new();
+            List<Schedule> schedules = week.Select(d => d.Schedules.ToList()
+                                                                   .Find(s => s.Employee.Id == nurse.Id)).ToList();
+            schedulesInWeek.AddRange(schedules);
+            schedulesInWeek.RemoveAll(s => s is null);
+            return schedulesInWeek;
         }
 
-        private static IEnumerable<Schedule> UpdateNurseSchedules(Employee nurse, Schedule schedule)
+        private static List<DateTime> GetWeek(DateTime date)
         {
-            List<Schedule> schedulesNurse = nurse.Schedules.ToList();
-            schedulesNurse.Add(schedule);
-            return schedulesNurse;
+            int currentDayOfWeek = (int)date.DayOfWeek;
+            DateTime sunday = date.AddDays(-currentDayOfWeek);
+            DateTime monday = sunday.AddDays(1);
+
+            if (currentDayOfWeek == 0)
+            {
+                monday = monday.AddDays(-7);
+            }
+
+            return Enumerable
+                .Range(0, 7)
+                .Select(days => monday.AddDays(days))
+                .ToList();
         }
 
-        private static Employee FindAvailableNurse(List<Employee> nurses, CalendarDate day, string shiftName)
+        private static bool HasShift(Employee nurse, CalendarDate day)
+        {
+            return nurse.Schedules.ToList().Find(s => s.DateId == day.Id) is not null;
+        }
+
+        private Employee FindAvailableNurse(List<Employee> nurses, CalendarDate day, string shiftName)
         {
             Employee nurse = null;
             switch (shiftName)
@@ -104,14 +191,18 @@ namespace CP.BLL.Services.Planning
             return nurse;
         }
 
-        private static Employee FindAvailableNurseLate(List<Employee> nurses, CalendarDate day)
+        private static IEnumerable<Schedule> UpdateDaySchedules(CalendarDate day, Schedule schedule)
         {
-            throw new NotImplementedException();
+            List<Schedule> schedulesDay = day.Schedules.ToList();
+            schedulesDay.Add(schedule);
+            return schedulesDay.OrderBy(s => s.CalendarDate.Date).ToList();
         }
 
-        private static Employee FindAvailableNurseEarly(List<Employee> nurses, CalendarDate day)
+        private static IEnumerable<Schedule> UpdateNurseSchedules(Employee nurse, Schedule schedule)
         {
-            throw new NotImplementedException();
+            List<Schedule> schedulesNurse = nurse.Schedules.ToList();
+            schedulesNurse.Add(schedule);
+            return schedulesNurse.OrderBy(s => s.CalendarDate.Date).ToList();
         }
 
         private static Employee GetRandomNurse(List<Employee> nurses)
@@ -155,35 +246,6 @@ namespace CP.BLL.Services.Planning
                 ShiftId = shift.Id,
                 Shift = shift
             };
-        }
-
-        private static bool CanBeScheduled(Employee nurse, CalendarDate day, bool includeNightCheck = true)
-        {
-            if (IsAbsent(nurse, day))
-            {
-                return false;
-            }
-
-            if (includeNightCheck)
-            {
-                if (nurse.IsFixedNight)
-                {
-                    return false;
-                }
-            }
-
-            if (HasShift(nurse, day))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static bool HasShift(Employee nurse, CalendarDate day, string shiftName = NONE)
-        {
-            Shift noneShift = GetShift(nurse, shiftName.ToLower().Trim());
-            return nurse.Schedules.ToList().Find(s => s.DateId == day.Id).ShiftId != noneShift.Id;
         }
 
         private static Shift GetShift(Employee nurse, string shiftName)
