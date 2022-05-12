@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.React", "CP.React\CP.Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.BLL.Tests", "CP.BLL.Tests\CP.BLL.Tests.csproj", "{734912EF-B799-42D4-BC2E-FE8153141BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.DAL.Tests", "CP.DAL.Tests\CP.DAL.Tests.csproj", "{AEEDA839-E495-47EF-BCDE-345F11A1F833}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CP.DAL.Tests", "CP.DAL.Tests\CP.DAL.Tests.csproj", "{AEEDA839-E495-47EF-BCDE-345F11A1F833}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP.React.Tests", "CP.React.Tests\CP.React.Tests.csproj", "{3725142C-4DC6-4CC9-A945-AD945A752AB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEEDA839-E495-47EF-BCDE-345F11A1F833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3725142C-4DC6-4CC9-A945-AD945A752AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3725142C-4DC6-4CC9-A945-AD945A752AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3725142C-4DC6-4CC9-A945-AD945A752AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3725142C-4DC6-4CC9-A945-AD945A752AB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

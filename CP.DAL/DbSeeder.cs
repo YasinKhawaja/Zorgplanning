@@ -56,7 +56,8 @@ namespace CP.DAL
                     FirstName = "Emp1",
                     LastName = "Emp1",
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -64,7 +65,8 @@ namespace CP.DAL
                     FirstName = "Emp2",
                     LastName = "Emp2",
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -72,7 +74,8 @@ namespace CP.DAL
                     FirstName = "Emp3",
                     LastName = "Emp3",
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -80,7 +83,8 @@ namespace CP.DAL
                     FirstName = "Emp4",
                     LastName = "Emp4",
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -88,7 +92,8 @@ namespace CP.DAL
                     FirstName = "Emp5",
                     LastName = "Emp5",
                     TeamId = 1,
-                    RegimeId = 2
+                    RegimeId = 2,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -96,7 +101,8 @@ namespace CP.DAL
                     FirstName = "Emp6",
                     LastName = "Emp6",
                     TeamId = 1,
-                    RegimeId = 2
+                    RegimeId = 2,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -104,7 +110,8 @@ namespace CP.DAL
                     FirstName = "Emp7",
                     LastName = "Emp7",
                     TeamId = 1,
-                    RegimeId = 2
+                    RegimeId = 2,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -112,7 +119,8 @@ namespace CP.DAL
                     FirstName = "Emp8",
                     LastName = "Emp8",
                     TeamId = 1,
-                    RegimeId = 3
+                    RegimeId = 3,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -120,7 +128,8 @@ namespace CP.DAL
                     FirstName = "Emp9",
                     LastName = "Emp9",
                     TeamId = 1,
-                    RegimeId = 3
+                    RegimeId = 3,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -129,7 +138,8 @@ namespace CP.DAL
                     LastName = "Emp10",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -138,7 +148,8 @@ namespace CP.DAL
                     LastName = "Emp11",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 1
+                    RegimeId = 1,
+                    IsActive = true
                 },
                 new Employee
                 {
@@ -147,7 +158,8 @@ namespace CP.DAL
                     LastName = "Emp12",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 3
+                    RegimeId = 3,
+                    IsActive = true
                 });
             #endregion
 

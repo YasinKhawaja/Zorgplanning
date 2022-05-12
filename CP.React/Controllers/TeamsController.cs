@@ -41,16 +41,17 @@ namespace CP.React.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResponse> GetAsync(int id)
         {
+            TeamDTO team;
             try
             {
-                var team = await _teamService.GetAsync(id);
-                return new ApiResponse(team);
+                team = await _teamService.GetAsync(id);
             }
             catch (Exception exc)
             {
                 _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
+            return new ApiResponse(team);
         }
         #endregion
 
@@ -58,16 +59,17 @@ namespace CP.React.Controllers
         [HttpPost]
         public async Task<ApiResponse> PostAsync([FromBody] TeamDTO teamDTO)
         {
+            TeamDTO team;
             try
             {
-                TeamDTO team = await _teamService.CreateAsync(teamDTO);
-                return new ApiResponse(team);
+                team = await _teamService.CreateAsync(teamDTO);
             }
             catch (Exception exc)
             {
                 _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
+            return new ApiResponse(team);
         }
         #endregion
 
