@@ -58,10 +58,18 @@ namespace CP.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
+            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id), include: nameof(Team.Employees));
             Team teamFound = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(teamFound);
-            _unitOfWork.Teams.Remove(teamFound);
+            if (!teamFound.Employees.ToList().FindAll(emp => emp.IsActive.Value).Any())
+            {
+                foreach (var employee in teamFound.Employees)
+                {
+                    _unitOfWork.Employees.Remove(employee);
+                    await _unitOfWork.SaveAsync();
+                }
+                _unitOfWork.Teams.Remove(teamFound);
+            }
             await _unitOfWork.SaveAsync();
         }
     }

@@ -52,7 +52,7 @@ namespace CP.DAL.Repositories
                 .ToListAsync();
         }
 
-        public override void Remove(Employee employee)
+        public void Deactivate(Employee employee)
         {
             employee.IsActive = false;
             base.CarePlannerContext.Employees.Update(employee);

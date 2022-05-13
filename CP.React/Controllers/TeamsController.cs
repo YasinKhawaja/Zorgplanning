@@ -11,12 +11,10 @@ namespace CP.React.Controllers
     [Route("api/teams")]
     public class TeamsController : ControllerBase
     {
-        private readonly ILogger<TeamsController> _logger;
         private readonly ITeamService _teamService;
 
-        public TeamsController(ILogger<TeamsController> logger, ITeamService teamService)
+        public TeamsController(ITeamService teamService)
         {
-            _logger = logger;
             _teamService = teamService;
         }
 
@@ -24,16 +22,16 @@ namespace CP.React.Controllers
         [HttpGet]
         public async Task<ApiResponse> GetAsync()
         {
+            IList<TeamDTO> teamDTOs;
             try
             {
-                var teams = await _teamService.GetAllAsync();
-                return new ApiResponse(teams);
+                teamDTOs = await _teamService.GetAllAsync();
             }
             catch (Exception exc)
             {
-                _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
+            return new ApiResponse(teamDTOs);
         }
         #endregion
 
@@ -48,7 +46,6 @@ namespace CP.React.Controllers
             }
             catch (Exception exc)
             {
-                _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
             return new ApiResponse(team);
@@ -66,7 +63,6 @@ namespace CP.React.Controllers
             }
             catch (Exception exc)
             {
-                _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
             return new ApiResponse(team);
@@ -88,7 +84,6 @@ namespace CP.React.Controllers
             }
             catch (Exception exc)
             {
-                _logger.LogError(exc.Message);
                 throw new ApiException(exc);
             }
         }
@@ -105,7 +100,6 @@ namespace CP.React.Controllers
             }
             catch (Exception exc)
             {
-                _logger.LogError("{msg}", exc.Message);
                 throw new ApiException(exc);
             }
         }

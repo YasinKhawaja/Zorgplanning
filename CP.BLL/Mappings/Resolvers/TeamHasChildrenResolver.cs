@@ -8,7 +8,7 @@ namespace CP.BLL.Mappings.Resolvers
     {
         public bool Resolve(Team source, TeamDTO destination, bool destMember, ResolutionContext context)
         {
-            return source.Employees is not null && source.Employees.Any();
+            return source.Employees is not null && source.Employees.Where(emp => emp.IsActive.Value).Any();
         }
     }
 }

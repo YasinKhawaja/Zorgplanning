@@ -78,9 +78,7 @@ export default function Header() {
             </NavLink>
           </li>
         </ul>
-        <div className="col-md-3 text-end">
-          <SignOutButton />
-        </div>
+        <div className="col-md-3 text-end">{/* <SignOutButton /> */}</div>
       </header>
     </div>
   );

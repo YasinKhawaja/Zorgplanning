@@ -1,5 +1,3 @@
-import axios from "axios";
-import { saveAs } from "file-saver";
 import moment from "moment";
 
 export function mapTeamsForSelectInput(teams) {
@@ -55,4 +53,18 @@ export function getOptionById(options, id) {
 export function isDayNumberAWeekendDay(year, month, day) {
   const date = new Date(year, month, day);
   return date.getDay() === 0 || date.getDay() === 6;
+}
+
+export function getWeekendsInMonth(year, month, days) {
+  const weekends = [];
+  const startDate = moment(`${year}-${month}-01`);
+  const endDate = moment(`${year}-${month}-${days}`);
+  const daysInMonth = endDate.diff(startDate, "days");
+  for (let i = 0; i < daysInMonth; i++) {
+    const day = moment(startDate).add(i, "days");
+    if (day.day() === 0 || day.day() === 6) {
+      weekends.push(day.date());
+    }
+  }
+  return weekends;
 }

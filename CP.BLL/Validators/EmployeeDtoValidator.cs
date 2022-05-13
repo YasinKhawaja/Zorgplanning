@@ -22,7 +22,8 @@ namespace CP.BLL.Validators
                 .NotEmpty();
 
             base.RuleFor(x => x.RegimeId)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("'Regime' must not be empty.");
         }
     }
 }

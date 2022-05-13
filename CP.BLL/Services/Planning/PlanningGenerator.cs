@@ -69,17 +69,144 @@ namespace CP.BLL.Services.Planning
                 }
             }
 
+            foreach (var nurse in nurses)
+            {
+                foreach (var day in month)
+                {
+                    if (!nurse.Schedules.Any(s => s.CalendarDate.Date == day.Date))
+                    {
+                        Schedule noneSchedule = BuildSchedule(nurse, day, GetShift(nurse, NONE));
+                        nurse.Schedules = UpdateNurseSchedules(nurse, noneSchedule);
+                        day.Schedules = UpdateDaySchedules(day, noneSchedule);
+                    }
+                }
+            }
+
             return nurses;
         }
 
-        private static Employee FindAvailableNurseEarly(List<Employee> nurses, CalendarDate day)
+        private Employee FindAvailableNurseEarly(List<Employee> nurses, CalendarDate day)
         {
-            throw new NotImplementedException();
+            List<Employee> nursesEarly = nurses.Where(n => !n.IsFixedNight).ToList();
+
+            List<DateTime> week = GetWeek(day.Date);
+            List<CalendarDate> weekCDs = _month.FindAll(d => week.Contains(d.Date));
+
+            List<Employee> availableNursesEarly = new();
+
+            foreach (var nurse in nursesEarly)
+            {
+                if (HasShift(nurse, day))
+                {
+                    continue;
+                }
+
+                if (IsAbsent(nurse, day))
+                {
+                    continue;
+                }
+
+                //List<Schedule> schedulesInWeek = GetSchedulesInWeek(nurse, weekCDs);
+
+                //double hoursToBeWorked = nurse.Regime.Hours;
+                //double hoursWorked = 0;
+
+                //foreach (var schedule in schedulesInWeek)
+                //{
+                //    DateTime startTime = schedule.CalendarDate.Date;
+                //    startTime = startTime.AddHours(schedule.Shift.Start.Hours);
+                //    startTime = startTime.AddMinutes(schedule.Shift.Start.Minutes);
+
+                //    DateTime endTime = schedule.CalendarDate.Date.AddDays(1);
+                //    endTime = endTime.AddHours(schedule.Shift.End.Hours);
+                //    endTime = endTime.AddMinutes(schedule.Shift.End.Minutes);
+
+                //    double duration = endTime.Subtract(startTime).TotalHours;
+
+                //    if (duration == 24) { hoursWorked += 0; } else { hoursWorked += duration; }
+                //}
+
+                //if (hoursWorked >= hoursToBeWorked)
+                //{
+                //    continue;
+                //}
+
+                //if (!PlanningRules.CheckMinimumRestInWeek(schedulesInWeek))
+                //{
+                //    continue;
+                //}
+
+                availableNursesEarly.Add(nurse);
+            }
+
+            if (!availableNursesEarly.Any())
+            {
+                throw new Exception("No available nurses early");
+            }
+
+            return GetRandomNurse(availableNursesEarly);
         }
 
-        private static Employee FindAvailableNurseLate(List<Employee> nurses, CalendarDate day)
+        private Employee FindAvailableNurseLate(List<Employee> nurses, CalendarDate day)
         {
-            throw new NotImplementedException();
+            List<Employee> nursesLate = nurses.Where(n => !n.IsFixedNight).ToList();
+
+            List<DateTime> week = GetWeek(day.Date);
+            List<CalendarDate> weekCDs = _month.FindAll(d => week.Contains(d.Date));
+
+            List<Employee> availableNursesLate = new();
+
+            foreach (var nurse in nursesLate)
+            {
+                if (HasShift(nurse, day))
+                {
+                    continue;
+                }
+
+                if (IsAbsent(nurse, day))
+                {
+                    continue;
+                }
+
+                //List<Schedule> schedulesInWeek = GetSchedulesInWeek(nurse, weekCDs);
+
+                //double hoursToBeWorked = nurse.Regime.Hours;
+                //double hoursWorked = 0;
+
+                //foreach (var schedule in schedulesInWeek)
+                //{
+                //    DateTime startTime = schedule.CalendarDate.Date;
+                //    startTime = startTime.AddHours(schedule.Shift.Start.Hours);
+                //    startTime = startTime.AddMinutes(schedule.Shift.Start.Minutes);
+
+                //    DateTime endTime = schedule.CalendarDate.Date.AddDays(1);
+                //    endTime = endTime.AddHours(schedule.Shift.End.Hours);
+                //    endTime = endTime.AddMinutes(schedule.Shift.End.Minutes);
+
+                //    double duration = endTime.Subtract(startTime).TotalHours;
+
+                //    if (duration == 24) { hoursWorked += 0; } else { hoursWorked += duration; }
+                //}
+
+                //if (hoursWorked >= hoursToBeWorked)
+                //{
+                //    continue;
+                //}
+
+                //if (!PlanningRules.CheckMinimumRestInWeek(schedulesInWeek))
+                //{
+                //    continue;
+                //}
+
+                availableNursesLate.Add(nurse);
+            }
+
+            if (!availableNursesLate.Any())
+            {
+                throw new Exception("No available nurses late");
+            }
+
+            return GetRandomNurse(availableNursesLate);
         }
 
         private Employee FindAvailableNurseNight(List<Employee> nurses, CalendarDate day)
@@ -98,10 +225,15 @@ namespace CP.BLL.Services.Planning
                     continue;
                 }
 
-                double hoursToBeWorked = nurse.Regime.Hours;
-                double hoursWorked = 0;
+                if (IsAbsent(nurse, day))
+                {
+                    continue;
+                }
 
                 List<Schedule> schedulesInWeek = GetSchedulesInWeek(nurse, weekCDs);
+
+                double hoursToBeWorked = nurse.Regime.Hours;
+                double hoursWorked = 0;
 
                 foreach (var schedule in schedulesInWeek)
                 {
@@ -123,12 +255,17 @@ namespace CP.BLL.Services.Planning
                     continue;
                 }
 
+                if (!PlanningRules.CheckMinimumRestInWeek(schedulesInWeek))
+                {
+                    continue;
+                }
+
                 availableNursesNight.Add(nurse);
             }
 
             if (!availableNursesNight.Any())
             {
-                throw new Exception("No available nurses");
+                throw new Exception("No available nurses night");
             }
 
             if (availableNursesNight.Any(n => n.IsFixedNight))
@@ -219,20 +356,17 @@ namespace CP.BLL.Services.Planning
 
         private static bool HasMinimumOccupancyEarly(CalendarDate day)
         {
-            return true;
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == EARLY).Count == 4;
         }
 
         private static bool HasMinimumOccupancyLate(CalendarDate day)
         {
-            return true;
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == LATE).Count == 4;
         }
 
         private static bool HasMinimumOccupancyNight(CalendarDate day)
         {
-            return day.Schedules
-                .ToList()
-                .FindAll(s => s.Shift.Name.ToLower() == NIGHT)
-                .Any();
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == NIGHT).Any();
         }
 
         private static Schedule BuildSchedule(Employee nurse, CalendarDate day, Shift shift)

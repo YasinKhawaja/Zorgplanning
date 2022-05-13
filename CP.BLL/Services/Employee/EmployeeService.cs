@@ -47,9 +47,12 @@ namespace CP.BLL.Services
 
         public async Task UpdateAsync(int id, EmployeeDTO dto)
         {
-            var employeeFound = await this.FindByAsync(id);
-            Guard.Against.EmployeeNotFound(employeeFound);
-            var employeeToUp = _mapper.Map<Employee>(dto);
+            var employeeToUp = await this.FindByAsync(id);
+            Guard.Against.EmployeeNotFound(employeeToUp);
+            employeeToUp.FirstName = dto.FirstName;
+            employeeToUp.LastName = dto.LastName;
+            employeeToUp.IsFixedNight = dto.IsFixedNight;
+            employeeToUp.RegimeId = dto.RegimeId;
             _unitOfWork.Employees.Update(employeeToUp);
             await _unitOfWork.SaveAsync();
         }
@@ -58,16 +61,27 @@ namespace CP.BLL.Services
         {
             var employeeFound = await this.FindByAsync(id);
             Guard.Against.EmployeeNotFound(employeeFound);
-            _unitOfWork.Employees.Remove(employeeFound);
+            _unitOfWork.Employees.Deactivate(employeeFound);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task<IList<AbsenceDTO>> GetAllAbsencesAsync(int employeeId)
         {
-            var employeeFound = await this.FindByAsync(employeeId, include: nameof(Employee.Absences));
+            var employeeFound = await this.FindByAsync(employeeId, include: "Absences.CalendarDate");
             Guard.Against.EmployeeNotFound(employeeFound);
             var absences = employeeFound.Absences.ToList();
-            return _mapper.Map<IList<Absence>, IList<AbsenceDTO>>(absences);
+            IList<AbsenceDTO> absencesDTOs = new List<AbsenceDTO>();
+            foreach (var absence in absences)
+            {
+                AbsenceDTO absenceDTO = new()
+                {
+                    EmployeeId = absence.EmployeeId,
+                    Day = absence.CalendarDate.Date,
+                    Type = absence.Type.ToString(),
+                };
+                absencesDTOs.Add(absenceDTO);
+            }
+            return absencesDTOs;
         }
 
         public async Task AddAbsenceAsync(int employeeId, AbsenceDTO absenceDTO)
@@ -77,7 +91,13 @@ namespace CP.BLL.Services
             Employee employeeTracked = employeesFound.FirstOrDefault();
             Guard.Against.EmployeeNotFound(employeeTracked);
             // Add absence
-            Absence absenceToAdd = _mapper.Map<AbsenceDTO, Absence>(absenceDTO);
+            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(cd => cd.Date.Equals(absenceDTO.Day));
+            Absence absenceToAdd = new()
+            {
+                EmployeeId = employeeTracked.Id,
+                DateId = dates.FirstOrDefault().Id,
+                Type = (AbsenceType)Enum.Parse(typeof(AbsenceType), absenceDTO.Type)
+            };
             List<Absence> absences = employeeTracked.Absences.ToList();
             absences.Add(absenceToAdd);
             employeeTracked.Absences = absences;
@@ -88,7 +108,7 @@ namespace CP.BLL.Services
         public async Task DeleteAbsenceAsync(int employeeId, DateTime day)
         {
             IList<Absence> absences = await _unitOfWork.Absences
-                .FindByAsync(x => x.EmployeeId.Equals(employeeId) && x.DateId.Equals(day));
+                .FindByAsync(x => x.EmployeeId.Equals(employeeId) && x.CalendarDate.Date == day);
             Absence absence = absences.FirstOrDefault();
             Guard.Against.AbsenceNotFound(absence);
             _unitOfWork.Absences.Remove(absence);

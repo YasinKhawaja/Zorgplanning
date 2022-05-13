@@ -14,5 +14,6 @@ namespace CP.DAL.Repositories
         /// <returns></returns>
         Task<List<Employee>> GetAllInTeamAsync(int teamId);
         Task<Employee> FindEmployeeWithSchedulesInMonth(int employeeId, int year, int month, bool asTracking = false);
+        void Deactivate(Employee employeeFound);
     }
 }

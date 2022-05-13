@@ -26,6 +26,7 @@ namespace CP.BLL.Services.Planning
             {
                 Year = year,
                 Month = month,
+                Days = DateTime.DaysInMonth(year, month),
                 Team = _mapper.Map<PlanningTeamGetDto>(planning),
                 Holidays = dates.Select(x => x.Date)
             };

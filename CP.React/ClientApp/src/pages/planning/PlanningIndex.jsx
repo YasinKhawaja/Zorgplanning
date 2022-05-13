@@ -1,18 +1,14 @@
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import ExportExcel from "./ExportExcel";
+import PlanningTable from "./PlanningTable";
 import PlanningWizard from "./PlanningWizard";
+
+const useStyles = () => ({
+  progressWrap: { display: "flex", justifyContent: "center" },
+});
 
 export default function PlanningIndex() {
   const [isMounted, setIsMounted] = React.useState(false);
@@ -23,7 +19,10 @@ export default function PlanningIndex() {
     setIsMounted(true);
   }, []);
 
+  const classes = useStyles();
+
   const handleGeneratePlanning = (values) => {
+    setShowTable(true);
     fetch("https://localhost:44428/api/planning", {
       method: "POST",
       body: JSON.stringify(values),
@@ -40,7 +39,6 @@ export default function PlanningIndex() {
           .then((data) => {
             const planning = data.result;
             setPlanning(planning);
-            setShowTable(true);
           })
           .catch((error) => {
             console.log(error);
@@ -51,55 +49,27 @@ export default function PlanningIndex() {
       });
   };
 
+  var subContent = planning ? (
+    <>
+      <PlanningTable planning={planning} />
+      {/* <ExportExcel planning={planning} /> */}
+    </>
+  ) : (
+    <Box sx={classes.progressWrap}>
+      <CircularProgress />
+    </Box>
+  );
+
+  var content = showTable ? (
+    <>{subContent}</>
+  ) : (
+    <PlanningWizard onGeneratePlanning={handleGeneratePlanning} />
+  );
+
   return (
     <React.Fragment>
       <Header />
-      <Main>
-        {showTable && planning ? (
-          <>
-            <Box sx={{ marginBottom: "24px" }}>
-              <ExportExcel planning={planning} />
-            </Box>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">Nurse</TableCell>
-                    <TableCell align="center">Regime</TableCell>
-                    {planning.employees[0].schedules.map((s, i) => (
-                      <TableCell key={i} align="center">
-                        {i + 1}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {planning.employees.map((emp) => (
-                    <TableRow
-                      key={emp.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {emp.firstName}&nbsp;
-                        {emp.lastName}
-                      </TableCell>
-                      <TableCell align="center">{emp.regime.hours}</TableCell>
-                      {emp.schedules.map((s) => (
-                        <TableCell align="center">{`${s.shift.start.substring(
-                          0,
-                          5
-                        )}-${s.shift.end.substring(0, 5)}`}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        ) : (
-          <PlanningWizard onGeneratePlanning={handleGeneratePlanning} />
-        )}
-      </Main>
+      <Main>{content}</Main>
     </React.Fragment>
   );
 }

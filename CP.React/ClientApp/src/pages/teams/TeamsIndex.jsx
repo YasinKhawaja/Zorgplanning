@@ -1,9 +1,7 @@
-import GroupsIcon from "@mui/icons-material/Groups";
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
-import PageHeader from "../../components/presentations/PageHeader";
 import TeamService from "../../services/TeamService";
 import Teams from "./Teams";
 

@@ -22,9 +22,6 @@ const useStyles = () => ({
 const headers = [
   { id: "fullName", label: "Full Name" },
   { id: "regimeId", label: "Regime" },
-  { id: "gender", label: "Gender" },
-  { id: "dateOfBirth", label: "Date of Birth" },
-  { id: "town", label: "Town" },
   { id: "isFixedNight", label: "Fixed Night" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
@@ -102,9 +99,7 @@ export default function Employees(props) {
           });
         })
         .catch((error) => {
-          setApiErrors(
-            error.response.data.responseException.exceptionMessage.errors
-          );
+          setApiErrors(error.response.data.errors);
           setEmployeeToEdit(null);
           setOpenDialog(true);
         });
@@ -122,9 +117,7 @@ export default function Employees(props) {
           });
         })
         .catch((error) => {
-          setApiErrors(
-            error.response.data.responseException.exceptionMessage.errors
-          );
+          setApiErrors(error.response.data.errors);
           setEmployeeToEdit(null);
           setOpenDialog(true);
         });
@@ -169,9 +162,6 @@ export default function Employees(props) {
                   {employee.firstName} {employee.lastName}
                 </TableCell>
                 <TableCell>{employee.regimeId}</TableCell>
-                <TableCell>{employee.gender}</TableCell>
-                <TableCell>{employee.dateOfBirth}</TableCell>
-                <TableCell>{employee.town}</TableCell>
                 <TableCell>
                   {Boolean(employee.isFixedNight) ? (
                     <CheckBoxIcon color="success" />

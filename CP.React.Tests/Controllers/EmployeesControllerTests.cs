@@ -72,5 +72,25 @@ namespace CP.React.Controllers.Tests
             // Assert
             response.EnsureSuccessStatusCode();
         }
+
+        [Fact, Priority(3)]
+        public async Task PostAbsenceAsyncTestAsync()
+        {
+            // Arrange
+            string uri = "https://localhost:7224/api/employees";
+
+
+            // Act
+            HttpResponseMessage response = await _client.PostAsync($"{uri}/1/absences");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact, Priority(4)]
+        public void DeleteAbsenceAsyncTest()
+        {
+            Assert.True(false, "This test needs an implementation");
+        }
     }
 }

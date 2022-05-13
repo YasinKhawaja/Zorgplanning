@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React from "react";
 import ReactExport from "react-export-excel";
 import { getCountDaysInMonth } from "./planning-utils";
@@ -22,31 +22,33 @@ export default function ExportExcel(props) {
 
   return (
     props.planning && (
-      <ExcelFile
-        element={
-          <Button color="success" size="large" variant="contained">
-            Export to Excel
-          </Button>
-        }
-      >
-        <ExcelSheet data={props.planning.employees} name="Planning">
-          <ExcelColumn
-            label="Nurse"
-            value={(col) => `${col.firstName} ${col.lastName}`}
-          />
-          <ExcelColumn label="Regime" value={(col) => col.regime.hours} />
-          {nums &&
-            nums.map((day, i) => (
-              <ExcelColumn
-                key={day}
-                label={day}
-                value={(col) =>
-                  `${col.schedules[i].shift.start} - ${col.schedules[i].shift.end}`
-                }
-              />
-            ))}
-        </ExcelSheet>
-      </ExcelFile>
+      <Box sx={{ marginBottom: "24px" }}>
+        <ExcelFile
+          element={
+            <Button color="success" size="large" variant="contained">
+              Export to Excel
+            </Button>
+          }
+        >
+          <ExcelSheet data={props.planning.employees} name="Planning">
+            <ExcelColumn
+              label="Nurse"
+              value={(col) => `${col.firstName} ${col.lastName}`}
+            />
+            <ExcelColumn label="Regime" value={(col) => col.regime.hours} />
+            {nums &&
+              nums.map((day, i) => (
+                <ExcelColumn
+                  key={day}
+                  label={day}
+                  value={(col) =>
+                    `${col.schedules[i].shift.start} - ${col.schedules[i].shift.end}`
+                  }
+                />
+              ))}
+          </ExcelSheet>
+        </ExcelFile>
+      </Box>
     )
   );
 }

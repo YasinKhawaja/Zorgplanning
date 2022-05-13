@@ -24,16 +24,16 @@ export default function NavMenu() {
               Home
             </NavLink>
           </li>
-          {isAuthenticated && (
-            <li>
-              <NavLink to="/dashboard" className="nav-link px-2 link-dark">
-                Dashboard
-              </NavLink>
-            </li>
-          )}
+          {/* {isAuthenticated && ( */}
+          <li>
+            <NavLink to="/dashboard" className="nav-link px-2 link-dark">
+              Dashboard
+            </NavLink>
+          </li>
+          {/* )} */}
         </ul>
         <div className="col-md-3 text-end">
-          {isAuthenticated ? <SignOutButton /> : <SignInButton />}
+          {/* {isAuthenticated ? <SignOutButton /> : <SignInButton />} */}
         </div>
       </header>
     </div>

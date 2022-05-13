@@ -28,9 +28,9 @@ export default function Layout() {
         path="/dashboard"
         render={(props) => (
           <React.Fragment key={props.location.key}>
-            <AuthenticatedTemplate>
-              <ProfileContent />
-            </AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate> */}
+            <ProfileContent />
+            {/* </AuthenticatedTemplate> */}
           </React.Fragment>
         )}
       />
@@ -39,9 +39,9 @@ export default function Layout() {
         path="/holidays"
         render={(props) => (
           <React.Fragment key={props.location.key}>
-            <AuthenticatedTemplate>
-              <HolidaysIndex />
-            </AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate> */}
+            <HolidaysIndex />
+            {/* </AuthenticatedTemplate> */}
           </React.Fragment>
         )}
       />
@@ -50,9 +50,9 @@ export default function Layout() {
         path="/teams"
         render={(props) => (
           <React.Fragment key={props.location.key}>
-            <AuthenticatedTemplate>
-              <TeamsIndex />
-            </AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate> */}
+            <TeamsIndex />
+            {/* </AuthenticatedTemplate> */}
           </React.Fragment>
         )}
       />
@@ -61,9 +61,9 @@ export default function Layout() {
         path="/teams/:teamId/employees"
         render={(props) => (
           <React.Fragment key={props.location.key}>
-            <AuthenticatedTemplate>
-              <EmployeesIndex />
-            </AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate> */}
+            <EmployeesIndex />
+            {/* </AuthenticatedTemplate> */}
           </React.Fragment>
         )}
       />
@@ -72,9 +72,9 @@ export default function Layout() {
         path="/teams/:teamId/employees/:employeeId/calendar"
         render={(props) => (
           <React.Fragment key={props.location.key}>
-            <AuthenticatedTemplate>
-              <CalendarIndex />
-            </AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate> */}
+            <CalendarIndex />
+            {/* </AuthenticatedTemplate> */}
           </React.Fragment>
         )}
       />

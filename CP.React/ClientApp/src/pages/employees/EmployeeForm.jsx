@@ -22,13 +22,6 @@ const initialValues = {
   id: 0,
   firstName: "",
   lastName: "",
-  dateOfBirth: new Date(),
-  gender: "M",
-  address1: "",
-  address2: "",
-  zipCode: "",
-  town: "",
-  country: "",
   isFixedNight: false,
   isActive: true,
   teamId: 0,
@@ -123,23 +116,8 @@ export default function EmployeeForm(props) {
                 onChange={handleInputChange}
                 value={values.lastName}
               />
-              {/* DATE OF BIRTH */}
-              <Controls.DatePicker
-                error={getErrors("DateOfBirth")}
-                label=""
-                name="dateOfBirth"
-                onChange={handleInputChange}
-                value={values.dateOfBirth}
-              />
-              {/* GENDER */}
-              <Controls.RadioGroup
-                error={getErrors("Gender")}
-                items={genderItems}
-                label="Gender"
-                name="gender"
-                onChange={handleInputChange}
-                value={values.gender}
-              />
+            </Grid>
+            <Grid item xs={6}>
               {/* IS FIXED NIGHT */}
               <Controls.Checkbox
                 label="Fixed Night"
@@ -147,53 +125,9 @@ export default function EmployeeForm(props) {
                 onChange={handleInputChange}
                 value={values.isFixedNight}
               />
-            </Grid>
-            <Grid item xs={6}>
-              {/* ADDRESS 1 */}
-              <Controls.Input
-                error={getErrors("Address1")}
-                label="Address 1"
-                name="address1"
-                onChange={handleInputChange}
-                value={values.address1}
-              />
-              {/* ADDRESS 2 */}
-              <Controls.Input
-                label="Address 2"
-                name="address2"
-                onChange={handleInputChange}
-                value={values.address2}
-              />
-              {/* ZIP CODE */}
-              <Controls.Input
-                error={getErrors("ZipCode")}
-                label="ZIP Code"
-                name="zipCode"
-                onChange={handleInputChange}
-                value={values.zipCode}
-              />
-              {/* TOWN */}
-              <Controls.Input
-                error={getErrors("Town")}
-                label="Town"
-                name="town"
-                onChange={handleInputChange}
-                value={values.town}
-              />
-              {/* COUNTRY */}
-              <Controls.Select
-                error={getErrors("Country")}
-                label="Country"
-                name="country"
-                onChange={handleInputChange}
-                options={[{ id: "Belgium", name: "Belgium" }]}
-                value={values.country}
-              />
-            </Grid>
-            <Grid item xs={12}>
               {/* REGIME */}
               <Controls.Select
-                error={getErrors("Regime")}
+                error={getErrors("RegimeId")}
                 label="Regime"
                 name="regimeId"
                 onChange={handleInputChange}

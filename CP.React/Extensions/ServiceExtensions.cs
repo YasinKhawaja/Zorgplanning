@@ -31,7 +31,7 @@ namespace CP.React.Extensions
             services.AddDbContext<CarePlannerContext>(
                 o =>
                 {
-                    o.UseSqlServer(Configuration.GetSection("Development").GetConnectionString("CarePlannerDbAzure"),
+                    o.UseSqlServer(Configuration.GetConnectionString("CarePlannerDbAzure"),
                         x => x.MigrationsAssembly("CP.DAL"));
                 });
         }
