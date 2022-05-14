@@ -103,7 +103,7 @@ export default function PlanningTable(props) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Nurse</TableCell>
+            <TableCell align="left">Zorgkundige</TableCell>
             <TableCell align="center">Regime</TableCell>
             {Array.from(Array(planning.days).keys()).map((day) => (
               <TableCell

@@ -51,8 +51,8 @@ export default function PlanningIndex() {
 
   var subContent = planning ? (
     <>
+      <ExportExcel planning={planning} />
       <PlanningTable planning={planning} />
-      {/* <ExportExcel planning={planning} /> */}
     </>
   ) : (
     <Box sx={classes.progressWrap}>

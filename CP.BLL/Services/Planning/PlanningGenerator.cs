@@ -356,12 +356,12 @@ namespace CP.BLL.Services.Planning
 
         private static bool HasMinimumOccupancyEarly(CalendarDate day)
         {
-            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == EARLY).Count == 4;
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == EARLY).Count == 3;
         }
 
         private static bool HasMinimumOccupancyLate(CalendarDate day)
         {
-            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == LATE).Count == 4;
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == LATE).Count == 3;
         }
 
         private static bool HasMinimumOccupancyNight(CalendarDate day)
