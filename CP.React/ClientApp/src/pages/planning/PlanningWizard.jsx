@@ -90,6 +90,16 @@ export default function PlanningWizard(props) {
     }
   };
 
+  var content = planning ? (
+    <>
+      <PlanningTable planning={planning} />
+      {/* <ExportExcel planning={planning} /> */}
+    </>
+  ) : (
+    <Box sx={classes.progressWrap}>
+      <CircularProgress />
+    </Box>
+  );
   return (
     <Container component="div" maxWidth="sm">
       <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>

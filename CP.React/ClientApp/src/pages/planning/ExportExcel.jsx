@@ -30,7 +30,7 @@ export default function ExportExcel(props) {
             </Button>
           }
         >
-          <ExcelSheet data={props.planning.employees} name="Planning">
+          <ExcelSheet data={props.planning.team.employees} name="Planning">
             <ExcelColumn
               label="Nurse"
               value={(col) => `${col.firstName} ${col.lastName}`}
