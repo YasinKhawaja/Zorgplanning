@@ -6,7 +6,6 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import { Button } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { SignOutButton } from "../authentication/SignOutButton";
 
 function NavLinkButton(props) {
   return (
@@ -48,7 +47,10 @@ export default function Header() {
                 color: isActive ? "#0288D1" : "",
               })}
             >
-              <NavLinkButton text="Holidays" startIcon={<CelebrationIcon />} />
+              <NavLinkButton
+                text="Feestdagen"
+                startIcon={<CelebrationIcon />}
+              />
             </NavLink>
           </li>
           <li>

@@ -19,7 +19,7 @@ namespace CP.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<IList<CalendarDateDTO>> GetAllAsync()
+        public Task<IList<CalendarDateDTO>> GetAllAsync()
         {
             //var teams = await _unitOfWork.CalendarDates.FindAllAsync(
             //    nameof(CalendarDate.Employees),
@@ -34,7 +34,7 @@ namespace CP.BLL.Services
             return _mapper.Map<List<HolidayDTO>>(holidays);
         }
 
-        public async Task<CalendarDateDTO> GetAsync(int id)
+        public Task<CalendarDateDTO> GetAsync(int id)
         {
             //var teams = await _unitOfWork.CalendarDates
             //    .FindByAsync(x => x.Id.Equals(id), include: nameof(CalendarDate.Employees));
