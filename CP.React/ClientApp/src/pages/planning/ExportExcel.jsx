@@ -59,7 +59,7 @@ export default function ExportExcel(props) {
       <ExcelFile
         filename={getFileName()}
         element={
-          <Button color="success" variant="contained">
+          <Button variant="contained" color="success" disableElevation>
             Exporteren naar Excel
           </Button>
         }

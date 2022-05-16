@@ -6,10 +6,12 @@ const useStyles = () => ({
 });
 
 export default function Main(props) {
-  const classes = useStyles();
   const { children } = props;
+
+  const classes = useStyles();
+
   return (
-    <Paper sx={classes.main} component={"main"}>
+    <Paper component={"main"} elevation={0} sx={classes.main}>
       {children}
     </Paper>
   );

@@ -21,7 +21,13 @@ export default function Calendar(props) {
 
   React.useEffect(() => {
     fetchEvents();
-  }, [setEvents]);
+  }, []);
+
+  React.useEffect(() => {
+    if (!openAddOrEditDialog) {
+      setApiErrors(null);
+    }
+  }, [openAddOrEditDialog]);
 
   const fetchEvents = () => {
     EmployeeService.getAllAbsences(props.employee.id)

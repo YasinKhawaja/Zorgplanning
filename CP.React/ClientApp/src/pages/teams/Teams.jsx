@@ -63,7 +63,7 @@ export default function Teams(props) {
           setOpenAddOrEditDialog(false);
           resetFormFn();
           setApiErrors(null);
-          props.onRefresh();
+          fetchTeams();
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -73,7 +73,7 @@ export default function Teams(props) {
         .then(() => {
           setOpenAddOrEditDialog(false);
           resetFormFn();
-          props.onRefresh();
+          fetchTeams();
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -86,7 +86,7 @@ export default function Teams(props) {
       .then(() => {
         setOpenDeleteDialog(false);
         setTeamToEdit(null);
-        props.onRefresh();
+        fetchTeams();
       })
       .catch((error) => {
         console.error(error);

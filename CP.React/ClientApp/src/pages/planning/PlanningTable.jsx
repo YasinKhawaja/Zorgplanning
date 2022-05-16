@@ -1,5 +1,4 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -23,24 +22,24 @@ export default function PlanningTable(props) {
     var styles = {};
 
     if (schedule.shift.start === "00:00:00") {
-      styles.color = "#FFFFFF";
+      styles.color = "#FFFFFF !important";
     }
 
     if (
       weekends.includes(new Date(schedule.date).getDate()) &&
       schedule.shift.start === "00:00:00"
     ) {
-      styles.backgroundColor = "#C0C0C0";
-      styles.color = "#C0C0C0";
+      styles.backgroundColor = "#C0C0C0 !important";
+      styles.color = "#C0C0C0 !important";
     } else if (
       weekends.includes(new Date(schedule.date).getDate()) &&
       schedule.shift.start !== "00:00:00"
     ) {
-      styles.backgroundColor = "#C0C0C0";
+      styles.backgroundColor = "#C0C0C0 !important";
     }
 
     if (planning.holidays.includes(schedule.date)) {
-      styles.color = "#FF00FF";
+      styles.color = "#FF00FF !important";
     }
 
     const absence = employee.absences.find(
@@ -50,13 +49,13 @@ export default function PlanningTable(props) {
     if (absence !== undefined) {
       switch (absence.type) {
         case "Leave":
-          styles.color = "#00FF00";
+          styles.color = "#00FF00 !important";
           break;
         case "Sickness":
-          styles.color = "#FF0000";
+          styles.color = "#FF0000 !important";
           break;
         case "WorkingTimeReduction":
-          styles.color = "#0000FF";
+          styles.color = "#0000FF !important";
           break;
         default:
           break;
@@ -72,17 +71,17 @@ export default function PlanningTable(props) {
     );
 
     if (planning.holidays.includes(schedule.date)) {
-      return <h3>F</h3>;
+      return <h3 style={{ marginBottom: "0px" }}>F</h3>;
     }
 
     if (absence !== undefined) {
       switch (absence.type) {
         case "Leave":
-          return <h3>V</h3>;
+          return <h3 style={{ marginBottom: "0px" }}>V</h3>;
         case "Sickness":
-          return <h3>Z</h3>;
+          return <h3 style={{ marginBottom: "0px" }}>Z</h3>;
         case "WorkingTimeReduction":
-          return <h3>A</h3>;
+          return <h3 style={{ marginBottom: "0px" }}>A</h3>;
         default:
           break;
       }
@@ -99,8 +98,12 @@ export default function PlanningTable(props) {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer>
+      <Table
+        className="table table-hover"
+        sx={{ minWidth: 650 }}
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
             <TableCell align="left">Zorgkundige</TableCell>
@@ -111,7 +114,7 @@ export default function PlanningTable(props) {
                 align="center"
                 sx={
                   weekends.includes(day + 1)
-                    ? { backgroundColor: "#C0C0C0" }
+                    ? { backgroundColor: "#C0C0C0 !important" }
                     : null
                 }
               >
@@ -126,7 +129,11 @@ export default function PlanningTable(props) {
               key={emp.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell
+                component="th"
+                scope="row"
+                sx={{ whiteSpace: "nowrap" }}
+              >
                 {emp.firstName}&nbsp;{emp.lastName}&nbsp;
                 {emp.isFixedNight ? "(vaste nacht)" : ""}
               </TableCell>

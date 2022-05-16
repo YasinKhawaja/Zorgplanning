@@ -90,16 +90,6 @@ export default function PlanningWizard(props) {
     }
   };
 
-  var content = planning ? (
-    <>
-      <PlanningTable planning={planning} />
-      {/* <ExportExcel planning={planning} /> */}
-    </>
-  ) : (
-    <Box sx={classes.progressWrap}>
-      <CircularProgress />
-    </Box>
-  );
   return (
     <Container component="div" maxWidth="sm">
       <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
@@ -117,9 +107,10 @@ export default function PlanningWizard(props) {
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
-                Bedankt voor je input.
+                Klaar voor generatie
               </Typography>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle1" sx={{ textAlign: "justify" }}>
+                {/* eg. Er wordt een maandplanning voor Team A gegenereerd voor januari 2022. */}
                 Er wordt een maandplanning voor{" "}
                 <b>{getOptionById(teamOptions, form.values.teamId).name}</b>{" "}
                 gegenereerd voor{" "}
@@ -138,9 +129,10 @@ export default function PlanningWizard(props) {
                   </Button>
                 </Link>
                 <Button
+                  variant="contained"
+                  disableElevation
                   onClick={handleGenerate}
                   sx={{ mt: 3, ml: 1 }}
-                  variant="contained"
                 >
                   Genereer
                 </Button>
@@ -160,6 +152,8 @@ export default function PlanningWizard(props) {
                     sx={{ mt: 3, ml: 1 }}
                     type="submit"
                     variant="contained"
+                    disableElevation
+                    {...(teamOptions.length === 0 && { disabled: true })}
                   >
                     {activeStep === steps.length - 1 ? "Voltooi" : "Volgende"}
                   </Button>

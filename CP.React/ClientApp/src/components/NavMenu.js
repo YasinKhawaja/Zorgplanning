@@ -1,12 +1,9 @@
-import { useIsAuthenticated } from "@azure/msal-react";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import * as React from "react";
 import { NavLink } from "react-router-dom";
-import { SignInButton } from "./authentication/SignInButton";
-import { SignOutButton } from "./authentication/SignOutButton";
 
 export default function NavMenu() {
-  const isAuthenticated = useIsAuthenticated();
+  // const isAuthenticated = useIsAuthenticated();
 
   return (
     <div className="fixed-top" style={{ backgroundColor: "#F4F5FD" }}>

@@ -26,9 +26,7 @@ const initialValues = {
 
 export default function AbsenceForm(props) {
   React.useEffect(() => {
-    if (props.apiErrors != null) {
-      setErrors({ ...props.apiErrors });
-    }
+    setErrors({ ...props.apiErrors });
   }, [props.apiErrors]);
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =

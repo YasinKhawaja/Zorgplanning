@@ -1,4 +1,5 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
@@ -6,20 +7,25 @@ import ExportExcel from "./ExportExcel";
 import PlanningTable from "./PlanningTable";
 import PlanningWizard from "./PlanningWizard";
 
-const useStyles = () => ({
-  progressWrap: { display: "flex", justifyContent: "center" },
-});
+function PlanningTableSkeleton() {
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={2}>
+        <Skeleton animation="wave" variant="rect" height={35} width={190} />
+      </Grid>
+      <Grid item xs={10}></Grid>
+      {[...Array(132)].map((e, i) => (
+        <Grid key={i} item xs={1}>
+          <Skeleton animation="wave" />
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
 
 export default function PlanningIndex() {
-  const [isMounted, setIsMounted] = React.useState(false);
   const [showTable, setShowTable] = React.useState(false);
   const [planning, setPlanning] = React.useState(null);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const classes = useStyles();
 
   const handleGeneratePlanning = (values) => {
     setShowTable(true);
@@ -55,9 +61,7 @@ export default function PlanningIndex() {
       <PlanningTable planning={planning} />
     </>
   ) : (
-    <Box sx={classes.progressWrap}>
-      <CircularProgress />
-    </Box>
+    <PlanningTableSkeleton />
   );
 
   var content = showTable ? (
