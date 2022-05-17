@@ -11,7 +11,12 @@ function PlanningTableSkeleton() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={2}>
-        <Skeleton animation="wave" variant="rect" height={35} width={190} />
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          height={35}
+          width={190}
+        />
       </Grid>
       <Grid item xs={10}></Grid>
       {[...Array(132)].map((e, i) => (

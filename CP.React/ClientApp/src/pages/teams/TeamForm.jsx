@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Button, DialogActions, Grid } from "@mui/material";
 import parse from "html-react-parser";
 import React from "react";
 import Controls from "../../components/controls/Controls";
@@ -54,17 +54,19 @@ export default function TeamForm(props) {
           {/* NAME */}
           <Controls.Input
             error={getErrors("Name")}
-            label="Name"
+            label="Naam"
             name="name"
             value={values.name}
             onChange={handleInputChange}
           />
         </Grid>
       </Grid>
-      <div style={classes.buttonsWrap}>
-        <Controls.Button color="grey" text="RESET" onClick={resetForm} />
-        <Controls.Button text="SUBMIT" type="submit" />
-      </div>
+      <DialogActions sx={{ paddingTop: "0px", paddingBottom: "0px" }}>
+        <Button onClick={() => props.onClose(false)}>Annuleren</Button>
+        <Button type="submit" color="success">
+          Opslaan
+        </Button>
+      </DialogActions>
     </Form>
   );
 }

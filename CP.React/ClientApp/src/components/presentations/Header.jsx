@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 function HeaderNavLink(props) {
   return (
     <NavLink
+      {...(props.to === "/teams" ? null : { exact: true })}
       to={props.to}
       className={(isActive) =>
         "nav-link px-2 link-dark" + (!isActive ? " unselected" : "")
@@ -43,7 +44,7 @@ export default function Header() {
         <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
             <HeaderNavLink
-              to="/dashboard"
+              to="/"
               text="Dashboard"
               startIcon={<DashboardIcon />}
             />

@@ -2,28 +2,26 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
-  CircularProgress,
   Dialog as MuiDialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
+  Skeleton,
 } from "@mui/material";
 import React from "react";
-import Controls from "../../components/controls/Controls";
-import Dialog from "../../components/presentations/Dialog";
 import TeamService from "../../services/TeamService";
 import TeamForm from "./TeamForm";
 import TeamsList from "./TeamsList";
 
 const useStyles = () => ({
-  btnAddDiv: { marginTop: "24px", textAlign: "center" },
+  btnAddDiv: { marginBottom: "24px" },
   progressWrap: { display: "flex", justifyContent: "center" },
 });
 
-export default function Teams(props) {
+export default function Teams() {
   const [teams, setTeams] = React.useState(null);
-  const [isPending, setIsPending] = React.useState(true);
   const [openAddOrEditDialog, setOpenAddOrEditDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [teamToEdit, setTeamToEdit] = React.useState(null);
@@ -39,7 +37,6 @@ export default function Teams(props) {
     TeamService.getAll()
       .then((response) => {
         setTeams(response.data.result);
-        setIsPending(false);
       })
       .catch((error) => {
         console.error(error);
@@ -47,7 +44,8 @@ export default function Teams(props) {
   };
 
   const handleClickOpen = () => {
-    setOpenAddOrEditDialog({ open: true, team: null });
+    setTeamToEdit(null);
+    setOpenAddOrEditDialog(true);
   };
 
   const handleClickClose = (bool) => {
@@ -93,73 +91,117 @@ export default function Teams(props) {
       });
   };
 
-  if (!isPending) {
-    return (
-      <>
-        <TeamsList
-          teams={teams}
-          onSetTeamToEdit={setTeamToEdit}
-          onOpenAddOrEditDialog={setOpenAddOrEditDialog}
-          onOpenDeleteDialog={setOpenDeleteDialog}
-        />
-        <Box sx={classes.btnAddDiv}>
-          <Controls.Button
-            text="ADD"
-            startIcon={<AddIcon />}
-            onClick={handleClickOpen}
-          ></Controls.Button>
-        </Box>
-        {/* TEAM ADD & EDIT */}
-        <Dialog
-          sx={{
-            "& .css-1fu2e3p-MuiPaper-root-MuiDialog-paper": {
-              minWidth: "500px",
-            },
-          }}
-          title={
-            teamToEdit == null
-              ? "Add Team"
-              : `Edit Team <strong>${teamToEdit && teamToEdit.name}</strong>`
-          }
-          openDialog={openAddOrEditDialog}
-          setOpenDialog={handleClickClose}
-        >
-          <TeamForm
-            onAddOrEdit={handleAddOrEdit}
-            teamToEdit={teamToEdit}
-            apiErrors={apiErrors}
-          />
-        </Dialog>
-        {/* TEAM DELETE */}
-        <MuiDialog
-          open={openDeleteDialog}
-          onClose={() => setOpenDeleteDialog(false)}
-        >
-          <DialogTitle>
-            Are you sure you want to delete team{" "}
-            <strong>{teamToEdit && teamToEdit.name}</strong>?
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              This action <strong>cannot</strong> be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDeleteDialog(false)} autoFocus>
-              CANCEL
-            </Button>
-            <Button color="error" onClick={() => handleDelete(teamToEdit.id)}>
-              DELETE
-            </Button>
-          </DialogActions>
-        </MuiDialog>
-      </>
-    );
-  } else {
-    return (
-      <Box sx={classes.progressWrap}>
-        <CircularProgress />
+  return teams !== null ? (
+    <>
+      <Box sx={classes.btnAddDiv}>
+        <TeamAddButton onClick={handleClickOpen} />
       </Box>
-    );
-  }
+      <TeamsList
+        teams={teams}
+        onSetTeamToEdit={setTeamToEdit}
+        onOpenAddOrEditDialog={setOpenAddOrEditDialog}
+        onOpenDeleteDialog={setOpenDeleteDialog}
+      />
+      <TeamAddEditDialog
+        onClose={handleClickClose}
+        open={openAddOrEditDialog}
+        onAddOrEdit={handleAddOrEdit}
+        teamToEdit={teamToEdit}
+        apiErrors={apiErrors}
+      />
+      <TeamDeleteDialog
+        teamToEdit={teamToEdit}
+        open={openDeleteDialog}
+        onClose={setOpenDeleteDialog}
+        onDelete={handleDelete}
+      />
+    </>
+  ) : (
+    <TeamsSkeleton />
+  );
+}
+
+function TeamsSkeleton() {
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={1.5}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={10.5}></Grid>
+      {[...Array(10)].map((e, i) => (
+        <React.Fragment key={i}>
+          <Grid item xs={11.5}>
+            <Skeleton variant="rectangular" animation="wave" />
+          </Grid>
+          <Grid item xs={0.5}>
+            <Skeleton variant="circular" animation="wave" />
+          </Grid>
+        </React.Fragment>
+      ))}
+    </Grid>
+  );
+}
+
+function TeamAddButton(props) {
+  return (
+    <Button
+      variant="contained"
+      startIcon={<AddIcon />}
+      disableElevation
+      onClick={props.onClick}
+    >
+      NIEUW TEAM
+    </Button>
+  );
+}
+
+function TeamAddEditDialog(props) {
+  return (
+    <MuiDialog
+      open={props.open}
+      onClose={() => props.onClose(false)}
+      fullWidth
+      maxWidth="sm"
+    >
+      <DialogTitle>
+        {props.teamToEdit === null
+          ? "Maak een nieuw team aan"
+          : "Bewerk team " + props.teamToEdit.name}
+      </DialogTitle>
+      <DialogContent>
+        <TeamForm
+          apiErrors={props.apiErrors}
+          teamToEdit={props.teamToEdit}
+          onAddOrEdit={props.onAddOrEdit}
+          onClose={props.onClose}
+        />
+      </DialogContent>
+    </MuiDialog>
+  );
+}
+
+function TeamDeleteDialog(props) {
+  return (
+    <MuiDialog open={props.open} onClose={() => props.onClose(false)}>
+      <DialogTitle>
+        Weet je zeker dat je team{" "}
+        <strong>{props.teamToEdit && props.teamToEdit.name}</strong> wilt
+        verwijderen?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Deze actie kan <strong>niet</strong> ongedaan gemaakt worden.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => props.onClose(false)}>ANNULEREN</Button>
+        <Button
+          color="error"
+          onClick={() => props.onDelete(props.teamToEdit.id)}
+        >
+          VERWIJDEREN
+        </Button>
+      </DialogActions>
+    </MuiDialog>
+  );
 }

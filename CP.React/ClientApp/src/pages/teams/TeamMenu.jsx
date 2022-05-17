@@ -1,7 +1,14 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+} from "@mui/material";
 import React from "react";
 
 export default function TeamMenu(props) {
@@ -18,32 +25,56 @@ export default function TeamMenu(props) {
 
   return (
     <>
-      <IconButton
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        <MoreHorizIcon />
-      </IconButton>
-      <Menu
-        id="basic-menu"
+      <TeamIconMenuButton open={open} onClick={handleClick} />
+      <TeamMenuList
         anchorEl={anchorEl}
         open={open}
+        team={props.team}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
+        onOpenAddOrEditDialog={props.onOpenAddOrEditDialog}
+        onOpenDeleteDialog={props.onOpenDeleteDialog}
+        onSetTeamToEdit={props.onSetTeamToEdit}
+      />
+    </>
+  );
+}
+
+function TeamIconMenuButton(props) {
+  return (
+    <IconButton
+      id="basic-button"
+      aria-controls={props.open ? "basic-menu" : undefined}
+      aria-haspopup="true"
+      aria-expanded={props.open ? "true" : undefined}
+      onClick={props.onClick}
+    >
+      <MoreHorizIcon />
+    </IconButton>
+  );
+}
+
+function TeamMenuList(props) {
+  return (
+    <Menu
+      id="basic-menu"
+      anchorEl={props.anchorEl}
+      open={props.open}
+      onClose={props.onClose}
+      MenuListProps={{
+        "aria-labelledby": "basic-button",
+      }}
+    >
+      <MenuList disablePadding>
         <MenuItem
           onClick={() => {
             props.onOpenAddOrEditDialog(true);
             props.onSetTeamToEdit(props.team);
           }}
         >
-          <EditIcon color="success" fontSize="small" />
-          Edit
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Bijwerken</ListItemText>
         </MenuItem>
         {!props.team.hasChildren && (
           <MenuItem
@@ -52,11 +83,13 @@ export default function TeamMenu(props) {
               props.onSetTeamToEdit(props.team);
             }}
           >
-            <DeleteIcon color="error" fontSize="small" />
-            Delete
+            <ListItemIcon>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Verwijderen</ListItemText>
           </MenuItem>
         )}
-      </Menu>
-    </>
+      </MenuList>
+    </Menu>
   );
 }

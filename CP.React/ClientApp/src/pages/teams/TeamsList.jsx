@@ -6,14 +6,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import * as React from "react";
 import TeamMenu from "./TeamMenu";
 
-const useStyles = () => ({ list: { border: 1, borderColor: "primary.main" } });
-
 export default function TeamsList(props) {
-  const classes = useStyles();
   return (
-    <List sx={classes.list} disablePadding>
+    <List disablePadding>
       {props.teams.map((team) => (
         <ListItem
           key={team.id}
@@ -26,6 +24,7 @@ export default function TeamsList(props) {
             />
           }
           disablePadding
+          divider
         >
           <ListItemButton component="a" href={`/teams/${team.id}/employees`}>
             <ListItemIcon>

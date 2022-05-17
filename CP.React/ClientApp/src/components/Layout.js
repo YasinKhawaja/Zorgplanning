@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import CalendarIndex from "../pages/calendar/CalendarIndex";
 import Dashboard from "../pages/dashboard/Dashboard";
 import EmployeesIndex from "../pages/employees/EmployeesIndex";
