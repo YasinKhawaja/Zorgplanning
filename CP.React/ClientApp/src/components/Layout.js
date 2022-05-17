@@ -10,10 +10,9 @@ import TeamsIndex from "../pages/teams/TeamsIndex";
 export default function Layout() {
   return (
     <Switch>
-      <Redirect exact from="/" to="/dashboard" />
       <Route
         exact
-        path="/dashboard"
+        path="/"
         render={(props) => (
           <React.Fragment key={props.location.key}>
             {/* <AuthenticatedTemplate> */}

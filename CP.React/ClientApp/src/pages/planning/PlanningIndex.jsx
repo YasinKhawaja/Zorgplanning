@@ -29,7 +29,7 @@ export default function PlanningIndex() {
 
   const handleGeneratePlanning = (values) => {
     setShowTable(true);
-    fetch("/planning", {
+    fetch("/api/planning", {
       method: "POST",
       body: JSON.stringify(values),
       headers: {
@@ -38,7 +38,7 @@ export default function PlanningIndex() {
     })
       .then(() => {
         fetch(
-          `/planning?teamId=${values.teamId}&year=${values.year}&month=${values.month}`,
+          `/api/planning?teamId=${values.teamId}&year=${values.year}&month=${values.month}`,
           { method: "GET" }
         )
           .then((response) => response.json())
