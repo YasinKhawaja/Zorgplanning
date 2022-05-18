@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Button, DialogActions, Grid } from "@mui/material";
 import parse from "html-react-parser";
 import React from "react";
 import Controls from "../../components/controls/Controls";
@@ -52,7 +52,7 @@ export default function AbsenceForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ marginBottom: "16px" }}>
           {/* TYPE */}
           <Controls.Select
             error={getErrors("Type")}
@@ -64,10 +64,12 @@ export default function AbsenceForm(props) {
           />
         </Grid>
       </Grid>
-      <div style={classes.buttonsWrap}>
-        <Controls.Button color="grey" text="RESET" onClick={resetForm} />
-        <Controls.Button text="SUBMIT" type="submit" />
-      </div>
+      <DialogActions sx={{ paddingTop: "0px", paddingBottom: "0px" }}>
+        <Button onClick={() => props.onClose(false)}>Annuleren</Button>
+        <Button type="submit" color="success">
+          Opslaan
+        </Button>
+      </DialogActions>
     </Form>
   );
 }

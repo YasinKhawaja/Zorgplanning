@@ -1,16 +1,13 @@
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { Box, CircularProgress } from "@mui/material";
+import { Grid, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import * as Router from "react-router-dom";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
-import PageHeader from "../../components/presentations/PageHeader";
 import EmployeeService from "../../services/EmployeeService";
 import Calendar from "./Calendar";
 
 export default function CalendarIndex() {
   const [employee, setEmployee] = React.useState(null);
-  const [isPending, setIsPending] = React.useState(true);
 
   const { employeeId } = Router.useParams();
 
@@ -18,35 +15,88 @@ export default function CalendarIndex() {
     EmployeeService.get(employeeId)
       .then((response) => {
         setEmployee(response.data.result);
-        setIsPending(false);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const content =
-    !employee && isPending ? (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress />
-      </Box>
-    ) : (
-      <>
-        <Calendar employee={employee} />
-      </>
-    );
-
   return (
     <>
       <Header />
-      {employee && !isPending && (
-        <PageHeader
-          icon={<CalendarMonthIcon fontSize="large" />}
-          title="Leave Planning"
-          subtitle={`The leave planning of the nurse <b>${employee.firstName}</b>.`}
-        />
-      )}
-      <Main>{content}</Main>
+      <Main>
+        {employee !== null ? (
+          <>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{ marginBottom: "24px" }}
+            >
+              Verlofplanning van "{employee.firstName + " " + employee.lastName}
+              "
+            </Typography>
+            <Calendar employee={employee} />
+          </>
+        ) : (
+          <CalendarSkeleton />
+        )}
+      </Main>
     </>
+  );
+}
+
+function CalendarSkeleton() {
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={6}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      <Grid item xs={1}>
+        <Skeleton animation="wave" variant="rectangular" height={35} />
+      </Grid>
+      {[...Array(6)].map((e, i) => (
+        <React.Fragment key={i}>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+          <Grid item xs={1.714285714285714}>
+            <Skeleton variant="rectangular" animation="wave" height={100} />
+          </Grid>
+        </React.Fragment>
+      ))}
+    </Grid>
   );
 }

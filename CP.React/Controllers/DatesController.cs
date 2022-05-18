@@ -20,23 +20,6 @@ namespace CP.React.Controllers
             _calendarDateService = dateService;
         }
 
-        #region GET: api/<CalendarDatesController>
-        [HttpGet]
-        public async Task<ApiResponse> GetAsync()
-        {
-            try
-            {
-                var dates = await _calendarDateService.GetAllAsync();
-                return new ApiResponse(dates);
-            }
-            catch (Exception exc)
-            {
-                _logger.LogError("{msg}", exc.Message);
-                throw new ApiException(exc);
-            }
-        }
-        #endregion
-
         #region GET: api/<CalendarDatesController>/holidays
         [HttpGet]
         [Route("holidays")]
@@ -74,12 +57,13 @@ namespace CP.React.Controllers
 
         #region POST api/<CalendarDatesController>
         [HttpPost]
-        public async Task<ApiResponse> PostAsync([FromBody] CalendarDateDTO dateDTO)
+        [Route("holidays")]
+        public async Task<ApiResponse> PostAsync([FromBody] HolidayDTO holidayDTO)
         {
             try
             {
-                CalendarDateDTO date = await _calendarDateService.CreateAsync(dateDTO);
-                return new ApiResponse(date);
+                await _calendarDateService.AddHolidayAsync(holidayDTO);
+                return new ApiResponse();
             }
             catch (Exception exc)
             {
@@ -111,13 +95,14 @@ namespace CP.React.Controllers
         #endregion
 
         #region DELETE api/<CalendarDatesController>/5
-        [HttpDelete("{id}")]
-        public async Task<ApiResponse> DeleteAsync(int id)
+        [HttpDelete]
+        [Route("holidays")]
+        public async Task<ApiResponse> DeleteAsync(DateTime date)
         {
             try
             {
-                await _calendarDateService.DeleteAsync(id);
-                return new ApiResponse("TEAM DELETED");
+                await _calendarDateService.RemoveHolidayAsync(date);
+                return new ApiResponse();
             }
             catch (Exception exc)
             {

@@ -71,6 +71,7 @@ export default function Teams() {
         .then(() => {
           setOpenAddOrEditDialog(false);
           resetFormFn();
+          setApiErrors(null);
           fetchTeams();
         })
         .catch((error) => {
@@ -166,7 +167,7 @@ function TeamAddEditDialog(props) {
       <DialogTitle>
         {props.teamToEdit === null
           ? "Maak een nieuw team aan"
-          : "Bewerk team " + props.teamToEdit.name}
+          : 'Bewerk team "' + props.teamToEdit.name + '"'}
       </DialogTitle>
       <DialogContent>
         <TeamForm
@@ -184,9 +185,8 @@ function TeamDeleteDialog(props) {
   return (
     <MuiDialog open={props.open} onClose={() => props.onClose(false)}>
       <DialogTitle>
-        Weet je zeker dat je team{" "}
-        <strong>{props.teamToEdit && props.teamToEdit.name}</strong> wilt
-        verwijderen?
+        Weet je zeker dat je team "{props.teamToEdit && props.teamToEdit.name}"
+        wilt verwijderen?
       </DialogTitle>
       <DialogContent>
         <DialogContentText>

@@ -8,5 +8,7 @@ namespace CP.BLL.Services
     public interface ICalendarDateService : IService<CalendarDateDTO>
     {
         Task<List<HolidayDTO>> GetAllHolidaysAsync();
+        Task AddHolidayAsync(HolidayDTO holidayDTO);
+        Task RemoveHolidayAsync(DateTime date);
     }
 }

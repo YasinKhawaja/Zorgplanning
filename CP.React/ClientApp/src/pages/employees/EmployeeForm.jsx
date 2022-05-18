@@ -1,22 +1,9 @@
-import { Grid } from "@mui/material";
+import { Button, DialogActions, Grid } from "@mui/material";
 import parse from "html-react-parser";
 import React from "react";
 import Controls from "../../components/controls/Controls";
 import { Form, useForm } from "../../hooks/useForm";
 import RegimeService from "../../services/RegimeService";
-
-const useStyles = () => ({
-  buttonsWrap: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
-
-const genderItems = [
-  { id: "M", title: "Male" },
-  { id: "F", title: "Female" },
-  { id: "O", title: "Other" },
-];
 
 const initialValues = {
   id: 0,
@@ -29,7 +16,7 @@ const initialValues = {
 };
 
 export default function EmployeeForm(props) {
-  const { addOrEdit, employeeToEdit } = props;
+  const { employeeToEdit } = props;
 
   const [regimes, setRegimes] = React.useState(null);
   const [isPending, setIsPending] = React.useState(true);
@@ -77,8 +64,6 @@ export default function EmployeeForm(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialValues, true, validate);
 
-  const classes = useStyles();
-
   const getErrors = (input) => {
     if (errors === null) return "";
     if (errors[input] === undefined) return "";
@@ -91,14 +76,14 @@ export default function EmployeeForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addOrEdit(values, resetForm);
+    props.onAddOrEdit(values, resetForm);
   };
 
   return (
     <>
       {!isPending && (
         <Form onSubmit={handleSubmit}>
-          <Grid container>
+          <Grid container spacing={2} sx={{ marginBottom: "16px" }}>
             <Grid item xs={6}>
               {/* FIRST NAME */}
               <Controls.Input
@@ -108,6 +93,8 @@ export default function EmployeeForm(props) {
                 onChange={handleInputChange}
                 value={values.firstName}
               />
+            </Grid>
+            <Grid item xs={6}>
               {/* LAST NAME */}
               <Controls.Input
                 error={getErrors("LastName")}
@@ -125,6 +112,8 @@ export default function EmployeeForm(props) {
                 onChange={handleInputChange}
                 value={values.isFixedNight}
               />
+            </Grid>
+            <Grid item xs={6}>
               {/* REGIME */}
               <Controls.Select
                 error={getErrors("RegimeId")}
@@ -135,11 +124,13 @@ export default function EmployeeForm(props) {
                 value={values.regimeId}
               />
             </Grid>
-            <div style={classes.buttonsWrap}>
-              <Controls.Button text="SUBMIT" type="submit" />
-              <Controls.Button color="grey" text="RESET" onClick={resetForm} />
-            </div>
           </Grid>
+          <DialogActions sx={{ paddingTop: "0px", paddingBottom: "0px" }}>
+            <Button onClick={() => props.onClose(false)}>Annuleren</Button>
+            <Button type="submit" color="success">
+              Opslaan
+            </Button>
+          </DialogActions>
         </Form>
       )}
     </>

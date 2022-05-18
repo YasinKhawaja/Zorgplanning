@@ -19,15 +19,6 @@ namespace CP.BLL.Services
             _mapper = mapper;
         }
 
-        public Task<IList<CalendarDateDTO>> GetAllAsync()
-        {
-            //var teams = await _unitOfWork.CalendarDates.FindAllAsync(
-            //    nameof(CalendarDate.Employees),
-            //    x => x.OrderBy(x => x.Name));
-            //return _mapper.Map<IList<CalendarDateDTO>>(teams);
-            throw new NotImplementedException();
-        }
-
         public async Task<List<HolidayDTO>> GetAllHolidaysAsync()
         {
             List<CalendarDate> holidays = await _unitOfWork.CalendarDates.GetAllHolidaysAsync();
@@ -44,12 +35,13 @@ namespace CP.BLL.Services
             throw new NotImplementedException();
         }
 
-        public async Task<CalendarDateDTO> CreateAsync(CalendarDateDTO dto)
+        public async Task AddHolidayAsync(HolidayDTO holidayDTO)
         {
-            CalendarDate team = _mapper.Map<CalendarDate>(dto);
-            await _unitOfWork.CalendarDates.AddAsync(team);
+            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(x => x.Date == holidayDTO.Date);
+            CalendarDate holiday = dates.FirstOrDefault();
+            holiday.HolidayName = holidayDTO.Name;
+            _unitOfWork.CalendarDates.Update(holiday);
             await _unitOfWork.SaveAsync();
-            return _mapper.Map<CalendarDateDTO>(team);
         }
 
         public async Task UpdateAsync(int id, CalendarDateDTO dto)
@@ -68,6 +60,25 @@ namespace CP.BLL.Services
             //CalendarDate teamFound = teams.FirstOrDefault();
             //Guard.Against.IsCalendarDateFound(teamFound);
             //_unitOfWork.CalendarDates.Remove(teamFound);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public Task<IList<CalendarDateDTO>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CalendarDateDTO> CreateAsync(CalendarDateDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RemoveHolidayAsync(DateTime date)
+        {
+            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(x => x.Date == date);
+            CalendarDate holiday = dates.FirstOrDefault();
+            holiday.HolidayName = null;
+            _unitOfWork.CalendarDates.Update(holiday);
             await _unitOfWork.SaveAsync();
         }
     }

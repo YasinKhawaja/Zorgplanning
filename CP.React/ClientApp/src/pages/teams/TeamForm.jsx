@@ -50,7 +50,7 @@ export default function TeamForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid sx={{ marginBottom: "16px" }} item xs={12}>
+        <Grid item xs={12} sx={{ marginBottom: "16px" }}>
           {/* NAME */}
           <Controls.Input
             error={getErrors("Name")}

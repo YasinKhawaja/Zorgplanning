@@ -21,7 +21,7 @@ function PlanningTableSkeleton() {
       <Grid item xs={10}></Grid>
       {[...Array(132)].map((e, i) => (
         <Grid key={i} item xs={1}>
-          <Skeleton animation="wave" />
+          <Skeleton variant="rectangular" animation="wave" />
         </Grid>
       ))}
     </Grid>
