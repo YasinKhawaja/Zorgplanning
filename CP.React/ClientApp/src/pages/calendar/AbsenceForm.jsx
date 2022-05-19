@@ -13,9 +13,9 @@ const useStyles = () => ({
 });
 
 const types = [
-  { id: "Leave", name: "Leave" },
-  { id: "Sickness", name: "Sickness" },
-  { id: "WorkingTimeReduction", name: "Working Time Reduction" },
+  { id: "Leave", name: "Verlof" },
+  { id: "Sickness", name: "Ziekte" },
+  { id: "WorkingTimeReduction", name: "Arbeidsduurverkorting" },
 ];
 
 const initialValues = {

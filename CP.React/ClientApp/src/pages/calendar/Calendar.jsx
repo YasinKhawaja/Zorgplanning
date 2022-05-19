@@ -45,9 +45,23 @@ export default function Calendar(props) {
         let absences = response.data.result;
         let events = [];
         absences.forEach((element) => {
+          let typeStr = "";
+          switch (element.type) {
+            case "Leave":
+              typeStr = "Verlof";
+              break;
+            case "Sickness":
+              typeStr = "Ziekte";
+              break;
+            case "WorkingTimeReduction":
+              typeStr = "Arbeidsduurverkorting";
+              break;
+            default:
+              break;
+          }
           events.push({
             id: createEventId(),
-            title: element.type,
+            title: typeStr,
             start: new Date(element.day),
             allDay: true,
             backgroundColor: getColor(element),
