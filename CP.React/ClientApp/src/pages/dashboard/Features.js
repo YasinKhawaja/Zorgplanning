@@ -23,7 +23,7 @@ export default function Features() {
         className="border-bottom text-center pb-4"
         style={{ marginBottom: "0px" }}
       >
-        Zorgplanning
+        Zorgplanner
       </h2>
       <div
         className="row g-4 row-cols-1 row-cols-lg-3"
