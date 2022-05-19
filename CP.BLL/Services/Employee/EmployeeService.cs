@@ -31,7 +31,7 @@ namespace CP.BLL.Services
 
         public async Task<EmployeeDTO> GetAsync(int id)
         {
-            var employeeFound = await this.FindByAsync(id);
+            var employeeFound = await this.FindByAsync(id, include: "Regime");
             Guard.Against.EmployeeNotFound(employeeFound);
             return _mapper.Map<EmployeeDTO>(employeeFound);
         }

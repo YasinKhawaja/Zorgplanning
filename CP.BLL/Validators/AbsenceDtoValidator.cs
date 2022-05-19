@@ -9,7 +9,8 @@ namespace CP.BLL.Validators
         public AbsenceDtoValidator()
         {
             base.RuleFor(x => x.Type)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("'Type' mag niet leeg zijn.");
 
             base.When(x => x.Type.Length > 0, () =>
             {

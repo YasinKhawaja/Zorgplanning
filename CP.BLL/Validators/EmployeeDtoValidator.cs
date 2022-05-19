@@ -12,18 +12,22 @@ namespace CP.BLL.Validators
 
             base.RuleFor(x => x.FirstName)
                 .NotEmpty()
-                .MaximumLength(100);
+                .WithMessage("'Voornaam' mag niet leeg zijn.")
+                .MaximumLength(100)
+                .WithMessage("De lengte van 'Voornaam' moet 100 tekens of minder zijn.");
 
             base.RuleFor(x => x.LastName)
                 .NotEmpty()
-                .MaximumLength(100);
+                .WithMessage("'Achternaam' mag niet leeg zijn.")
+                .MaximumLength(100)
+                .WithMessage("De lengte van 'Achternaam' moet 100 tekens of minder zijn.");
 
             base.RuleFor(x => x.TeamId)
                 .NotEmpty();
 
             base.RuleFor(x => x.RegimeId)
                 .NotEmpty()
-                .WithMessage("'Regime' must not be empty.");
+                .WithMessage("'Regime' mag niet leeg zijn.");
         }
     }
 }

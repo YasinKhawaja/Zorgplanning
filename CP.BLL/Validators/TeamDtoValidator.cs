@@ -14,7 +14,9 @@ namespace CP.BLL.Validators
 
             base.RuleFor(x => x.Name)
                 .NotEmpty()
-                .Length(2, 100);
+                .WithMessage("'Naam' mag niet leeg zijn.")
+                .Length(2, 100)
+                .WithMessage("'Naam' moet tussen de 2 en 100 tekens lang zijn.");
 
             base.When(x => x.Name.Length > 1, () =>
             {
@@ -24,7 +26,7 @@ namespace CP.BLL.Validators
                         var teamFound = _unitOfWork.Teams.FindByAsync(x => x.Name.Equals(name)).Result.FirstOrDefault();
                         if (teamFound is not null && teamFound.Name.Equals(name))
                         {
-                            context.AddFailure("'Name' already exists.");
+                            context.AddFailure("'Naam' bestaat al.");
                         }
                     });
             });

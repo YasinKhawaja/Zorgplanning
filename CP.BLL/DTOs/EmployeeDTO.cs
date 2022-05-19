@@ -13,5 +13,6 @@ namespace CP.BLL.DTOs
         public bool IsFixedNight { get; set; }
         public int TeamId { get; set; }
         public int RegimeId { get; set; }
+        public string RegimeName { get; set; }
     }
 }

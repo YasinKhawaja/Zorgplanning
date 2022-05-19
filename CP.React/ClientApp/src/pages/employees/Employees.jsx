@@ -34,10 +34,10 @@ const useStyles = () => ({
 });
 
 const headers = [
-  { id: "fullName", label: "Full Name" },
+  { id: "fullName", label: "Zorgkundige" },
   { id: "regimeId", label: "Regime" },
-  { id: "isFixedNight", label: "Fixed Night" },
-  { id: "actions", label: "Actions", disableSorting: true },
+  { id: "isFixedNight", label: "Vaste Nacht" },
+  { id: "actions", label: "Acties", disableSorting: true },
 ];
 
 export default function Employees(props) {
@@ -223,7 +223,7 @@ function EmployeesTableBody(props) {
             {employee.firstName} {employee.lastName}
           </TableCell>
           <TableCell sx={{ textAlign: "center" }}>
-            {employee.regimeId}
+            {employee.regimeName}
           </TableCell>
           <TableCell sx={{ textAlign: "center" }}>
             {Boolean(employee.isFixedNight) ? (

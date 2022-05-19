@@ -88,7 +88,7 @@ export default function EmployeeForm(props) {
               {/* FIRST NAME */}
               <Controls.Input
                 error={getErrors("FirstName")}
-                label="First Name"
+                label="Voornaam"
                 name="firstName"
                 onChange={handleInputChange}
                 value={values.firstName}
@@ -98,7 +98,7 @@ export default function EmployeeForm(props) {
               {/* LAST NAME */}
               <Controls.Input
                 error={getErrors("LastName")}
-                label="Last Name"
+                label="Achternaam"
                 name="lastName"
                 onChange={handleInputChange}
                 value={values.lastName}
@@ -107,7 +107,7 @@ export default function EmployeeForm(props) {
             <Grid item xs={6}>
               {/* IS FIXED NIGHT */}
               <Controls.Checkbox
-                label="Fixed Night"
+                label="Vaste Nacht"
                 name="isFixedNight"
                 onChange={handleInputChange}
                 value={values.isFixedNight}

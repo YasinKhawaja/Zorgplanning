@@ -19,7 +19,10 @@ namespace CP.BLL.Mappings
                 .ForMember(x => x.HasChildren, o => o.MapFrom<TeamHasChildrenResolver>())
                 .ReverseMap();
 
-            base.CreateMap<Employee, EmployeeDTO>().ReverseMap();
+            base.CreateMap<Employee, EmployeeDTO>()
+                .ForMember(x => x.RegimeName, x => x.MapFrom(y => y.Regime.Name));
+
+            base.CreateMap<EmployeeDTO, Employee>();
 
             base.CreateMap<Regime, RegimeDTO>().ReverseMap();
 
