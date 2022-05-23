@@ -17,6 +17,7 @@ import {
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
+import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import EmployeeService from "../../services/EmployeeService";
 import AbsenceForm from "./AbsenceForm";
 import { createEventId } from "./event-utils";
@@ -28,6 +29,10 @@ export default function Calendar(props) {
   const [selectedDay, setSelectedDay] = React.useState(null);
   const [eventInfo, setEventInfo] = React.useState(null);
   const [apiErrors, setApiErrors] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+  });
 
   React.useEffect(() => {
     fetchEvents();
@@ -102,17 +107,6 @@ export default function Calendar(props) {
     setOpenDeleteDialog(true);
   };
 
-  const handleDelete = (event) => {
-    EmployeeService.removeAbsence(props.employee.id, event.startStr)
-      .then(() => {
-        fetchEvents();
-        setOpenDeleteDialog(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const handleAddOrEdit = (values, resetFormFn) => {
     const absence = {
       ...values,
@@ -125,9 +119,30 @@ export default function Calendar(props) {
         resetFormFn();
         setOpenAddOrEditDialog(false);
         fetchEvents();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Afwezigheid succesvol toegevoegd",
+        });
       })
       .catch((error) => {
         setApiErrors(error.response.data.errors);
+      });
+  };
+
+  const handleDelete = (event) => {
+    EmployeeService.removeAbsence(props.employee.id, event.startStr)
+      .then(() => {
+        setOpenDeleteDialog(false);
+        fetchEvents();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Afwezigheid succesvol verwijderd",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -137,6 +152,10 @@ export default function Calendar(props) {
         &nbsp;<i>{eventInfo.event.title}</i>
       </>
     );
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false, message: "" });
   };
 
   return (
@@ -183,6 +202,11 @@ export default function Calendar(props) {
         onClose={setOpenDeleteDialog}
         eventInfo={eventInfo}
         onDelete={handleDelete}
+      />
+      <SuccessSnackbar
+        open={snackbar.open}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
       />
     </>
   );

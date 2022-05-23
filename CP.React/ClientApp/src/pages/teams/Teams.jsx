@@ -11,6 +11,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import React from "react";
+import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import TeamService from "../../services/TeamService";
 import TeamForm from "./TeamForm";
 import TeamsList from "./TeamsList";
@@ -26,6 +27,10 @@ export default function Teams() {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [teamToEdit, setTeamToEdit] = React.useState(null);
   const [apiErrors, setApiErrors] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+  });
 
   React.useEffect(() => {
     fetchTeams();
@@ -58,10 +63,15 @@ export default function Teams() {
     if (team.id === 0) {
       TeamService.create(data)
         .then(() => {
-          setOpenAddOrEditDialog(false);
           resetFormFn();
           setApiErrors(null);
+          setOpenAddOrEditDialog(false);
           fetchTeams();
+          setSnackbar({
+            ...snackbar,
+            open: true,
+            message: "Team succesvol aangemaakt",
+          });
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -69,10 +79,15 @@ export default function Teams() {
     } else {
       TeamService.update(team.id, data)
         .then(() => {
-          setOpenAddOrEditDialog(false);
           resetFormFn();
           setApiErrors(null);
+          setOpenAddOrEditDialog(false);
           fetchTeams();
+          setSnackbar({
+            ...snackbar,
+            open: true,
+            message: "Team succesvol bijgewerkt",
+          });
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -83,42 +98,60 @@ export default function Teams() {
   const handleDelete = (id) => {
     TeamService.remove(id)
       .then(() => {
-        setOpenDeleteDialog(false);
         setTeamToEdit(null);
+        setOpenDeleteDialog(false);
         fetchTeams();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Team succesvol verwijderd",
+        });
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  return teams !== null ? (
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false, message: "" });
+  };
+
+  return (
     <>
-      <Box sx={classes.btnAddDiv}>
-        <TeamAddButton onClick={handleClickOpen} />
-      </Box>
-      <TeamsList
-        teams={teams}
-        onSetTeamToEdit={setTeamToEdit}
-        onOpenAddOrEditDialog={setOpenAddOrEditDialog}
-        onOpenDeleteDialog={setOpenDeleteDialog}
-      />
-      <TeamAddEditDialog
-        onClose={handleClickClose}
-        open={openAddOrEditDialog}
-        onAddOrEdit={handleAddOrEdit}
-        teamToEdit={teamToEdit}
-        apiErrors={apiErrors}
-      />
-      <TeamDeleteDialog
-        teamToEdit={teamToEdit}
-        open={openDeleteDialog}
-        onClose={setOpenDeleteDialog}
-        onDelete={handleDelete}
+      {teams !== null ? (
+        <>
+          <Box sx={classes.btnAddDiv}>
+            <TeamAddButton onClick={handleClickOpen} />
+          </Box>
+          <TeamsList
+            teams={teams}
+            onSetTeamToEdit={setTeamToEdit}
+            onOpenAddOrEditDialog={setOpenAddOrEditDialog}
+            onOpenDeleteDialog={setOpenDeleteDialog}
+          />
+          <TeamAddEditDialog
+            onClose={handleClickClose}
+            open={openAddOrEditDialog}
+            onAddOrEdit={handleAddOrEdit}
+            teamToEdit={teamToEdit}
+            apiErrors={apiErrors}
+          />
+          <TeamDeleteDialog
+            teamToEdit={teamToEdit}
+            open={openDeleteDialog}
+            onClose={setOpenDeleteDialog}
+            onDelete={handleDelete}
+          />
+        </>
+      ) : (
+        <TeamsSkeleton />
+      )}
+      <SuccessSnackbar
+        open={snackbar.open}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
       />
     </>
-  ) : (
-    <TeamsSkeleton />
   );
 }
 

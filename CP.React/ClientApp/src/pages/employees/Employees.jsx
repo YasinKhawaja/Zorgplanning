@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import Controls from "../../components/controls/Controls";
+import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import { useTable } from "../../hooks/useTable";
 import EmployeeService from "../../services/EmployeeService";
 import EmployeeForm from "./EmployeeForm";
@@ -49,6 +50,10 @@ export default function Employees(props) {
   const [openAddEditDialog, setOpenAddEditDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [apiErrors, setApiErrors] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+  });
 
   React.useEffect(() => {
     fetchEmployees();
@@ -80,10 +85,15 @@ export default function Employees(props) {
     if (employee.id === 0) {
       EmployeeService.create(data)
         .then(() => {
-          fetchEmployees();
           resetForm();
           setEmployeeToEdit(null);
           setOpenAddEditDialog(false);
+          fetchEmployees();
+          setSnackbar({
+            ...snackbar,
+            open: true,
+            message: "Zorgkundige succesvol toegevoegd",
+          });
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -93,10 +103,15 @@ export default function Employees(props) {
     } else {
       EmployeeService.update(employee.id, data)
         .then(() => {
-          fetchEmployees();
           resetForm();
           setEmployeeToEdit(null);
           setOpenAddEditDialog(false);
+          fetchEmployees();
+          setSnackbar({
+            ...snackbar,
+            open: true,
+            message: "Zorgkundige succesvol bijgewerkt",
+          });
         })
         .catch((error) => {
           setApiErrors(error.response.data.errors);
@@ -109,8 +124,13 @@ export default function Employees(props) {
   const handleDelete = (id) => {
     EmployeeService.remove(id)
       .then(() => {
-        fetchEmployees();
         setOpenDeleteDialog(false);
+        fetchEmployees();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Zorgkundige succesvol verwijderd",
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -132,37 +152,50 @@ export default function Employees(props) {
     setOpenDeleteDialog(true);
   };
 
-  return employees !== null ? (
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false, message: "" });
+  };
+
+  return (
     <>
-      <Box sx={classes.btnAddDiv}>
-        <EmployeeAddButton onClick={handleClickAdd} />
-      </Box>
-      <TableContainer>
-        <Table className="table table-hover" sx={{ marginBottom: "0px" }}>
-          <TableHeader />
-          <EmployeesTableBody
-            employees={employees}
-            onClickEdit={handleClickEdit}
-            onClickDelete={handleClickDelete}
+      {employees !== null ? (
+        <>
+          <Box sx={classes.btnAddDiv}>
+            <EmployeeAddButton onClick={handleClickAdd} />
+          </Box>
+          <TableContainer>
+            <Table className="table table-hover" sx={{ marginBottom: "0px" }}>
+              <TableHeader />
+              <EmployeesTableBody
+                employees={employees}
+                onClickEdit={handleClickEdit}
+                onClickDelete={handleClickDelete}
+              />
+            </Table>
+          </TableContainer>
+          <EmployeeAddEditDialog
+            open={openAddEditDialog}
+            onClose={setOpenAddEditDialog}
+            employeeToEdit={employeeToEdit}
+            onAddOrEdit={handleAddOrEdit}
+            apiErrors={apiErrors}
           />
-        </Table>
-      </TableContainer>
-      <EmployeeAddEditDialog
-        open={openAddEditDialog}
-        onClose={setOpenAddEditDialog}
-        employeeToEdit={employeeToEdit}
-        onAddOrEdit={handleAddOrEdit}
-        apiErrors={apiErrors}
-      />
-      <EmployeeDeleteDialog
-        open={openDeleteDialog}
-        onClose={setOpenDeleteDialog}
-        employeeToEdit={employeeToEdit}
-        onDelete={handleDelete}
+          <EmployeeDeleteDialog
+            open={openDeleteDialog}
+            onClose={setOpenDeleteDialog}
+            employeeToEdit={employeeToEdit}
+            onDelete={handleDelete}
+          />
+        </>
+      ) : (
+        <EmployeesSkeleton />
+      )}
+      <SuccessSnackbar
+        open={snackbar.open}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
       />
     </>
-  ) : (
-    <EmployeesSkeleton />
   );
 }
 

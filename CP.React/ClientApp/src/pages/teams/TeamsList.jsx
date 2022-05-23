@@ -7,6 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import * as React from "react";
+import { NavLink } from "react-router-dom";
 import TeamMenu from "./TeamMenu";
 
 export default function TeamsList(props) {
@@ -26,11 +27,16 @@ export default function TeamsList(props) {
           disablePadding
           divider
         >
-          <ListItemButton component="a" href={`/teams/${team.id}/employees`}>
+          <ListItemButton>
             <ListItemIcon>
               <GroupsIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={team.name} />
+            <NavLink
+              to={`/teams/${team.id}/employees`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItemText primary={team.name} />
+            </NavLink>
           </ListItemButton>
         </ListItem>
       ))}

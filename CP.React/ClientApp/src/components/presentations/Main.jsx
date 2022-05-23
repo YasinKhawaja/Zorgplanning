@@ -2,7 +2,7 @@ import { Paper } from "@mui/material";
 import React from "react";
 
 const useStyles = () => ({
-  main: { margin: "40px", marginTop: "110px", padding: "24px" },
+  main: { margin: "40px", marginTop: "40px", padding: "24px" },
 });
 
 export default function Main(props) {

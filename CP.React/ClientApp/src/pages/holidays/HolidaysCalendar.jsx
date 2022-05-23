@@ -17,6 +17,7 @@ import {
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
+import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import DateService from "../../services/DateService";
 import HolidayForm from "./HolidayForm";
 import { mapHolidaysToEvents } from "./utils";
@@ -28,6 +29,10 @@ export default function HolidaysCalendar() {
   const [selectedDay, setSelectedDay] = React.useState(null);
   const [eventInfo, setEventInfo] = React.useState(null);
   const [apiErrors, setApiErrors] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+  });
 
   React.useEffect(() => {
     fetchEvents();
@@ -70,6 +75,11 @@ export default function HolidaysCalendar() {
         resetFormFn();
         setOpenAddOrEditDialog(false);
         fetchEvents();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Feestdag succesvol toegevoegd",
+        });
       })
       .catch((error) => {
         setApiErrors(error.response.data.errors);
@@ -79,8 +89,13 @@ export default function HolidaysCalendar() {
   const handleDelete = (event) => {
     DateService.removeHoliday(event.startStr)
       .then(() => {
-        fetchEvents();
         setOpenDeleteDialog(false);
+        fetchEvents();
+        setSnackbar({
+          ...snackbar,
+          open: true,
+          message: "Feestdag succesvol verwijderd",
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -93,6 +108,10 @@ export default function HolidaysCalendar() {
         &nbsp;<i>{eventInfo.event.title}</i>
       </>
     );
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false, message: "" });
   };
 
   return (
@@ -139,6 +158,11 @@ export default function HolidaysCalendar() {
         onClose={setOpenDeleteDialog}
         eventInfo={eventInfo}
         onDelete={handleDelete}
+      />
+      <SuccessSnackbar
+        open={snackbar.open}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
       />
     </>
   );
@@ -220,7 +244,7 @@ function HolidayAddEditDialog(props) {
 function HolidayDeleteDialog(props) {
   return (
     <Dialog open={props.open} onClose={() => props.onClose(false)}>
-      <DialogTitle>
+      <DialogTitle sx={{ textAlign: "justify" }}>
         Weet je zeker dat je feestdag "
         {props.eventInfo && props.eventInfo.event.title}" op "
         {props.eventInfo && props.eventInfo.event.startStr}" wilt verwijderen?
