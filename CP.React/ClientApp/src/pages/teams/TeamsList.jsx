@@ -32,7 +32,7 @@ export default function TeamsList(props) {
               <GroupsIcon color="primary" />
             </ListItemIcon>
             <NavLink
-              to={`/teams/${team.id}/employees`}
+              to={`teams/${team.id}/employees`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemText primary={team.name} />

@@ -5,7 +5,7 @@ import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import ExportExcel from "./ExportExcel";
 import PlanningTable from "./PlanningTable";
-import PlanningWizard from "./PlanningWizard";
+import PlanningForm from "./PlanningForm";
 
 function PlanningTableSkeleton() {
   return (
@@ -72,7 +72,7 @@ export default function PlanningIndex() {
   var content = showTable ? (
     <>{subContent}</>
   ) : (
-    <PlanningWizard onGeneratePlanning={handleGeneratePlanning} />
+    <PlanningForm onGeneratePlanning={handleGeneratePlanning} />
   );
 
   return (

@@ -22,11 +22,11 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import Controls from "../../components/controls/Controls";
 import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import { useTable } from "../../hooks/useTable";
 import EmployeeService from "../../services/EmployeeService";
 import EmployeeForm from "./EmployeeForm";
+import { NavLink } from "react-router-dom";
 
 const useStyles = () => ({
   toolbar: {
@@ -267,23 +267,20 @@ function EmployeesTableBody(props) {
             )}
           </TableCell>
           <TableCell sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                backgroundColor: "#90EE90",
-                margin: "4px",
-                minWidth: 0,
-                "& .MuiSvgIcon-root": { color: "#008000" },
-              }}
-              href={`teams/${employee.teamId}/employees/${employee.id}/calendar`}
+            <NavLink
+              to={`employees/${employee.id}/calendar`}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <CalendarMonthIcon fontSize="small" />
-            </Button>
-            <Controls.ActionButton color="primary">
-              <EditIcon
-                fontSize="small"
-                onClick={() => props.onClickEdit(employee)}
-              />
-            </Controls.ActionButton>
+              <IconButton color="success">
+                <CalendarMonthIcon />
+              </IconButton>
+            </NavLink>
+            <IconButton
+              color="primary"
+              onClick={() => props.onClickEdit(employee)}
+            >
+              <EditIcon />
+            </IconButton>
             <IconButton
               color="error"
               onClick={() => props.onClickDelete(employee)}
@@ -332,7 +329,7 @@ function EmployeeDeleteDialog(props) {
       <DialogTitle>
         Weet je zeker dat je zorgkundige "
         {props.employeeToEdit &&
-          props.employeeToEdit.firstName + " " + props.employeeToEdit.firstName}
+          props.employeeToEdit.firstName + " " + props.employeeToEdit.lastName}
         " wilt verwijderen?
       </DialogTitle>
       <DialogContent>
