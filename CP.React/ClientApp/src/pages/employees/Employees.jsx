@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   Skeleton,
   Table,
   TableBody,
@@ -250,12 +251,12 @@ function EmployeesTableBody(props) {
                 onClick={() => props.onClickEdit(employee)}
               />
             </Controls.ActionButton>
-            <Controls.ActionButton color="secondary">
-              <DeleteIcon
-                fontSize="small"
-                onClick={() => props.onClickDelete(employee)}
-              />
-            </Controls.ActionButton>
+            <IconButton
+              color="error"
+              onClick={() => props.onClickDelete(employee)}
+            >
+              <DeleteIcon />
+            </IconButton>
           </TableCell>
         </TableRow>
       ))}

@@ -13,57 +13,27 @@ export default function Layout() {
       <Route
         exact
         path="/"
-        render={(props) => (
-          <React.Fragment key={props.location.key}>
-            {/* <AuthenticatedTemplate> */}
-            <Dashboard />
-            {/* </AuthenticatedTemplate> */}
-          </React.Fragment>
-        )}
+        render={(props) => <Dashboard key={props.location.key} />}
       />
       <Route
         exact
         path="/holidays"
-        render={(props) => (
-          <React.Fragment key={props.location.key}>
-            {/* <AuthenticatedTemplate> */}
-            <HolidaysIndex />
-            {/* </AuthenticatedTemplate> */}
-          </React.Fragment>
-        )}
+        render={(props) => <HolidaysIndex key={props.location.key} />}
       />
       <Route
         exact
         path="/teams"
-        render={(props) => (
-          <React.Fragment key={props.location.key}>
-            {/* <AuthenticatedTemplate> */}
-            <TeamsIndex />
-            {/* </AuthenticatedTemplate> */}
-          </React.Fragment>
-        )}
+        render={(props) => <TeamsIndex key={props.location.key} />}
       />
       <Route
         exact
         path="/teams/:teamId/employees"
-        render={(props) => (
-          <React.Fragment key={props.location.key}>
-            {/* <AuthenticatedTemplate> */}
-            <EmployeesIndex />
-            {/* </AuthenticatedTemplate> */}
-          </React.Fragment>
-        )}
+        render={(props) => <EmployeesIndex key={props.location.key} />}
       />
       <Route
         exact
         path="/teams/:teamId/employees/:employeeId/calendar"
-        render={(props) => (
-          <React.Fragment key={props.location.key}>
-            {/* <AuthenticatedTemplate> */}
-            <CalendarIndex />
-            {/* </AuthenticatedTemplate> */}
-          </React.Fragment>
-        )}
+        render={(props) => <CalendarIndex key={props.location.key} />}
       />
       <Route
         exact
