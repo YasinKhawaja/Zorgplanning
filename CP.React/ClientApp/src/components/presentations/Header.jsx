@@ -125,7 +125,8 @@ function Logo() {
     <>
       <NavLink to="/" style={{ textDecoration: "none", color: "inherit" }}>
         <CalendarMonthIcon
-          sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          fontSize="large"
+          sx={{ display: { xs: "none", md: "flex" } }}
         />
       </NavLink>
       <Typography
@@ -141,7 +142,7 @@ function Logo() {
         }}
       >
         <NavLink to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          CP
+          ZP
         </NavLink>
       </Typography>
     </>
@@ -150,35 +151,22 @@ function Logo() {
 
 function LogoResponsive() {
   return (
-    <>
-      <NavLink
-        to="/"
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-        }}
-      >
-        <CalendarMonthIcon
-          sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-        />
+    <Typography
+      variant="h6"
+      noWrap
+      sx={{
+        mr: 2,
+        display: { xs: "flex", md: "none" },
+        flexGrow: 1,
+        fontWeight: 700,
+        letterSpacing: ".3rem",
+        color: "inherit",
+        textDecoration: "none",
+      }}
+    >
+      <NavLink to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        ZP
       </NavLink>
-      <Typography
-        variant="h5"
-        noWrap
-        sx={{
-          mr: 2,
-          display: { xs: "flex", md: "none" },
-          flexGrow: 1,
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        <NavLink to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          CP
-        </NavLink>
-      </Typography>
-    </>
+    </Typography>
   );
 }
