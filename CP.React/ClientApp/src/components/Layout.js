@@ -1,6 +1,5 @@
-import React from "react";
 import { Route, Switch } from "react-router-dom";
-import CalendarIndex from "../pages/calendar/CalendarIndex";
+import AbsencesIndex from "../pages/absences/AbsencesIndex";
 import Dashboard from "../pages/dashboard/Dashboard";
 import EmployeesIndex from "../pages/employees/EmployeesIndex";
 import HolidaysIndex from "../pages/holidays/HolidaysIndex";
@@ -33,7 +32,7 @@ export default function Layout() {
       <Route
         exact
         path="/teams/:teamId/employees/:employeeId/calendar"
-        render={(props) => <CalendarIndex key={props.location.key} />}
+        render={(props) => <AbsencesIndex key={props.location.key} />}
       />
       <Route
         exact

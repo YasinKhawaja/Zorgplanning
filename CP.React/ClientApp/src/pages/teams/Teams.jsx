@@ -17,7 +17,7 @@ import TeamForm from "./TeamForm";
 import TeamsList from "./TeamsList";
 
 const useStyles = () => ({
-  btnAddDiv: { marginBottom: "24px" },
+  btnAddDiv: { marginTop: "24px", marginBottom: "24px" },
   progressWrap: { display: "flex", justifyContent: "center" },
 });
 
@@ -157,7 +157,7 @@ export default function Teams() {
 
 function TeamsSkeleton() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ marginTop: "0px" }}>
       <Grid item xs={1.5}>
         <Skeleton animation="wave" variant="rectangular" height={35} />
       </Grid>

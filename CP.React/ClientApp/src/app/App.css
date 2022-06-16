@@ -5,3 +5,7 @@ body {
 p {
   margin: 0rem;
 }
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-top: 1.5em;
+}

@@ -22,17 +22,17 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import { useTable } from "../../hooks/useTable";
 import EmployeeService from "../../services/EmployeeService";
 import EmployeeForm from "./EmployeeForm";
-import { NavLink } from "react-router-dom";
 
 const useStyles = () => ({
   toolbar: {
     ["@media (min-width:600px)"]: { padding: "0px" },
   },
-  btnAddDiv: { marginBottom: "24px" },
+  btnAddDiv: { marginTop: "24px", marginBottom: "24px" },
 });
 
 const headers = [
@@ -214,7 +214,7 @@ function EmployeeAddButton(props) {
 
 function EmployeesSkeleton() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ marginTop: "0px" }}>
       <Grid item xs={1.5}>
         <Skeleton animation="wave" variant="rectangular" height={35} />
       </Grid>

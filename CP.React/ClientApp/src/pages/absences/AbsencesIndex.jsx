@@ -4,9 +4,9 @@ import * as Router from "react-router-dom";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import EmployeeService from "../../services/EmployeeService";
-import Calendar from "./Calendar";
+import AbsencesCalendar from "./AbsencesCalendar";
 
-export default function CalendarIndex() {
+export default function AbsencesIndex() {
   const [employee, setEmployee] = React.useState(null);
 
   const { employeeId } = Router.useParams();
@@ -25,18 +25,12 @@ export default function CalendarIndex() {
     <>
       <Header />
       <Main>
+        <Typography variant="h4" borderBottom={1} borderColor="#DEE2E6">
+          Verlofplanning van{" "}
+          {employee && `${employee.firstName} ${employee.lastName}`}
+        </Typography>
         {employee !== null ? (
-          <>
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{ marginBottom: "24px" }}
-            >
-              Verlofplanning van "{employee.firstName + " " + employee.lastName}
-              "
-            </Typography>
-            <Calendar employee={employee} />
-          </>
+          <AbsencesCalendar employee={employee} />
         ) : (
           <CalendarSkeleton />
         )}
@@ -47,7 +41,7 @@ export default function CalendarIndex() {
 
 function CalendarSkeleton() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ marginTop: "0px" }}>
       <Grid item xs={12}>
         <Skeleton animation="wave" variant="rectangular" height={35} />
       </Grid>

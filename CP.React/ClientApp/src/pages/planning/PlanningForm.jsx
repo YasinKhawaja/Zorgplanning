@@ -64,7 +64,7 @@ export default function PlanningForm(props) {
   return (
     <Container component="div" maxWidth="sm">
       <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
-        <Typography component="h1" variant="h4" align="center">
+        <Typography variant="h4" align="center">
           Planning
         </Typography>
         <form onSubmit={handleSubmit}>

@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../components/presentations/Header";
@@ -23,6 +24,9 @@ export default function EmployeesIndex() {
       <Header />
       {team && (
         <Main>
+          <Typography variant="h4" borderBottom={1} borderColor="#DEE2E6">
+            Zorgkundigen in {team.name}
+          </Typography>
           <Employees team={team} />
         </Main>
       )}

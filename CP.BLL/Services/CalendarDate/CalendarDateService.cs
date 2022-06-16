@@ -37,7 +37,7 @@ namespace CP.BLL.Services
 
         public async Task AddHolidayAsync(HolidayDTO holidayDTO)
         {
-            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(x => x.Date == holidayDTO.Date);
+            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(x => x.Date == holidayDTO.Date.Value);
             CalendarDate holiday = dates.FirstOrDefault();
             holiday.HolidayName = holidayDTO.Name;
             _unitOfWork.CalendarDates.Update(holiday);

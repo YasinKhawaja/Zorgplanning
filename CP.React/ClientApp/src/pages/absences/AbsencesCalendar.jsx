@@ -20,9 +20,9 @@ import React from "react";
 import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import EmployeeService from "../../services/EmployeeService";
 import AbsenceForm from "./AbsenceForm";
-import { createEventId } from "./event-utils";
+import { createEventId } from "./absences-utils";
 
-export default function Calendar(props) {
+export default function AbsencesCalendar(props) {
   const [events, setEvents] = React.useState(null);
   const [openAddOrEditDialog, setOpenAddOrEditDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -214,7 +214,7 @@ export default function Calendar(props) {
 
 function CalendarSkeleton() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ marginTop: "0px" }}>
       <Grid item xs={1}>
         <Skeleton animation="wave" variant="rectangular" height={35} />
       </Grid>

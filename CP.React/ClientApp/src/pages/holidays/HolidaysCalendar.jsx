@@ -1,8 +1,8 @@
-import FullCalendar from "@fullcalendar/react"; // MUST BE IMPORTED BEFORE PLUGINS
 import bootstrap5Plugin from "@fullcalendar/bootstrap5";
 import nlLocale from "@fullcalendar/core/locales/nl";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react"; // MUST BE IMPORTED BEFORE PLUGINS
 import timeGridPlugin from "@fullcalendar/timegrid";
 import {
   Button,
@@ -20,7 +20,7 @@ import React from "react";
 import { SuccessSnackbar } from "../../components/presentations/Snackbars";
 import DateService from "../../services/DateService";
 import HolidayForm from "./HolidayForm";
-import { mapHolidaysToEvents } from "./utils";
+import { mapHolidaysToEvents } from "./holidays-utils";
 
 export default function HolidaysCalendar() {
   const [events, setEvents] = React.useState(null);
@@ -170,7 +170,7 @@ export default function HolidaysCalendar() {
 
 function CalendarSkeleton() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ marginTop: "0px" }}>
       <Grid item xs={1}>
         <Skeleton animation="wave" variant="rectangular" height={35} />
       </Grid>
