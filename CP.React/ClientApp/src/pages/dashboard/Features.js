@@ -3,8 +3,8 @@ import CelebrationIcon from "@mui/icons-material/Celebration";
 import GroupsIcon from "@mui/icons-material/Groups";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { Button } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import "./Dashboard.css";
 
 const useStyles = () => ({
   h2: { marginBottom: "12px" },
@@ -39,11 +39,11 @@ export default function Features() {
               Beheer de feestdagen in een bepaalde maand met behulp van een
               kalender.
             </p>
-            <Link to="/holidays">
+            <NavLink to="/holidays" className="link">
               <Button variant="outlined" endIcon={<ArrowForwardIcon />}>
                 Feestdagen
               </Button>
-            </Link>
+            </NavLink>
           </div>
         </div>
         <div className="col d-flex align-items-start">
@@ -56,11 +56,11 @@ export default function Features() {
               Maak teams aan, voeg zorgkundigen toe en beheer hun
               verlofplanning.
             </p>
-            <Link to="/teams">
+            <NavLink to="/teams" className="link">
               <Button variant="outlined" endIcon={<ArrowForwardIcon />}>
                 Teams
               </Button>
-            </Link>
+            </NavLink>
           </div>
         </div>
         <div className="col d-flex align-items-start">
@@ -73,11 +73,11 @@ export default function Features() {
               Genereer een maandplanning voor een bepaalde team en exporteer
               deze als <i>Excel</i>.
             </p>
-            <Link to="/planning">
+            <NavLink to="/planning" className="link">
               <Button variant="outlined" endIcon={<ArrowForwardIcon />}>
                 Planning
               </Button>
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>
