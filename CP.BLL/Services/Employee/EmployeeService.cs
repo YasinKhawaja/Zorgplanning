@@ -31,7 +31,8 @@ namespace CP.BLL.Services
 
         public async Task<EmployeeDTO> GetAsync(int id)
         {
-            var employeeFound = await this.FindByAsync(id, include: "Regime");
+            var employeesFound = await _unitOfWork.Employees.FindByAsync(emp => emp.Id == id, include: nameof(Employee.Regime));
+            var employeeFound = employeesFound.FirstOrDefault();
             Guard.Against.EmployeeNotFound(employeeFound);
             return _mapper.Map<EmployeeDTO>(employeeFound);
         }
@@ -39,7 +40,6 @@ namespace CP.BLL.Services
         public async Task<EmployeeDTO> CreateAsync(EmployeeDTO dto)
         {
             var employeeToAdd = _mapper.Map<Employee>(dto);
-            employeeToAdd.IsActive = true;
             await _unitOfWork.Employees.AddAsync(employeeToAdd);
             await _unitOfWork.SaveAsync();
             return _mapper.Map<EmployeeDTO>(employeeToAdd);
@@ -47,7 +47,8 @@ namespace CP.BLL.Services
 
         public async Task UpdateAsync(int id, EmployeeDTO dto)
         {
-            var employeeToUp = await this.FindByAsync(id);
+            var employeesFound = await _unitOfWork.Employees.FindByAsync(emp => emp.Id == id);
+            Employee employeeToUp = employeesFound.FirstOrDefault();
             Guard.Against.EmployeeNotFound(employeeToUp);
             employeeToUp.FirstName = dto.FirstName;
             employeeToUp.LastName = dto.LastName;
@@ -59,15 +60,18 @@ namespace CP.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            var employeeFound = await this.FindByAsync(id);
-            Guard.Against.EmployeeNotFound(employeeFound);
-            _unitOfWork.Employees.Deactivate(employeeFound);
+            var employeesFound = await _unitOfWork.Employees.FindByAsync(emp => emp.Id == id);
+            Employee employeeToDelete = employeesFound.FirstOrDefault();
+            Guard.Against.EmployeeNotFound(employeeToDelete);
+            _unitOfWork.Employees.Remove(employeeToDelete);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task<IList<AbsenceDTO>> GetAllAbsencesAsync(int employeeId)
         {
-            var employeeFound = await this.FindByAsync(employeeId, include: "Absences.CalendarDate");
+            var employeesFound = await _unitOfWork.Employees
+                .FindByAsync(emp => emp.Id == employeeId, include: "Absences.CalendarDate");
+            Employee employeeFound = employeesFound.FirstOrDefault();
             Guard.Against.EmployeeNotFound(employeeFound);
             var absences = employeeFound.Absences.ToList();
             IList<AbsenceDTO> absencesDTOs = new List<AbsenceDTO>();
@@ -86,22 +90,30 @@ namespace CP.BLL.Services
 
         public async Task AddAbsenceAsync(int employeeId, AbsenceDTO absenceDTO)
         {
-            IList<Employee> employeesFound = await _unitOfWork.Employees
-                .FindByAsync(x => x.Id.Equals(employeeId), asTracking: true, include: nameof(Employee.Absences));
-            Employee employeeTracked = employeesFound.FirstOrDefault();
-            Guard.Against.EmployeeNotFound(employeeTracked);
-            // Add absence
-            IList<CalendarDate> dates = await _unitOfWork.CalendarDates.FindByAsync(cd => cd.Date.Equals(absenceDTO.Day));
-            Absence absenceToAdd = new()
+            IList<CalendarDate> dates = await _unitOfWork.CalendarDates
+                .FindByAsync(cd => cd.Date == absenceDTO.Day);
+
+            IList<Absence> absences = await _unitOfWork.Absences
+                .FindByAsync(abs => abs.EmployeeId == employeeId && abs.DateId == dates.FirstOrDefault().Id);
+
+            Absence absenceToAddOrUpdate = absences.FirstOrDefault();
+
+            if (absenceToAddOrUpdate is null)
             {
-                EmployeeId = employeeTracked.Id,
-                DateId = dates.FirstOrDefault().Id,
-                Type = (AbsenceType)Enum.Parse(typeof(AbsenceType), absenceDTO.Type)
-            };
-            List<Absence> absences = employeeTracked.Absences.ToList();
-            absences.Add(absenceToAdd);
-            employeeTracked.Absences = absences;
-            //
+                absenceToAddOrUpdate = new()
+                {
+                    EmployeeId = employeeId,
+                    DateId = dates.FirstOrDefault().Id,
+                    Type = (AbsenceType)Enum.Parse(typeof(AbsenceType), absenceDTO.Type)
+                };
+                await _unitOfWork.Absences.AddAsync(absenceToAddOrUpdate);
+            }
+            else
+            {
+                absenceToAddOrUpdate.Type = (AbsenceType)Enum.Parse(typeof(AbsenceType), absenceDTO.Type);
+                _unitOfWork.Absences.Update(absenceToAddOrUpdate);
+            }
+
             await _unitOfWork.SaveAsync();
         }
 
@@ -114,14 +126,5 @@ namespace CP.BLL.Services
             _unitOfWork.Absences.Remove(absence);
             await _unitOfWork.SaveAsync();
         }
-
-        #region PRIVATE METHODS
-        private async Task<Employee> FindByAsync(int id, bool asTracking = false, string include = "")
-        {
-            var employeesFound = await _unitOfWork.Employees
-            .FindByAsync(x => x.Id.Equals(id), asTracking, include: include);
-            return employeesFound.FirstOrDefault();
-        }
-        #endregion
     }
 }

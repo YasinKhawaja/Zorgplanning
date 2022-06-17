@@ -56,8 +56,7 @@ namespace CP.DAL
                     FirstName = "Emp1",
                     LastName = "Emp1",
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -65,8 +64,7 @@ namespace CP.DAL
                     FirstName = "Emp2",
                     LastName = "Emp2",
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -74,8 +72,7 @@ namespace CP.DAL
                     FirstName = "Emp3",
                     LastName = "Emp3",
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -83,8 +80,7 @@ namespace CP.DAL
                     FirstName = "Emp4",
                     LastName = "Emp4",
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -92,8 +88,7 @@ namespace CP.DAL
                     FirstName = "Emp5",
                     LastName = "Emp5",
                     TeamId = 1,
-                    RegimeId = 2,
-                    IsActive = true
+                    RegimeId = 2
                 },
                 new Employee
                 {
@@ -101,8 +96,7 @@ namespace CP.DAL
                     FirstName = "Emp6",
                     LastName = "Emp6",
                     TeamId = 1,
-                    RegimeId = 2,
-                    IsActive = true
+                    RegimeId = 2
                 },
                 new Employee
                 {
@@ -110,8 +104,7 @@ namespace CP.DAL
                     FirstName = "Emp7",
                     LastName = "Emp7",
                     TeamId = 1,
-                    RegimeId = 2,
-                    IsActive = true
+                    RegimeId = 2
                 },
                 new Employee
                 {
@@ -119,8 +112,7 @@ namespace CP.DAL
                     FirstName = "Emp8",
                     LastName = "Emp8",
                     TeamId = 1,
-                    RegimeId = 3,
-                    IsActive = true
+                    RegimeId = 3
                 },
                 new Employee
                 {
@@ -128,8 +120,7 @@ namespace CP.DAL
                     FirstName = "Emp9",
                     LastName = "Emp9",
                     TeamId = 1,
-                    RegimeId = 3,
-                    IsActive = true
+                    RegimeId = 3
                 },
                 new Employee
                 {
@@ -138,8 +129,7 @@ namespace CP.DAL
                     LastName = "Emp10",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -148,8 +138,7 @@ namespace CP.DAL
                     LastName = "Emp11",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 1,
-                    IsActive = true
+                    RegimeId = 1
                 },
                 new Employee
                 {
@@ -158,8 +147,7 @@ namespace CP.DAL
                     LastName = "Emp12",
                     IsFixedNight = true,
                     TeamId = 1,
-                    RegimeId = 3,
-                    IsActive = true
+                    RegimeId = 3
                 });
             #endregion
 
@@ -298,7 +286,7 @@ namespace CP.DAL
             #region CalendarDates
             int id = 1;
             List<CalendarDate> dates = new();
-            for (DateTime date = new(2022, 1, 1); date <= new DateTime(2022, 12, 31); date = date.AddDays(1))
+            for (DateTime date = new(2022, 1, 1); date <= new DateTime(2050, 12, 31); date = date.AddDays(1))
             {
                 dates.Add(new CalendarDate() { Id = id, Date = date });
                 id++;

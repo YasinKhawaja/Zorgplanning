@@ -92,7 +92,7 @@ namespace CP.React.Controllers
         [HttpPost("{id}/absences")]
         public async Task<ApiResponse> PostAbsenceAsync(int id, [FromBody] AbsenceDTO absenceDTO)
         {
-            if (!id.Equals(absenceDTO.EmployeeId))
+            if (id != absenceDTO.EmployeeId)
             {
                 return new ApiResponse("The IDs do not match", statusCode: 400);
             }
@@ -113,9 +113,9 @@ namespace CP.React.Controllers
         [HttpPut("{id}")]
         public async Task<ApiResponse> PutAsync(int id, [FromBody] EmployeeDTO employeeDTO)
         {
-            if (!id.Equals(employeeDTO.Id))
+            if (id != employeeDTO.Id)
             {
-                return new ApiResponse(400, "idS DO NOT MATCH");
+                return new ApiResponse(400, "IDS DO NOT MATCH");
             }
             try
             {

@@ -27,10 +27,6 @@ namespace CP.DAL.Configurations
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            builder.Property(x => x.IsActive)
-                .HasDefaultValue(true)
-                .IsRequired();
-
             builder
                 .HasOne(x => x.Team)
                 .WithMany(x => x.Employees)

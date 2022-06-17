@@ -25,14 +25,14 @@ namespace CP.DAL.Configurations
                 .HasOne(x => x.Employee)
                 .WithMany(x => x.Absences)
                 .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
             builder
                 .HasOne(x => x.CalendarDate)
                 .WithMany(x => x.Absences)
                 .HasForeignKey(x => x.DateId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }
     }

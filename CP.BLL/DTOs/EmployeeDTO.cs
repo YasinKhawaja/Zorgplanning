@@ -1,6 +1,4 @@
-﻿using CP.DAL.Models;
-
-namespace CP.BLL.DTOs
+﻿namespace CP.BLL.DTOs
 {
     /// <summary>
     /// Represents an employee data transfer object.

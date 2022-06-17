@@ -26,11 +26,6 @@
         public bool IsFixedNight { get; set; }
 
         /// <summary>
-        /// The indication of the employee is active and can be requested in the frontend.
-        /// </summary>
-        public bool? IsActive { get; set; }
-
-        /// <summary>
         /// The foreign key with <seealso cref="CP.DAL.Models.Team"/>.
         /// </summary>
         public int TeamId { get; set; }
