@@ -57,7 +57,7 @@ namespace CP.DAL.Repositories
             {
                 query = query.Include(includeProperty);
             }
-            if (orderBy != null)
+            if (orderBy is not null)
             {
                 return await orderBy(query).ToListAsync();
             }

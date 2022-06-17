@@ -15,6 +15,10 @@ export default function TeamMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
+  React.useEffect(() => {
+    setAnchorEl(null);
+  }, []);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

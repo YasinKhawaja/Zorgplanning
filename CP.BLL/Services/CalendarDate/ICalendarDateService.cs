@@ -5,7 +5,7 @@ namespace CP.BLL.Services
     /// <summary>
     /// Manages dates.
     /// </summary>
-    public interface ICalendarDateService : IService<CalendarDateDTO>
+    public interface ICalendarDateService
     {
         Task<List<HolidayDTO>> GetAllHolidaysAsync();
         Task AddHolidayAsync(HolidayDTO holidayDTO);

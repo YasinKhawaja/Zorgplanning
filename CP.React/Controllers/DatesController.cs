@@ -38,24 +38,7 @@ namespace CP.React.Controllers
         }
         #endregion
 
-        #region GET api/<CalendarDatesController>/5
-        [HttpGet("{id}")]
-        public async Task<ApiResponse> GetAsync(int id)
-        {
-            try
-            {
-                var date = await _calendarDateService.GetAsync(id);
-                return new ApiResponse(date);
-            }
-            catch (Exception exc)
-            {
-                _logger.LogError("{msg}", exc.Message);
-                throw new ApiException(exc);
-            }
-        }
-        #endregion
-
-        #region POST api/<CalendarDatesController>
+        #region POST api/<CalendarDatesController>/holidays
         [HttpPost]
         [Route("holidays")]
         public async Task<ApiResponse> PostAsync([FromBody] HolidayDTO holidayDTO)
@@ -73,28 +56,7 @@ namespace CP.React.Controllers
         }
         #endregion
 
-        #region PUT api/<CalendarDatesController>/5
-        [HttpPut("{id}")]
-        public async Task<ApiResponse> PutAsync(int id, [FromBody] CalendarDateDTO dateDTO)
-        {
-            if (!id.Equals(1))
-            {
-                return new ApiResponse(400, "IDS DO NOT MATCH");
-            }
-            try
-            {
-                await _calendarDateService.UpdateAsync(id, dateDTO);
-                return new ApiResponse();
-            }
-            catch (Exception exc)
-            {
-                _logger.LogError(exc.Message);
-                throw new ApiException(exc);
-            }
-        }
-        #endregion
-
-        #region DELETE api/<CalendarDatesController>/5
+        #region DELETE api/<CalendarDatesController>/holidays
         [HttpDelete]
         [Route("holidays")]
         public async Task<ApiResponse> DeleteAsync(DateTime date)

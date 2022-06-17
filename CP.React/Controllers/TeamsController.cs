@@ -73,7 +73,7 @@ namespace CP.React.Controllers
         [HttpPut("{id}")]
         public async Task<ApiResponse> PutAsync(int id, [FromBody] TeamDTO teamDTO)
         {
-            if (!id.Equals(teamDTO.Id))
+            if (id != teamDTO.Id)
             {
                 return new ApiResponse(400, "IDS DO NOT MATCH");
             }

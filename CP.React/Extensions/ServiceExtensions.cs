@@ -1,4 +1,6 @@
-﻿using CP.BLL.Mappings;
+﻿using System.Reflection;
+using System.Text.Json.Serialization;
+using CP.BLL.Mappings;
 using CP.BLL.Services;
 using CP.BLL.Services.Planning;
 using CP.BLL.Validators;
@@ -9,8 +11,6 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text.Json.Serialization;
 
 namespace CP.React.Extensions
 {

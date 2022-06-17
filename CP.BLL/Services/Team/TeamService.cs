@@ -32,7 +32,7 @@ namespace CP.BLL.Services
         public async Task<TeamDTO> GetAsync(int id)
         {
             var teams = await _unitOfWork.Teams
-                .FindByAsync(x => x.Id.Equals(id), include: nameof(Team.Employees));
+                .FindByAsync(x => x.Id == id, include: nameof(Team.Employees));
             var team = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(team);
             return _mapper.Map<TeamDTO>(team);
@@ -48,7 +48,7 @@ namespace CP.BLL.Services
 
         public async Task UpdateAsync(int id, TeamDTO dto)
         {
-            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id));
+            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id == id);
             Team teamToUp = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(teamToUp);
             teamToUp.Name = dto.Name;
@@ -58,18 +58,11 @@ namespace CP.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id.Equals(id), include: nameof(Team.Employees));
+            IList<Team> teams = await _unitOfWork.Teams.FindByAsync(x => x.Id == id, include: nameof(Team.Employees));
             Team teamFound = teams.FirstOrDefault();
             Guard.Against.IsTeamFound(teamFound);
-            if (!teamFound.Employees.ToList().FindAll(emp => emp.IsActive.Value).Any())
-            {
-                foreach (var employee in teamFound.Employees)
-                {
-                    _unitOfWork.Employees.Remove(employee);
-                    await _unitOfWork.SaveAsync();
-                }
-                _unitOfWork.Teams.Remove(teamFound);
-            }
+            Guard.Against.HasTeamEmployees(teamFound);
+            _unitOfWork.Teams.Remove(teamFound);
             await _unitOfWork.SaveAsync();
         }
     }
