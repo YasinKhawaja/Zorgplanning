@@ -21,19 +21,19 @@ namespace CP.DAL.Configurations
                 .HasOne(x => x.Employee)
                 .WithMany(x => x.Schedules)
                 .HasForeignKey(x => x.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(x => x.Shift)
                 .WithMany(x => x.Schedules)
                 .HasForeignKey(x => x.ShiftId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(x => x.CalendarDate)
                 .WithMany(x => x.Schedules)
                 .HasForeignKey(x => x.DateId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

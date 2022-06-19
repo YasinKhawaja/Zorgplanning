@@ -53473,19 +53473,19 @@ namespace CP.DAL.Migrations
                     b.HasOne("CP.DAL.Models.CalendarDate", "CalendarDate")
                         .WithMany("Schedules")
                         .HasForeignKey("DateId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CP.DAL.Models.Employee", "Employee")
                         .WithMany("Schedules")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CP.DAL.Models.Shift", "Shift")
                         .WithMany("Schedules")
                         .HasForeignKey("ShiftId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CalendarDate");
