@@ -326,7 +326,7 @@ function EmployeeAddEditDialog(props) {
 function EmployeeDeleteDialog(props) {
   return (
     <Dialog open={props.open} onClose={() => props.onClose(false)}>
-      <DialogTitle>
+      <DialogTitle sx={{ textAlign: "justify" }}>
         Weet je zeker dat je zorgkundige "
         {props.employeeToEdit &&
           props.employeeToEdit.firstName + " " + props.employeeToEdit.lastName}

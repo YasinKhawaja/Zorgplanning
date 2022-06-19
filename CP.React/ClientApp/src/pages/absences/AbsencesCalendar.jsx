@@ -288,7 +288,7 @@ function AbsenceAddEditDialog(props) {
 function AbsenceDeleteDialog(props) {
   return (
     <Dialog open={props.open} onClose={() => props.onClose(false)}>
-      <DialogTitle>
+      <DialogTitle sx={{ textAlign: "justify" }}>
         Weet je zeker dat je afwezigheid "
         {props.eventInfo && props.eventInfo.event.title}" op "
         {props.eventInfo && props.eventInfo.event.startStr}" wilt verwijderen?

@@ -217,7 +217,7 @@ function TeamAddEditDialog(props) {
 function TeamDeleteDialog(props) {
   return (
     <MuiDialog open={props.open} onClose={() => props.onClose(false)}>
-      <DialogTitle>
+      <DialogTitle sx={{ textAlign: "justify" }}>
         Weet je zeker dat je team "{props.teamToEdit && props.teamToEdit.name}"
         wilt verwijderen?
       </DialogTitle>
