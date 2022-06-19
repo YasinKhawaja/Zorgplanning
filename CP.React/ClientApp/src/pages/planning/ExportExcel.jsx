@@ -6,8 +6,14 @@ const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
+const useStyles = () => ({
+  btnExportExcelDiv: { marginTop: "24px", marginBottom: "24px" },
+});
+
 export default function ExportExcel(props) {
   const { planning } = props;
+
+  const classes = useStyles();
 
   const getFileName = () => {
     const month = planning.month < 10 ? `0${planning.month}` : planning.month;
@@ -55,7 +61,7 @@ export default function ExportExcel(props) {
   };
 
   return (
-    <Box sx={{ marginBottom: "24px" }}>
+    <Box sx={classes.btnExportExcelDiv}>
       <ExcelFile
         filename={getFileName()}
         element={

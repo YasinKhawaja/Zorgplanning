@@ -1,11 +1,12 @@
-import { Skeleton } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import React from "react";
 import Header from "../../components/presentations/Header";
 import Main from "../../components/presentations/Main";
 import ExportExcel from "./ExportExcel";
-import PlanningTable from "./PlanningTable";
+import { getMonthName } from "./planning-utils";
 import PlanningForm from "./PlanningForm";
+import PlanningTable from "./PlanningTable";
 
 function PlanningTableSkeleton() {
   return (
@@ -62,6 +63,10 @@ export default function PlanningIndex() {
 
   var subContent = planning ? (
     <>
+      <Typography variant="h4" borderBottom={1} borderColor="#DEE2E6">
+        Team: {planning.team.name} - {getMonthName(planning.month)}{" "}
+        {planning.year}
+      </Typography>
       <ExportExcel planning={planning} />
       <PlanningTable planning={planning} />
     </>
