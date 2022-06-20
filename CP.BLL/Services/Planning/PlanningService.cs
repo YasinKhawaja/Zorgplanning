@@ -39,7 +39,7 @@ namespace CP.BLL.Services.Planning
             List<Employee> nurses = await _unitOfWork.Employees.GetAllInTeamAsync(dto.TeamId);
             List<CalendarDate> dates = await _unitOfWork.CalendarDates.GetAllInMonthAsync(dto.Year, dto.Month);
 
-            PlanningGenerator generator = new(nurses, dates);
+            PlanningGenerator generator = new(nurses, dates, dto.MinimalOccupation);
             List<Employee> nursesWithNewSchedules = generator.GenerateMonthlyPlanning(nurses, dates);
 
             foreach (var nurse in nursesWithNewSchedules)

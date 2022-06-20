@@ -12,11 +12,13 @@ namespace CP.BLL.Services.Planning
 
         readonly List<Employee> _nurses;
         readonly List<CalendarDate> _month;
+        readonly int _minimalOccupation;
 
-        public PlanningGenerator(List<Employee> nurses, List<CalendarDate> month)
+        public PlanningGenerator(List<Employee> nurses, List<CalendarDate> month, int minimalOccupation)
         {
             _nurses = nurses;
             _month = month;
+            _minimalOccupation = minimalOccupation;
         }
 
         public List<Employee> GenerateMonthlyPlanning(List<Employee> nurses, List<CalendarDate> month)
@@ -349,19 +351,14 @@ namespace CP.BLL.Services.Planning
             return nurse;
         }
 
-        private static bool HasMinimumOccupancy(CalendarDate day)
+        private bool HasMinimumOccupancyEarly(CalendarDate day)
         {
-            return HasMinimumOccupancyEarly(day) && HasMinimumOccupancyLate(day) && HasMinimumOccupancyNight(day);
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == EARLY).Count == this._minimalOccupation;
         }
 
-        private static bool HasMinimumOccupancyEarly(CalendarDate day)
+        private bool HasMinimumOccupancyLate(CalendarDate day)
         {
-            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == EARLY).Count == 3;
-        }
-
-        private static bool HasMinimumOccupancyLate(CalendarDate day)
-        {
-            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == LATE).Count == 3;
+            return day.Schedules.ToList().FindAll(s => s.Shift.Name.ToLower() == LATE).Count == this._minimalOccupation;
         }
 
         private static bool HasMinimumOccupancyNight(CalendarDate day)

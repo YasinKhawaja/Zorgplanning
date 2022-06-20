@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import ReactExport from "react-export-excel";
+import { getMonthName } from "./planning-utils";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -16,8 +17,14 @@ export default function ExportExcel(props) {
   const classes = useStyles();
 
   const getFileName = () => {
-    const month = planning.month < 10 ? `0${planning.month}` : planning.month;
-    return planning.year + "" + month + " " + planning.team.name + " Planning";
+    return (
+      "Planning Team " +
+      planning.team.name +
+      " - " +
+      getMonthName(planning.month) +
+      " " +
+      planning.year
+    );
   };
 
   const getNurseName = (nurse) => {

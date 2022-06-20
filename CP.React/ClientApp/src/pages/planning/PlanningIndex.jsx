@@ -11,13 +11,11 @@ import PlanningTable from "./PlanningTable";
 function PlanningTableSkeleton() {
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Skeleton variant="rectangular" animation="wave" />
+      </Grid>
       <Grid item xs={2}>
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          height={35}
-          width={190}
-        />
+        <Skeleton animation="wave" variant="rectangular" />
       </Grid>
       <Grid item xs={10}></Grid>
       {[...Array(132)].map((e, i) => (

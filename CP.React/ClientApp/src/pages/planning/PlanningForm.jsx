@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import Controls from "../../components/controls/Controls";
 import { useForm } from "../../hooks/useForm";
 import TeamService from "../../services/TeamService";
 import MonthForm from "./MonthForm";
@@ -20,6 +21,7 @@ const initialValues = {
   teamId: "",
   year: new Date().getFullYear(),
   month: (new Date().getMonth() + 2) % 12,
+  minimalOccupation: 3,
 };
 
 export default function PlanningForm(props) {
@@ -76,6 +78,22 @@ export default function PlanningForm(props) {
           </Box>
           <Box sx={{ mt: 3 }}>
             <MonthForm options={monthOptions} form={form} />
+          </Box>
+          <Box sx={{ mt: 3 }}>
+            <Controls.Select
+              fullWidth
+              label="Minimale Bezetting"
+              name="minimalOccupation"
+              onChange={form.handleInputChange}
+              options={[
+                { id: 2, name: 2 },
+                { id: 3, name: 3 },
+                { id: 4, name: 4 },
+              ]}
+              required
+              value={form.values.minimalOccupation}
+              variant="standard"
+            />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
